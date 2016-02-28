@@ -1,11 +1,9 @@
-package com.example.mary.hospital;
+package com.example.mary.hospital.Action;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentValues;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mary.hospital.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +45,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    private DatabaseHelper databaseHelper;
-    private SQLiteDatabase sdb;
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -69,15 +68,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        databaseHelper = new DatabaseHelper(this);
-        sdb = databaseHelper.getReadableDatabase();
-//        ContentValues values = new ContentValues();
-//        // Задайте значения для каждого столбца
-//        values.put(DatabaseHelper.USER_NAME_COLUMN, "Рыжик");
-//        values.put(DatabaseHelper.PHONE_COLUMN, "4954553443");
-//        values.put(DatabaseHelper.AGE_COLUMN, "5");
-//        // Вставляем данные в таблицу
-//        sdb.insert("cats", null, values);
+
 
 
         setContentView(R.layout.activity_login);
