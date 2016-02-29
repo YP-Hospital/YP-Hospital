@@ -12,7 +12,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/prompt_email"
+        android:hint="@string/prompt_email"
         android:ems="10"
         android:id="@+id/name"
         android:layout_alignParentTop="true"
@@ -33,7 +33,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/prompt_password" />
+        android:hint="@string/prompt_password" />
 
     <Button
         android:layout_width="wrap_content"
