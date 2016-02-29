@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
-                                    + " from " + User.DATABASE_TABLE, null);
+                                    + ", " + User.ROLE_COLUMN + " from " + User.DATABASE_TABLE, null);
         List<User> users = formListOfUsers(cursor);
         cursor.close();
         sdb.close();
@@ -122,8 +122,8 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getAllPatient() {
         sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
-                + " from " + User.DATABASE_TABLE + " where " + User.ROLE_COLUMN + "= ?", new String[]{Role.Patient.toString()});
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
+                                    + " from " + User.DATABASE_TABLE + " where " + User.ROLE_COLUMN + "= ?", new String[]{Role.Patient.toString()});
         List<User> users = formListOfUsers(cursor);
         cursor.close();
         sdb.close();
@@ -137,6 +137,7 @@ public class UserServiceImpl implements UserService {
             user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
             user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
             user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
+            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
             users.add(user);
         }
         return users;
