@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean isCorrectPassword(String name, String password) {
+        password = passwordToHash(password);
         sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.PASSWORD_COLUMN + " from " + User.DATABASE_TABLE
                                     + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});

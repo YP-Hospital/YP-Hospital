@@ -26,8 +26,8 @@ public class Login extends AppCompatActivity {
 
     public void signIn(View view) {
         Intent intent = new Intent(this, Login.class); //TODO Change to home activity, when it will be created
-        String name = findViewById(R.id.name).toString();
-        String password = findViewById(R.id.password).toString();
+        String name = ((EditText) findViewById(R.id.name)).getText().toString();
+        String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if (!userService.isUserExist(name)) {
             showErrorDialog(R.string.error_invalid_email);
         } else if (!userService.isCorrectPassword(name, password)) {
