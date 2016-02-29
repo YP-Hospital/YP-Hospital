@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity {
         if (!userService.isUserExist(name)) {
             showDialog(R.string.error, R.string.error_invalid_email, R.mipmap.error);
         } else if (!userService.isCorrectPassword(name, password)) {
-            showDialog(R.string.error, R.string.error_invalid_password, R.mipmap.error);
+            showDialog(R.string.error, R.string.error_incorrect_password, R.mipmap.error);
         } else {
             intent.putExtra(USER_LOGIN, name);
             startActivity(intent);
