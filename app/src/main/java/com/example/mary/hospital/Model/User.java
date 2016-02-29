@@ -6,19 +6,30 @@ public class User implements BaseColumns {
 
     public static final String DATABASE_TABLE = "users";
     public static final String USER_NAME_COLUMN = "name";
+    public static final String PASSWORD_COLUMN = "password";
     public static final String PHONE_COLUMN = "phone";
     public static final String AGE_COLUMN = "age";
     public static final String ROLE_COLUMN = "role";
     public static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID
             + " integer primary key autoincrement, " + USER_NAME_COLUMN
-            + " text not null, " + PHONE_COLUMN + " integer, " + AGE_COLUMN
+            + " text not null, " + PASSWORD_COLUMN + " text not null, "
+            + PHONE_COLUMN + " integer, " + AGE_COLUMN
             + " integer);";
 
     private String name;
+    private String password;
     private String phone;
     private Integer age;
     private String role;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getAge() {
         return age;
