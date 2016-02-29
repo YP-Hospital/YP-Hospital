@@ -132,6 +132,7 @@ public class UserServiceImpl implements UserService {
 
     private List<User> formListOfUsers(Cursor cursor) {
         List<User> users = new ArrayList<>();
+        cursor.moveToFirst();
         while (cursor.moveToNext()) {
             User user = new User();
             user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
