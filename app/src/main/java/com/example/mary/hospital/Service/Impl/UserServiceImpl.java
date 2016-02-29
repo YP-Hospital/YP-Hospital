@@ -12,7 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class UserServiceImpl implements UserService {
-    public String HASH_ALGORITHM = "SHA-256";
+    private static String HASH_ALGORITHM = "SHA-256";
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase sdb;
 
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public String passwordToHash(String password) {
+    public static String passwordToHash(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
             messageDigest.reset();
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         return password;
     }
 
-    private String getHexadecimalValue(byte[] result) {
+    private static String getHexadecimalValue(byte[] result) {
         StringBuffer buf = new StringBuffer();
         for (byte bytes : result) {
             buf.append(String.format("%02x", bytes & 0xff));

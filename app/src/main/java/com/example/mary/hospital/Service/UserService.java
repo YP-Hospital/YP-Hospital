@@ -8,5 +8,4 @@ public interface UserService {
     void addUserInDB(User user);
     Boolean isUserExist(String name);
     Boolean isCorrectPassword(String name, String password);
-    String passwordToHash(String password);
 }
