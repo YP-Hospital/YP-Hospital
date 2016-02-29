@@ -83,17 +83,31 @@ public class UserServiceImpl implements UserService {
 
     public User getUserByName(String name) {
         sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
                                     + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
         User user = new User();
         if (cursor.moveToFirst()) {
             user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
             user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
             user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
+            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
         }
         cursor.close();
         sdb.close();
         return user;
+    }
+
+    public Role getUsersRole(String name) {
+        Role role = null;
+        sdb = databaseHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("Select " + User.ROLE_COLUMN + " from " + User.DATABASE_TABLE
+                + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
+        if (cursor.moveToFirst()) {
+           role = Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN)));
+        }
+        cursor.close();
+        sdb.close();
+        return role;
     }
 
     public List<User> getAllUsers() {
