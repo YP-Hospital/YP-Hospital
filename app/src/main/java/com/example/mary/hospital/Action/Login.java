@@ -29,20 +29,20 @@ public class Login extends AppCompatActivity {
         String name = findViewById(R.id.name).toString();
         String password = findViewById(R.id.password).toString();
         if (!userService.isUserExist(name)) {
-            showDialog(R.string.error, R.string.error_invalid_email, R.mipmap.error);
+            showErrorDialog(R.string.error_invalid_email);
         } else if (!userService.isCorrectPassword(name, password)) {
-            showDialog(R.string.error, R.string.error_incorrect_password, R.mipmap.error);
+            showErrorDialog(R.string.error_incorrect_password);
         } else {
             intent.putExtra(USER_LOGIN, name);
             startActivity(intent);
         }
     }
 
-    private void showDialog(int title, int message, int error) {
+    private void showErrorDialog(int message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-        builder.setTitle(title)
+        builder.setTitle(R.string.error)
                 .setMessage(message)
-                .setIcon(error)
+                .setIcon(R.mipmap.error)
                 .setCancelable(false)
                 .setNegativeButton("OK",
                         new DialogInterface.OnClickListener() {
