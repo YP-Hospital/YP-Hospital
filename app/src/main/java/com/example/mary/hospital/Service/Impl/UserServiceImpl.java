@@ -98,6 +98,23 @@ public class UserServiceImpl implements UserService {
         sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
                                     + " from " + User.DATABASE_TABLE, null);
+        List<User> users = formListOfUsers(cursor);
+        cursor.close();
+        sdb.close();
+        return users;
+    }
+
+    public List<User> getAllPatient() {
+        sdb = databaseHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
+                + " from " + User.DATABASE_TABLE, null);
+        List<User> users = formListOfUsers(cursor);
+        cursor.close();
+        sdb.close();
+        return users;
+    }
+
+    private List<User> formListOfUsers(Cursor cursor) {
         List<User> users = new ArrayList<>();
         while (cursor.moveToNext()) {
             User user = new User();
@@ -106,8 +123,6 @@ public class UserServiceImpl implements UserService {
             user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
             users.add(user);
         }
-        cursor.close();
-        sdb.close();
         return users;
     }
 }

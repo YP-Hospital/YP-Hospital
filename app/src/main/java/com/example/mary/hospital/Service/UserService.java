@@ -12,4 +12,5 @@ public interface UserService {
     Boolean isCorrectPassword(String name, String password);
     User getUserByName(String name);
     List<User> getAllUsers();
+    List<User> getAllPatient();
 }

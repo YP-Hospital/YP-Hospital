@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Model;
 
 import android.provider.BaseColumns;
+import com.example.mary.hospital.Role;
 
 public class User implements BaseColumns {
 
@@ -12,16 +13,16 @@ public class User implements BaseColumns {
     public static final String ROLE_COLUMN = "role";
     public static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID
-            + " integer primary key autoincrement, " + USER_NAME_COLUMN
-            + " text not null, " + PASSWORD_COLUMN + " text not null, "
-            + PHONE_COLUMN + " integer, " + AGE_COLUMN
-            + " integer);";
+            + " integer primary key autoincrement, "
+            + USER_NAME_COLUMN + " text not null, " + PASSWORD_COLUMN + " text not null, "
+            + ROLE_COLUMN + " text not null "
+            + PHONE_COLUMN + " integer, " + AGE_COLUMN + " integer);";
 
     private String name;
     private String password;
     private String phone;
     private Integer age;
-    private String role;
+    private Role role;
 
     public String getPassword() {
         return password;
@@ -55,11 +56,11 @@ public class User implements BaseColumns {
         this.phone = phone;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }
