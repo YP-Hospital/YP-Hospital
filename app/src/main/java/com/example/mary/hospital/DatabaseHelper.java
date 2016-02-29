@@ -34,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues cv = new ContentValues();
         cv.put(BaseColumns._ID, 1);
         cv.put(User.USER_NAME_COLUMN, "admin");
+        cv.put(User.ROLE_COLUMN, Role.Admin.toString());
         cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("admin"));
         db.insert(User.DATABASE_TABLE, null, cv);
     }

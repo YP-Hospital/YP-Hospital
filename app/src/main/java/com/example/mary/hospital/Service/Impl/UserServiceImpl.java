@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.mary.hospital.DatabaseHelper;
 import com.example.mary.hospital.Model.User;
+import com.example.mary.hospital.Role;
 import com.example.mary.hospital.Service.UserService;
 
 import java.security.MessageDigest;
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllPatient() {
         sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
-                + " from " + User.DATABASE_TABLE, null);
+                + " from " + User.DATABASE_TABLE + " where " + User.ROLE_COLUMN + "= ?", new String[]{Role.Patient.toString()});
         List<User> users = formListOfUsers(cursor);
         cursor.close();
         sdb.close();
