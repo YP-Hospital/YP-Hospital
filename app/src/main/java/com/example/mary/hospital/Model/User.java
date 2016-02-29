@@ -15,7 +15,7 @@ public class User implements BaseColumns {
             + DATABASE_TABLE + " (" + BaseColumns._ID
             + " integer primary key autoincrement, "
             + USER_NAME_COLUMN + " text not null, " + PASSWORD_COLUMN + " text not null, "
-            + ROLE_COLUMN + " text not null "
+            + ROLE_COLUMN + " text not null, "
             + PHONE_COLUMN + " integer, " + AGE_COLUMN + " integer);";
 
     private String name;
