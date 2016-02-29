@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl (Context context) {
         databaseHelper = new DatabaseHelper(context);
-        sdb = databaseHelper.getReadableDatabase();
     }
 
     public void addUserInDB (User user) {
+        sdb = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(User.USER_NAME_COLUMN, user.getName());
         values.put(User.PASSWORD_COLUMN, passwordToHash(user.getPassword()));
@@ -33,22 +33,27 @@ public class UserServiceImpl implements UserService {
         values.put(User.AGE_COLUMN, user.getAge());
         values.put(User.ROLE_COLUMN, user.getAge());
         sdb.insert(User.DATABASE_TABLE, null, values);
+        sdb.close();
     }
 
     public Boolean isUserExist(String name) {
+        sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE
                                     + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
         Boolean result = cursor.moveToFirst();
         cursor.close();
+        sdb.close();
         return result;
     }
 
     public Boolean isCorrectPassword(String name, String password) {
+        sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.PASSWORD_COLUMN + " from " + User.DATABASE_TABLE
                                     + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
         cursor.moveToFirst();
         Boolean result = password.equals(cursor.getString(cursor.getColumnIndex(User.PASSWORD_COLUMN)));
         cursor.close();
+        sdb.close();
         return  result;
     }
 
@@ -75,6 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserByName(String name) {
+        sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
                                     + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
         User user = new User();
@@ -84,10 +90,12 @@ public class UserServiceImpl implements UserService {
             user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
         }
         cursor.close();
+        sdb.close();
         return user;
     }
 
     public List<User> getAllUsers() {
+        sdb = databaseHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
                                     + " from " + User.DATABASE_TABLE, null);
         List<User> users = new ArrayList<>();
@@ -99,6 +107,7 @@ public class UserServiceImpl implements UserService {
             users.add(user);
         }
         cursor.close();
+        sdb.close();
         return users;
     }
 }

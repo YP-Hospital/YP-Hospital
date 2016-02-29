@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.example.mary.hospital.Model.User;
@@ -31,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(User.DATABASE_CREATE_SCRIPT);
         ContentValues cv = new ContentValues();
-        cv.put("id", 1);
+        cv.put(BaseColumns._ID, 1);
         cv.put(User.USER_NAME_COLUMN, "admin");
         cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("admin"));
         db.insert(User.DATABASE_TABLE, null, cv);
