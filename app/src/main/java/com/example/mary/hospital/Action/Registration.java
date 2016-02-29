@@ -45,6 +45,7 @@ public class Registration extends AppCompatActivity {
                 Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
                 User user = new User(name, password, phone, age, role);
                 userService.addUserInDB(user);
+                returnBack(view);
             } else {
                 passwordText.setText("");
                 confirmPasswordText.setText("");
