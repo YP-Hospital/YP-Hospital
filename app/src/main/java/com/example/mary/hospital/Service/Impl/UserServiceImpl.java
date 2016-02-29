@@ -11,6 +11,8 @@ import com.example.mary.hospital.Service.UserService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private static String HASH_ALGORITHM = "SHA-256";
@@ -34,7 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean isUserExist(String name) {
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE, null);
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE
+                                    + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
         Boolean result = cursor.moveToFirst();
         cursor.close();
         return result;
@@ -69,5 +72,33 @@ public class UserServiceImpl implements UserService {
             buf.append(String.format("%02x", bytes & 0xff));
         }
         return buf.toString();
+    }
+
+    public User getUserByName(String name) {
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
+                                    + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
+        User user = new User();
+        if (cursor.moveToFirst()) {
+            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
+            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
+            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
+        }
+        cursor.close();
+        return user;
+    }
+
+    public List<User> getAllUsers() {
+        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
+                                    + " from " + User.DATABASE_TABLE, null);
+        List<User> users = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            User user = new User();
+            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
+            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
+            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
+            users.add(user);
+        }
+        cursor.close();
+        return users;
     }
 }
