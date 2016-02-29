@@ -25,12 +25,16 @@ public class Login extends AppCompatActivity {
 
     public void signIn(View view) {
         Intent intent = new Intent(this, Login.class); //TODO Change to home activity, when it will be created
-        EditText name = (EditText) findViewById(R.id.name);
-        EditText password = (EditText) findViewById(R.id.password);
-        if (!userService.isUserExist(name.getText().toString())) {
+        String name = findViewById(R.id.name).toString();
+        String password = findViewById(R.id.password).toString();
+        if (!userService.isUserExist(name)) {
             showDialog(R.string.error, R.string.error_invalid_email, R.mipmap.error);
+        } else if (!userService.isCorrectPassword(name, password)) {
+            showDialog(R.string.error, R.string.error_invalid_password, R.mipmap.error);
+        } else {
+            intent.putExtra(USER_LOGIN, name);
+            startActivity(intent);
         }
-
     }
 
     private void showDialog(int title, int message, int error) {
