@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
@@ -27,6 +28,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String role = intent.getStringExtra(Login.USER_ROLE);
         List<User> patients;
+        TextView textview = (TextView) findViewById(R.id.textView);
         if (role.equals(Role.Doctor.toString())) {
             patients = userService.getAllPatient();
         } else {
@@ -34,9 +36,22 @@ public class ListOfUsersActivity extends AppCompatActivity {
         }
         for(User i: patients)
                 names.add(i.getName());
-        String[] str = new String[names.size()];
-        str = names.toArray(str);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str);
-        listView.setAdapter(adapter);
+        if (names.size() != 0) {
+            if(role.equals(Role.Doctor.toString())){
+                textview.setText(R.string.Patients);
+            } else{
+                textview.setText(R.string.Users);
+            }
+            String[] str = new String[names.size()];
+            str = names.toArray(str);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str);
+            listView.setAdapter(adapter);
+        } else {
+            if(role.equals(Role.Doctor.toString())){
+                textview.setText(R.string.noPatients);
+            } else{
+                textview.setText(R.string.noUsers);
+            }
+        }
     }
 }

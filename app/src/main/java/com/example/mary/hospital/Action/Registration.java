@@ -15,8 +15,13 @@ import com.example.mary.hospital.Service.UserService;
 
 public class Registration extends AppCompatActivity {
 
+    public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
+    public static final String USER_PASSWORD = "com.example.mary.hospital.USER_PASSWORD";
+
     private UserService userService;
     private String currentUserName;
+    private String name;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +49,16 @@ public class Registration extends AppCompatActivity {
                     String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
                     Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
                     Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
-                    User user = new User(name, password, phone, age, role);
-                    userService.addUserInDB(user);
-                    returnBack(view);
+                    if (name.isEmpty() || password.isEmpty() || phone.isEmpty()
+                            || age == null || role == null) {
+                        Login.showErrorDialog(R.string.error_field_required, Registration.this);
+                    } else {
+                        this.name = name;
+                        this.password = password;
+                        User user = new User(name, password, phone, age, role);
+                        userService.addUserInDB(user);
+                        returnBack(view);
+                    }
                 } else {
                     Login.showErrorDialog(R.string.error_name_exist, Registration.this);
                 }
@@ -63,6 +75,8 @@ public class Registration extends AppCompatActivity {
     public void returnBack(View view) {
         if (currentUserName == null) {
             Intent intent = new Intent(this, Login.class);
+            intent.putExtra(USER_LOGIN, this.name);
+            intent.putExtra(USER_PASSWORD, this.password);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, Login.class);//TODO Change on activity, where is button will be

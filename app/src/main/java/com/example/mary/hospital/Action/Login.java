@@ -27,14 +27,21 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra(Registration.USER_LOGIN);
+        String password = intent.getStringExtra(Registration.USER_PASSWORD);
+        EditText nameText = (EditText) findViewById(R.id.name);
+        EditText passwordText = (EditText) findViewById(R.id.password);
+        nameText.setText(name);
+        passwordText.setText(password);
     }
-
     public void registration(View view) {
         Intent intent = new Intent(this, Registration.class);
         startActivity(intent);
     }
 
     public void signIn(View view) {
+        Intent intent = new Intent(this, Login.class); //TODO Change to home activity, when it will be created
         String name = ((EditText) findViewById(R.id.name)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if (!userService.isUserExist(name)) {

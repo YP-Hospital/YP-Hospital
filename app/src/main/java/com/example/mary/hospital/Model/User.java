@@ -77,11 +77,9 @@ public class User implements BaseColumns {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", age=" + age +
-                ", role=" + role +
-                '}';
+        return "name: " + name + '\n' +
+                "phone: " + phone + '\n' +
+                "age: " + age + '\n' +
+                "role: " + role;
     }
 }
