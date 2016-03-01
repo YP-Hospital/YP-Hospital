@@ -20,7 +20,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
 
     private UserService userService;
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);//
+        super.onCreate(savedInstanceState);///
         userService = new UserServiceImpl(this);
         setContentView(R.layout.activity_list_of_users);
         ListView listView = (ListView)findViewById(R.id.listView);
