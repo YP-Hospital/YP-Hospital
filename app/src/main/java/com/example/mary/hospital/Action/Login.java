@@ -19,6 +19,7 @@ import java.util.List;
 
 public class Login extends AppCompatActivity {
     public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
+    public static final String USER_ROLE = "com.example.mary.hospital.USER_ROLE";
     private UserService userService;
 
     @Override
@@ -34,7 +35,6 @@ public class Login extends AppCompatActivity {
     }
 
     public void signIn(View view) {
-        Intent intent = new Intent(this, Login.class); //TODO Change to home activity, when it will be created
         String name = ((EditText) findViewById(R.id.name)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if (!userService.isUserExist(name)) {
@@ -42,8 +42,19 @@ public class Login extends AppCompatActivity {
         } else if (!userService.isCorrectPassword(name, password)) {
             showErrorDialog(R.string.error_incorrect_password, Login.this);
         } else {
-            intent.putExtra(USER_LOGIN, name);
-            startActivity(intent);
+            Role role = userService.getUserByName(name).getRole();
+            if(role == Role.Patient) {
+                Intent IntentTemp = new Intent(this, UserActivity.class);
+                IntentTemp.putExtra(USER_LOGIN, name);
+                startActivity(IntentTemp);
+            } else {
+                Intent IntentTemp = new Intent(this, ListOfUsersActivity.class);
+                IntentTemp.putExtra(USER_LOGIN, name);
+                IntentTemp.putExtra(USER_ROLE, role.toString());
+                startActivity(IntentTemp);
+            }
+            //intent.putExtra(USER_LOGIN, name);
+            //startActivity(intent);
         }
     }
 

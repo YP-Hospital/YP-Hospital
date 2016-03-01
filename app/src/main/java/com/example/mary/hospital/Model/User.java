@@ -74,4 +74,14 @@ public class User implements BaseColumns {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", role=" + role +
+                '}';
+    }
 }
