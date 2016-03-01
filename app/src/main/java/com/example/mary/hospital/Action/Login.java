@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
+
+import java.util.List;
 
 public class Login extends AppCompatActivity {
     public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";

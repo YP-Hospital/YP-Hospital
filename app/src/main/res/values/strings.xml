@@ -19,6 +19,7 @@
     <string name="error">Error</string>
     <string name="error_invalid_email">This login is invalid</string>
     <string name="error_invalid_password">Passwords don\'t match</string>
+    <string name="error_name_exist">This name already exist</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>

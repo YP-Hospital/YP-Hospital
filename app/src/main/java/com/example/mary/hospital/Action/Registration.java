@@ -40,12 +40,16 @@ public class Registration extends AppCompatActivity {
             String confirmPassword = confirmPasswordText.getText().toString();
             if (password.equals(confirmPassword)) {
                 String name = ((EditText) findViewById(R.id.name)).getText().toString();
-                String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
-                Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
-                Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
-                User user = new User(name, password, phone, age, role);
-                userService.addUserInDB(user);
-                returnBack(view);
+                if (!userService.isUserExist(name)) {
+                    String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
+                    Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
+                    Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
+                    User user = new User(name, password, phone, age, role);
+                    userService.addUserInDB(user);
+                    returnBack(view);
+                } else {
+                    Login.showErrorDialog(R.string.error_name_exist, Registration.this);
+                }
             } else {
                 passwordText.setText("");
                 confirmPasswordText.setText("");

@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword("");
         values.put(User.PHONE_COLUMN, user.getPhone());
         values.put(User.AGE_COLUMN, user.getAge());
-        values.put(User.ROLE_COLUMN, user.getAge());
+        values.put(User.ROLE_COLUMN, user.getRole().toString());
         sdb.insert(User.DATABASE_TABLE, null, values);
         sdb.close();
     }
@@ -132,13 +132,16 @@ public class UserServiceImpl implements UserService {
 
     private List<User> formListOfUsers(Cursor cursor) {
         List<User> users = new ArrayList<>();
-        cursor.moveToFirst();
         while (cursor.moveToNext()) {
             User user = new User();
             user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
             user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
             user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
-            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
+            try {
+                user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
+            } catch (Exception e) {
+                user.setRole(Role.Patient);
+            }
             users.add(user);
         }
         return users;
