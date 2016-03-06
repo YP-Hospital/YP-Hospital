@@ -42,20 +42,20 @@ public class Login extends AppCompatActivity {
         } else if (!userService.isCorrectPassword(name, password)) {
             showErrorDialog(R.string.error_incorrect_password, Login.this);
         } else {
-            Role role = userService.getUserByName(name).getRole();
+            Role role = userService.getUsersRole(name);
             if(role == Role.Patient) {
-                Intent IntentTemp = new Intent(this, UserActivity.class);
-                IntentTemp.putExtra(USER_LOGIN, name);
-                startActivity(IntentTemp);
+                redirectToHomePage(name, role, UserActivity.class);
             } else {
-                Intent IntentTemp = new Intent(this, ListOfUsersActivity.class);
-                IntentTemp.putExtra(USER_LOGIN, name);
-                IntentTemp.putExtra(USER_ROLE, role.toString());
-                startActivity(IntentTemp);
+                redirectToHomePage(name, role, ListOfUsersActivity.class);
             }
-            //intent.putExtra(USER_LOGIN, name);
-            //startActivity(intent);
         }
+    }
+
+    private void redirectToHomePage(String name, Role role, Class activityToRedirect) {
+        Intent IntentTemp = new Intent(this, activityToRedirect);
+        IntentTemp.putExtra(USER_LOGIN, name);
+        IntentTemp.putExtra(USER_ROLE, role.toString());
+        startActivity(IntentTemp);
     }
 
     public static void showErrorDialog(int message, Context context) {

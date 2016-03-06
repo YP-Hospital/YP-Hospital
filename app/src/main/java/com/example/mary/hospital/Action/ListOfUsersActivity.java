@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Action;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -18,25 +19,39 @@ import java.util.List;
 public class ListOfUsersActivity extends AppCompatActivity {
 
     private UserService userService;
+    private String userRole;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userService = new UserServiceImpl(this);
         setContentView(R.layout.activity_list_of_users);
+
+        userService = new UserServiceImpl(this);
+
         ListView listView = (ListView)findViewById(R.id.listView);
+        ArrayAdapter<String> adapter = getUsersToDisplay();
+        listView.setAdapter(adapter);
+    }
+
+    @NonNull
+    private ArrayAdapter<String> getUsersToDisplay() {
         List<String> names = new ArrayList<String>();
-        Intent intent = getIntent();
-        String role = intent.getStringExtra(Login.USER_ROLE);
+        getUserRole();
         List<User> patients;
-        if (role.equals(Role.Doctor.toString())) {
+        if (userRole.equals(Role.Doctor.toString())) {
             patients = userService.getAllPatient();
         } else {
             patients = userService.getAllUsers();
         }
-        for(User i: patients)
-                names.add(i.getName());
+        for(User patient: patients) {
+            names.add(patient.getName());
+        }
         String[] str = new String[names.size()];
         str = names.toArray(str);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str);
-        listView.setAdapter(adapter);
+        return new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str);
+    }
+
+    private void getUserRole() {
+        Intent intent = getIntent();
+        userRole = intent.getStringExtra(Login.USER_ROLE);
     }
 }
