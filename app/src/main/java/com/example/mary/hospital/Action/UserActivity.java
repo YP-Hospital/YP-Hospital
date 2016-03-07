@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
@@ -17,8 +18,8 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userService = new UserServiceImpl(this);
         setContentView(R.layout.activity_user);
-        User user = userService.getUserByName(getIntent().getStringExtra(Login.USER_LOGIN));
-        TextView textView = (TextView)findViewById(R.id.textView3);
+        User user = userService.getUserByName(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        TextView textView = (TextView)findViewById(R.id.userInfo);
         textView.setText(user.toString());
     }
 }

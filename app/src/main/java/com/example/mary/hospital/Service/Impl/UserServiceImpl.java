@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 
 import com.example.mary.hospital.DatabaseHelper;
 import com.example.mary.hospital.Model.User;
@@ -16,12 +17,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private static String HASH_ALGORITHM = "SHA-256";
+    private final static String HASH_ALGORITHM = "SHA-256";
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase sdb;
 
     public UserServiceImpl (Context context) {
         databaseHelper = new DatabaseHelper(context);
+    }
+
+    public void deleteTable() {
+        sdb = databaseHelper.getWritableDatabase();
+        sdb.execSQL("delete from " + User.DATABASE_TABLE);
+        addAdmin(sdb);
+        addDoctor(sdb);
+        sdb.close();
+    }
+
+    public static void addAdmin(SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(BaseColumns._ID, 1);
+        cv.put(User.USER_NAME_COLUMN, "admin");
+        cv.put(User.ROLE_COLUMN, Role.Admin.toString());
+        cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("admin"));
+        db.insert(User.DATABASE_TABLE, null, cv);
+    }
+
+    public static void addDoctor(SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(BaseColumns._ID, 2);
+        cv.put(User.USER_NAME_COLUMN, "doctor");
+        cv.put(User.ROLE_COLUMN, Role.Doctor.toString());
+        cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("doctor"));
+        db.insert(User.DATABASE_TABLE, null, cv);
     }
 
     public void addUserInDB (User user) {
@@ -74,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private static String getHexadecimalValue(byte[] result) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (byte bytes : result) {
             buf.append(String.format("%02x", bytes & 0xff));
         }

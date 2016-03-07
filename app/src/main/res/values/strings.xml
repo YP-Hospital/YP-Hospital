@@ -11,8 +11,7 @@
     <string name="phone">Phone number</string>
     <string name="age">Age</string>
     <string name="role">Role</string>
-    <string name="noPatients">There is no patients</string>
-    <string name="noUsers">There is no users</string>
+    <string name="noUsers">There is no</string>
     <string name="Patients">Patients</string>
     <string name="Users">Users</string>
     <string-array name="existingRoles">
@@ -25,6 +24,6 @@
     <string name="error_invalid_password">Passwords don\'t match</string>
     <string name="error_name_exist">This name already exist</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">All field is required</string>
+    <string name="error_field_required">All fields are required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 </resources>

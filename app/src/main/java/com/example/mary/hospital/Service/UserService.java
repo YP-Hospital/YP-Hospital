@@ -1,7 +1,5 @@
 package com.example.mary.hospital.Service;
 
-import android.content.Context;
-
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Role;
 
@@ -15,4 +13,5 @@ public interface UserService {
     Role getUsersRole(String name);
     List<User> getAllUsers();
     List<User> getAllPatient();
+    void deleteTable();
 }

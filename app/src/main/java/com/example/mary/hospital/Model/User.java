@@ -12,11 +12,11 @@ public class User implements BaseColumns {
     public static final String AGE_COLUMN = "age";
     public static final String ROLE_COLUMN = "role";
     public static final String DATABASE_CREATE_SCRIPT = "create table "
-            + DATABASE_TABLE + " (" + BaseColumns._ID
-            + " integer primary key autoincrement, "
-            + USER_NAME_COLUMN + " text not null, " + PASSWORD_COLUMN + " text not null, "
-            + ROLE_COLUMN + " text not null, "
-            + PHONE_COLUMN + " integer, " + AGE_COLUMN + " integer);";
+                                                        + DATABASE_TABLE + " (" + BaseColumns._ID
+                                                        + " integer primary key autoincrement, "
+                                                        + USER_NAME_COLUMN + " text not null, " + PASSWORD_COLUMN + " text not null, "
+                                                        + ROLE_COLUMN + " text not null, "
+                                                        + PHONE_COLUMN + " integer, " + AGE_COLUMN + " integer);";
 
     private String name;
     private String password;
@@ -77,9 +77,9 @@ public class User implements BaseColumns {
 
     @Override
     public String toString() {
-        return "name: " + name + '\n' +
-                "phone: " + phone + '\n' +
-                "age: " + age + '\n' +
-                "role: " + role;
+        return "Name: " + name + '\n' +
+               "Phone: " + phone + '\n' +
+               "Age: " + age + '\n' +
+               "Role: " + role;
     }
 }

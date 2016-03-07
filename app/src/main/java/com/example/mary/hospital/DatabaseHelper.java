@@ -1,16 +1,13 @@
 package com.example.mary.hospital;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
-import com.example.mary.hospital.Service.UserService;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
@@ -31,12 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(User.DATABASE_CREATE_SCRIPT);
-        ContentValues cv = new ContentValues();
-        cv.put(BaseColumns._ID, 1);
-        cv.put(User.USER_NAME_COLUMN, "admin");
-        cv.put(User.ROLE_COLUMN, Role.Admin.toString());
-        cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("admin"));
-        db.insert(User.DATABASE_TABLE, null, cv);
+        UserServiceImpl.addAdmin(db);
+        UserServiceImpl.addDoctor(db);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

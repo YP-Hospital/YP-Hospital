@@ -7,16 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
-
+//TODO Login and Name - different things
 public class Registration extends AppCompatActivity {
-
-    public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
-    public static final String USER_PASSWORD = "com.example.mary.hospital.USER_PASSWORD";
 
     private UserService userService;
     private String currentUserName;
@@ -29,7 +27,7 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         Spinner spinner = (Spinner) findViewById(R.id.role);
         Intent intent = getIntent();
-        currentUserName = intent.getStringExtra(Login.USER_LOGIN);
+        currentUserName = intent.getStringExtra(ExtraResource.USER_LOGIN);
         if (currentUserName == null) {
             spinner.setClickable(false);
             spinner.setEnabled(false);
@@ -49,9 +47,8 @@ public class Registration extends AppCompatActivity {
                     String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
                     Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
                     Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
-                    if (name.isEmpty() || password.isEmpty() || phone.isEmpty()
-                            || age == null || role == null) {
-                        Login.showErrorDialog(R.string.error_field_required, Registration.this);
+                    if (name.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+                        ExtraResource.showErrorDialog(R.string.error_field_required, Registration.this);
                     } else {
                         this.name = name;
                         this.password = password;
@@ -60,12 +57,12 @@ public class Registration extends AppCompatActivity {
                         returnBack(view);
                     }
                 } else {
-                    Login.showErrorDialog(R.string.error_name_exist, Registration.this);
+                    ExtraResource.showErrorDialog(R.string.error_name_exist, Registration.this);
                 }
             } else {
                 passwordText.setText("");
                 confirmPasswordText.setText("");
-                Login.showErrorDialog(R.string.error_invalid_password, Registration.this);
+                ExtraResource.showErrorDialog(R.string.error_invalid_password, Registration.this);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -75,8 +72,8 @@ public class Registration extends AppCompatActivity {
     public void returnBack(View view) {
         if (currentUserName == null) {
             Intent intent = new Intent(this, Login.class);
-            intent.putExtra(USER_LOGIN, this.name);
-            intent.putExtra(USER_PASSWORD, this.password);
+            intent.putExtra(ExtraResource.USER_LOGIN, this.name);
+            intent.putExtra(ExtraResource.USER_PASSWORD, this.password);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, Login.class);//TODO Change on activity, where is button will be
