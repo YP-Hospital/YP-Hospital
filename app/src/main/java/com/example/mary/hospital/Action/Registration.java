@@ -10,7 +10,7 @@ import android.widget.Spinner;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
-import com.example.mary.hospital.Role;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
 //TODO Login and Name - different things

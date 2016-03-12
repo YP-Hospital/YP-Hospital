@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.R;
-import com.example.mary.hospital.Role;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
 

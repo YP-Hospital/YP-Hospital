@@ -1,7 +1,7 @@
 package com.example.mary.hospital.Service;
 
 import com.example.mary.hospital.Model.User;
-import com.example.mary.hospital.Role;
+import com.example.mary.hospital.Model.Role;
 
 import java.util.List;
 

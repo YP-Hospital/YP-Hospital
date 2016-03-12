@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 import com.example.mary.hospital.DatabaseHelper;
 import com.example.mary.hospital.Model.User;
-import com.example.mary.hospital.Role;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Service.UserService;
 
 import java.security.MessageDigest;

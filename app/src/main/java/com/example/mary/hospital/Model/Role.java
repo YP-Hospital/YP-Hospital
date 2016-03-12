@@ -1,4 +1,4 @@
-package com.example.mary.hospital;
+package com.example.mary.hospital.Model;
 
 public enum Role {
     Patient,

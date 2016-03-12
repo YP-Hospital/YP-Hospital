@@ -1,7 +1,6 @@
 package com.example.mary.hospital.Model;
 
 import android.provider.BaseColumns;
-import com.example.mary.hospital.Role;
 
 public class User implements BaseColumns {
 
