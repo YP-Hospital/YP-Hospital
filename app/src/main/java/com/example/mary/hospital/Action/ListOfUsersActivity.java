@@ -29,12 +29,12 @@ public class ListOfUsersActivity extends AppCompatActivity {
         userService = new UserServiceImpl(this);
         getUserRole();
         ListView listView = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter = getUsersToDisplay();
+        ArrayAdapter<String> adapter = getUsersToDisplayAndFillTextsField();
         listView.setAdapter(adapter);
     }
 
     @NonNull
-    private ArrayAdapter<String> getUsersToDisplay() {
+    private ArrayAdapter<String> getUsersToDisplayAndFillTextsField() {
         List<String> names = new ArrayList<>();
         List<User> patients;
         if (userRole.equals(Role.Doctor.toString())) {
