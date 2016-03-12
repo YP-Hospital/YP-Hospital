@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.mary.hospital.Connection.Connector;
+import com.example.mary.hospital.Connection.TCPClient;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
@@ -20,6 +22,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
+        fillNameAndPassword();
+        new Connector().execute();
+    }
+
+    private void fillNameAndPassword() {
         Intent intent = getIntent();
         String name = intent.getStringExtra(ExtraResource.USER_LOGIN);
         String password = intent.getStringExtra(ExtraResource.USER_PASSWORD);
@@ -28,6 +35,7 @@ public class Login extends AppCompatActivity {
         nameText.setText(name);
         passwordText.setText(password);
     }
+
     public void registration(View view) {
         Intent intent = new Intent(this, Registration.class);
         startActivity(intent);

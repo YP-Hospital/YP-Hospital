@@ -9,6 +9,7 @@ import java.net.Socket;
 public class TCPClient {
 
     public static final int SERVER_PORT = 8080;
+    public static final String SERVER_IP = "172.20.44.45"; //TODO Change every time. Don't forget this!
 
     private String serverMessage;
     private boolean running = false;
@@ -19,10 +20,14 @@ public class TCPClient {
      * Sends the message entered by client to the server
      * @param message text entered by client
      */
-    public void sendMessage (String message) throws Exception {
-        if (outputStream != null) {
-            outputStream.writeUTF(message);
-            outputStream.flush();
+    public void sendMessage (String message) {
+        try {
+            if (outputStream != null) {
+                outputStream.writeUTF(message);
+                outputStream.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     public void stopClient(){
@@ -32,8 +37,7 @@ public class TCPClient {
     public void run() {
         running = true;
         try {
-            DatagramSocket datagramSocket = new DatagramSocket(SERVER_PORT);
-            InetAddress serverAddr = datagramSocket.getInetAddress();
+            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
             Log.e("TCP Client", "C: Connecting...");
             Socket socket = new Socket(serverAddr, SERVER_PORT);
             InputStream sin = socket.getInputStream();
@@ -41,6 +45,7 @@ public class TCPClient {
             inputStream = new DataInputStream(sin);
             outputStream = new DataOutputStream(sout);
             try {
+                sendMessage("Hello from Android");
                 while (running) {
                     serverMessage = inputStream.readUTF();
                     if (inputStream != null) {
