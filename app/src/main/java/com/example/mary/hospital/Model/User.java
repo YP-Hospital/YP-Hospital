@@ -74,6 +74,14 @@ public class User implements BaseColumns {
         this.role = role;
     }
 
+    public String getStringToInsertInServer(){
+        return "insert users " + name
+                + " " + password
+                + " " + phone
+                + " " + age
+                + " " + role;
+    }
+
     @Override
     public String toString() {
         return "Name: " + name + '\n' +

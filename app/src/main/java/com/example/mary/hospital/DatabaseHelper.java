@@ -11,7 +11,7 @@ import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    private static final String DATABASE_NAME = "hospital.db";
+    public static final String DATABASE_NAME = "hospital.db";
     private static final int DATABASE_VERSION = 1;
 
     public DatabaseHelper(Context context) {
@@ -28,8 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(User.DATABASE_CREATE_SCRIPT);
-        UserServiceImpl.addAdmin(db);
-        UserServiceImpl.addDoctor(db);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.mary.hospital.Connection.Connector;
-import com.example.mary.hospital.Connection.TCPClient;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
@@ -23,7 +22,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
         fillNameAndPassword();
-        new Connector().execute();
+        new Connector(this).execute();
     }
 
     private void fillNameAndPassword() {
@@ -50,7 +49,7 @@ public class Login extends AppCompatActivity {
             ExtraResource.showErrorDialog(R.string.error_incorrect_password, Login.this);
         } else {
             Role role = userService.getUsersRole(name);
-            if(role == Role.Patient) {
+            if (role == Role.Patient) {
                 redirectToHomePage(name, role, UserActivity.class);
             } else {
                 redirectToHomePage(name, role, ListOfUsersActivity.class);

@@ -13,5 +13,4 @@ public interface UserService {
     Role getUsersRole(String name);
     List<User> getAllUsers();
     List<User> getAllPatient();
-    void deleteTable();
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import com.example.mary.hospital.Connection.Connector;
 import com.example.mary.hospital.DatabaseHelper;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Model.Role;
@@ -20,48 +21,16 @@ public class UserServiceImpl implements UserService {
     private final static String HASH_ALGORITHM = "SHA-256";
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase sdb;
+    private Context context;
 
     public UserServiceImpl (Context context) {
-        databaseHelper = new DatabaseHelper(context);
-    }
-
-    public void deleteTable() {
-        sdb = databaseHelper.getWritableDatabase();
-        sdb.execSQL("delete from " + User.DATABASE_TABLE);
-        addAdmin(sdb);
-        addDoctor(sdb);
-        sdb.close();
-    }
-
-    public static void addAdmin(SQLiteDatabase db) {
-        ContentValues cv = new ContentValues();
-        cv.put(BaseColumns._ID, 1);
-        cv.put(User.USER_NAME_COLUMN, "admin");
-        cv.put(User.ROLE_COLUMN, Role.Admin.toString());
-        cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("admin"));
-        db.insert(User.DATABASE_TABLE, null, cv);
-    }
-
-    public static void addDoctor(SQLiteDatabase db) {
-        ContentValues cv = new ContentValues();
-        cv.put(BaseColumns._ID, 2);
-        cv.put(User.USER_NAME_COLUMN, "doctor");
-        cv.put(User.ROLE_COLUMN, Role.Doctor.toString());
-        cv.put(User.PASSWORD_COLUMN, UserServiceImpl.passwordToHash("doctor"));
-        db.insert(User.DATABASE_TABLE, null, cv);
+        this.context = context;
+        this.databaseHelper = new DatabaseHelper(context);
     }
 
     public void addUserInDB (User user) {
-        sdb = databaseHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(User.USER_NAME_COLUMN, user.getName());
-        values.put(User.PASSWORD_COLUMN, passwordToHash(user.getPassword()));
-        user.setPassword("");
-        values.put(User.PHONE_COLUMN, user.getPhone());
-        values.put(User.AGE_COLUMN, user.getAge());
-        values.put(User.ROLE_COLUMN, user.getRole().toString());
-        sdb.insert(User.DATABASE_TABLE, null, values);
-        sdb.close();
+        user.setPassword(passwordToHash(user.getPassword()));
+        new Connector(context).execute(user.getStringToInsertInServer());
     }
 
     public Boolean isUserExist(String name) {

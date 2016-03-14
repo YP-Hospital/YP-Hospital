@@ -8,6 +8,7 @@ public class ExtraResource {
     public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
     public static final String USER_ROLE = "com.example.mary.hospital.USER_ROLE";
     public static final String USER_PASSWORD = "com.example.mary.hospital.USER_PASSWORD";
+    public static final String STOP_WORDS = "This is a stop message";
 
 
     public static void showErrorDialog(int message, Context context) {
