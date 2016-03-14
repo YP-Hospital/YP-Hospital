@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 
+//TODO remove this class
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "hospital.db";

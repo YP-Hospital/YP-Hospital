@@ -12,8 +12,9 @@ import java.net.Socket;
 public class TCPClient {
 
     public static final int SERVER_PORT = 8080;
-    public static final String SERVER_IP = "192.168.43.229"; //TODO Change every time. Don't forget this!
+//    public static final String SERVER_IP = "192.168.43.229"; //TODO Change every time. Don't forget this!
 //    public static final String SERVER_IP = "127.0.0.1"; /**For locallhost */
+    public static final String SERVER_IP = "172.20.217.98"; /**For wi-fi on work */
 
     private DataOutputStream outputStream;
     private DataInputStream inputStream;
@@ -37,6 +38,17 @@ public class TCPClient {
             e.printStackTrace();
         }
     }
+    public String getAnswer() {
+        String answer = "";
+        try {
+            if (inputStream != null) {
+                answer = inputStream.readUTF();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return answer;
+    }
     public void stopClient() {
         try {
             if (socket != null) {
@@ -58,19 +70,6 @@ public class TCPClient {
             outputStream = new DataOutputStream(sout);
         } catch (Exception e) {
             Log.e("TCP", "C: Error", e);
-        }
-    }
-
-    public void updateDB(Context context){
-        try {
-            byte[] fileInBytes= new byte[Byte.MAX_VALUE];
-            FileOutputStream fos = new FileOutputStream(context.getDatabasePath(DatabaseHelper.DATABASE_NAME));
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = inputStream.read(fileInBytes, 0, fileInBytes.length);
-            bos.write(fileInBytes, 0, bytesRead);
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

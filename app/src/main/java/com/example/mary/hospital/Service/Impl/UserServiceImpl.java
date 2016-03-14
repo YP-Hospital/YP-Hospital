@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl (Context context) {
         this.context = context;
-        this.databaseHelper = new DatabaseHelper(context);
+        this.databaseHelper = new DatabaseHelper(context);//TODO remove it!
     }
 
     public void addUserInDB (User user) {

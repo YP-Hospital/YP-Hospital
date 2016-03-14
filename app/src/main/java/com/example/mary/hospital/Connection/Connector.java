@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.example.mary.hospital.ExtraResource;
 
-public class Connector extends AsyncTask<String, Void, Void> {
+public class Connector extends AsyncTask<String, Void, String> {
     private Context context;
 
     public Connector(Context context) {
@@ -22,7 +22,8 @@ public class Connector extends AsyncTask<String, Void, Void> {
      * @param params message to server. If it nothing to send, it just will reload BD
      */
     @Override
-    protected Void doInBackground(String ... params) {
+    protected String doInBackground(String ... params) {
+        String answer = "";
         TCPClient client = new TCPClient();
         client.run();
         if (client.isConnected()) {
@@ -30,12 +31,12 @@ public class Connector extends AsyncTask<String, Void, Void> {
                 client.sendMessage(message);
             }
             client.sendMessage(ExtraResource.STOP_WORDS);
-            client.updateDB(context);
+            answer = client.getAnswer();
             client.stopClient();
         } else {
             this.cancel(true);
         }
-        return  null;
+        return answer;
     }
 
     @Override
@@ -47,8 +48,8 @@ public class Connector extends AsyncTask<String, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
+    protected void onPostExecute(String answer) {
+        super.onPostExecute(answer);
         Toast.makeText(context, "Operation complete", Toast.LENGTH_LONG).show();
     }
 }

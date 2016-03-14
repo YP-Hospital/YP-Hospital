@@ -22,7 +22,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
         fillNameAndPassword();
-        new Connector(this).execute();
     }
 
     private void fillNameAndPassword() {
