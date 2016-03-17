@@ -6,7 +6,7 @@ import com.example.mary.hospital.Model.Role;
 import java.util.List;
 
 public interface UserService {
-    void addUserInDB(User user);
+    Boolean addUserInDB(User user);
     Boolean isUserExist(String name);
     Boolean isCorrectPassword(String name, String password);
     User getUserByName(String name);

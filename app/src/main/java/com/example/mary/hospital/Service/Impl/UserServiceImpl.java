@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class UserServiceImpl implements UserService {
     private final static String HASH_ALGORITHM = "SHA-256";
@@ -28,19 +29,33 @@ public class UserServiceImpl implements UserService {
         this.databaseHelper = new DatabaseHelper(context);//TODO remove it!
     }
 
-    public void addUserInDB (User user) {
-        user.setPassword(passwordToHash(user.getPassword()));
-        new Connector(context).execute(user.getStringToInsertInServer());
+    public Boolean addUserInDB (User user) {
+        Boolean isSuccess = false;
+        try {
+            user.setPassword(passwordToHash(user.getPassword()));
+           isSuccess = Boolean.parseBoolean(new Connector(context).execute(user.getStringToInsertInServer()).get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
     }
 
-    public Boolean isUserExist(String name) {
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE
-                                    + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-        Boolean result = cursor.moveToFirst();
-        cursor.close();
-        sdb.close();
-        return result;
+    public Boolean isUserExist(String login) {
+        String result = "";
+        try {
+            result = new Connector(context).execute("select users * where login " + login).get();
+//        sdb = databaseHelper.getReadableDatabase();
+//        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE
+//                + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
+//        Boolean result = cursor.moveToFirst();
+//        cursor.close();
+//        sdb.close();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return Boolean.parseBoolean(result.split(" ")[0]);
     }
 
     public Boolean isCorrectPassword(String name, String password) {

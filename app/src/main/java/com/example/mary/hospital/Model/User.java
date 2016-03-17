@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 public class User implements BaseColumns {
 
     public static final String DATABASE_TABLE = "users";
+    public static final String LOGIN_COLUMN = "login";
     public static final String USER_NAME_COLUMN = "name";
     public static final String PASSWORD_COLUMN = "password";
     public static final String PHONE_COLUMN = "phone";
@@ -17,13 +18,15 @@ public class User implements BaseColumns {
                                                         + ROLE_COLUMN + " text not null, "
                                                         + PHONE_COLUMN + " integer, " + AGE_COLUMN + " integer);";
 
+    private String login;
     private String name;
     private String password;
     private String phone;
     private Integer age;
     private Role role;
 
-    public User(String name, String password, String phone, Integer age, Role role) {
+    public User(String login, String name, String password, String phone, Integer age, Role role) {
+        this.login = login;
         this.name = name;
         this.password = password;
         this.phone = phone;
@@ -32,6 +35,14 @@ public class User implements BaseColumns {
     }
 
     public User() {
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -75,18 +86,19 @@ public class User implements BaseColumns {
     }
 
     public String getStringToInsertInServer(){
-        return "insert users " + name
+        return "insert users " + login
                 + " " + password
-                + " " + phone
+                + " " + name
+                + " " + role
                 + " " + age
-                + " " + role;
+                + " " + phone;
     }
 
     @Override
     public String toString() {
         return "Name: " + name + '\n' +
-               "Phone: " + phone + '\n' +
-               "Age: " + age + '\n' +
-               "Role: " + role;
+                "Phone: " + phone + '\n' +
+                "Age: " + age + '\n' +
+                "Role: " + role;
     }
 }

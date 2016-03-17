@@ -18,7 +18,7 @@ public class Registration extends AppCompatActivity {
 
     private UserService userService;
     private String currentUserName;
-    private String name;
+    private String login;
     private String password;
 
     @Override
@@ -42,19 +42,22 @@ public class Registration extends AppCompatActivity {
             String password = passwordText.getText().toString();
             String confirmPassword = confirmPasswordText.getText().toString();
             if (password.equals(confirmPassword)) {
-                String name = ((EditText) findViewById(R.id.name)).getText().toString();
-                if (!userService.isUserExist(name)) {
+                String login = ((EditText) findViewById(R.id.login)).getText().toString();
+                if (!userService.isUserExist(login)) {
+                    String name = ((EditText) findViewById(R.id.name)).getText().toString();
                     String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
                     Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
                     Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
-                    if (name.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+                    if (login.isEmpty() || name.isEmpty() || password.isEmpty() || phone.isEmpty()) {
                         ExtraResource.showErrorDialog(R.string.error_field_required, Registration.this);
                     } else {
-                        this.name = name;
+                        this.login = login;
                         this.password = password;
-                        User user = new User(name, password, phone, age, role);
-                        userService.addUserInDB(user);
-                        returnBack(view);
+                        User user = new User(login, name, password, phone, age, role);
+                        Boolean isSuccess = userService.addUserInDB(user);
+                        if (isSuccess) {
+                            returnBack(view);
+                        }
                     }
                 } else {
                     ExtraResource.showErrorDialog(R.string.error_name_exist, Registration.this);
@@ -72,7 +75,7 @@ public class Registration extends AppCompatActivity {
     public void returnBack(View view) {
         if (currentUserName == null) {
             Intent intent = new Intent(this, Login.class);
-            intent.putExtra(ExtraResource.USER_LOGIN, this.name);
+            intent.putExtra(ExtraResource.USER_LOGIN, this.login);
             intent.putExtra(ExtraResource.USER_PASSWORD, this.password);
             startActivity(intent);
         } else {

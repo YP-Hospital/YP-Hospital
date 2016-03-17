@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.example.mary.hospital.ExtraResource;
+import com.example.mary.hospital.R;
 
 public class Connector extends AsyncTask<String, Void, String> {
     private Context context;
@@ -19,7 +20,13 @@ public class Connector extends AsyncTask<String, Void, String> {
 
     /**
      * start with execute method
-     * @param params message to server. If it nothing to send, it just will reload BD
+     * @param params message to server.
+     * messages must be like this:
+     * "WHAT_TO_DO IN_WHAT_TABLE " +
+     * If insert: "FIELDS_VALUE"
+     * If update: "FIELD_NAME FIELD_VALUE OBJECT_TO_CHANGE_ID"
+     * If delete: "OBJECT_TO_DELETE_ID"
+     * If select: "FIELDS_TO_SELECT" + (not required)" where CHOOSE_BY_FIELDS VALUE_OF_THIS_FIELDS"
      */
     @Override
     protected String doInBackground(String ... params) {
@@ -43,13 +50,17 @@ public class Connector extends AsyncTask<String, Void, String> {
     protected void onCancelled() {
         super.onCancelled();
         if (context != null) {
-            Toast.makeText(context, "No connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.no_connection, Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     protected void onPostExecute(String answer) {
         super.onPostExecute(answer);
-        Toast.makeText(context, "Operation complete", Toast.LENGTH_LONG).show();
+        if (answer.startsWith("true")) {
+            Toast.makeText(context, R.string.operation_complete, Toast.LENGTH_LONG).show();
+        } else if (answer.startsWith("false")) {
+            ExtraResource.showErrorDialog(R.string.server_error, context);
+        }
     }
 }
