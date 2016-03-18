@@ -12,9 +12,9 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/prompt_email"
+        android:hint="@string/login"
         android:ems="10"
-        android:id="@+id/name"
+        android:id="@+id/login"
         android:inputType="text"
         android:layout_above="@+id/password"
         android:layout_alignParentLeft="true"
@@ -66,8 +66,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/name"
-        android:layout_alignRight="@+id/name"
-        android:layout_alignEnd="@+id/name" />
+        android:layout_above="@+id/login"
+        android:layout_alignRight="@+id/login"
+        android:layout_alignEnd="@+id/login" />
 
 </RelativeLayout>

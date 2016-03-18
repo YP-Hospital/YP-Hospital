@@ -59,8 +59,9 @@ public class Connector extends AsyncTask<String, Void, String> {
         super.onPostExecute(answer);
         if (answer.startsWith("true")) {
             Toast.makeText(context, R.string.operation_complete, Toast.LENGTH_LONG).show();
-        } else if (answer.startsWith("false")) {
-            ExtraResource.showErrorDialog(R.string.server_error, context);
+        }
+        else if (answer.equals("")) {
+            ExtraResource.showErrorDialog(R.string.server_error, context);//TODO Server error instead close app
         }
     }
 }

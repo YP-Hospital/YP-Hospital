@@ -8,13 +8,16 @@ import android.provider.BaseColumns;
 
 import com.example.mary.hospital.Connection.Connector;
 import com.example.mary.hospital.DatabaseHelper;
+import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Model.Role;
+import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.UserService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -43,19 +46,104 @@ public class UserServiceImpl implements UserService {
     public Boolean isUserExist(String login) {
         String result = "";
         try {
-            result = new Connector(context).execute("select users * where login " + login).get();
-//        sdb = databaseHelper.getReadableDatabase();
-//        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + "  from " + User.DATABASE_TABLE
-//                + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-//        Boolean result = cursor.moveToFirst();
-//        cursor.close();
-//        sdb.close();
+            result = new Connector(context).execute("select users id where login " + login).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
         return Boolean.parseBoolean(result.split(" ")[0]);
+    }
+
+    public User logIn(String login, String password) {
+        String answerFromServer = "";
+        try {
+            answerFromServer = new Connector(context).execute("select users password role where login " + login).get();
+            if (answerFromServer.equals("false")) {
+                ExtraResource.showErrorDialog(R.string.error_name_exist, context);
+                return null;
+            } else {
+                List<User> users = stringToUsers(answerFromServer);
+                if (!users.get(0).getPassword().equals(passwordToHash(password))) {
+                    ExtraResource.showErrorDialog(R.string.error_invalid_password, context);
+                    return null;
+                }
+                return users.get(0);
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<User> stringToUsers(String answerFromServer) {
+        List<User> users = new ArrayList<>();
+        List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(" ")));
+        Boolean isAllFields = words.get(1).equals("*");
+        if (isAllFields) {
+            for (int i = 2; i < words.size(); ) {
+                users.add(new User(words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)), Integer.valueOf(words.get(i++)), words.get(i++)));
+            }
+        } else {
+            getUsers(users, words);
+        }
+        return users;
+    }
+    /**Warning! GOVNOKOD*/
+    private void getUsers(List<User> users, List<String> words) {
+        Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false;
+        int i;
+        for (i = 1; !words.get(i).equals("0."); i++) {
+            switch (words.get(i)) {
+                case "login":
+                    isLogin = true;
+                    break;
+                case "password":
+                    isPassword = true;
+                    break;
+                case "name":
+                    isName = true;
+                    break;
+                case "role":
+                    isRole = true;
+                    break;
+                case "age":
+                    isAge = true;
+                    break;
+                case "phone":
+                    isPhone = true;
+                    break;
+            }
+        }
+        User user = null;
+        for (;  i<words.size() ; i++) {
+            if (words.get(i).matches("[0-9]+.")) {
+                user = new User();
+                continue;
+            }
+            if (isLogin) {
+                user.setLogin(words.get(i++));
+            }
+            if (isPassword) {
+                user.setPassword(words.get(i++));
+            }
+            if (isName) {
+                user.setName(words.get(i++));
+            }
+            if (isRole) {
+                user.setRole(Role.valueOf(words.get(i++)));
+            }
+            if (isAge) {
+                user.setAge(Integer.valueOf(words.get(i++)));
+            }
+            if (isPhone) {
+                user.setPhone(words.get(i++));
+            }
+            users.add(user);
+        }
     }
 
     public Boolean isCorrectPassword(String name, String password) {

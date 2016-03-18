@@ -53,7 +53,7 @@ public class Registration extends AppCompatActivity {
                     } else {
                         this.login = login;
                         this.password = password;
-                        User user = new User(login, name, password, phone, age, role);
+                        User user = new User(login, password, name, role, age, phone);
                         Boolean isSuccess = userService.addUserInDB(user);
                         if (isSuccess) {
                             returnBack(view);

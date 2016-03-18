@@ -25,7 +25,7 @@ public class User implements BaseColumns {
     private Integer age;
     private Role role;
 
-    public User(String login, String name, String password, String phone, Integer age, Role role) {
+    public User(String login, String password, String name, Role role, Integer age, String phone) {
         this.login = login;
         this.name = name;
         this.password = password;
