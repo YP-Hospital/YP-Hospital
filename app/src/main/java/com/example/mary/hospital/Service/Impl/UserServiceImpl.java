@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(" ")));
         Boolean isAllFields = words.get(1).equals("*");
         if (isAllFields) {
-            for (int i = 2; i < words.size(); ) {
+            for (int i = 3; i < words.size(); i++) {
                 users.add(new User(words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)), Integer.valueOf(words.get(i++)), words.get(i++)));
             }
         } else {
@@ -146,18 +146,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public Boolean isCorrectPassword(String name, String password) {
-        password = passwordToHash(password);
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.PASSWORD_COLUMN + " from " + User.DATABASE_TABLE
-                                    + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-        cursor.moveToFirst();
-        Boolean result = password.equals(cursor.getString(cursor.getColumnIndex(User.PASSWORD_COLUMN)));
-        cursor.close();
-        sdb.close();
-        return  result;
-    }
-
     public static String passwordToHash(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -180,19 +168,29 @@ public class UserServiceImpl implements UserService {
         return buf.toString();
     }
 
-    public User getUserByName(String name) {
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
-                                    + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-        User user = new User();
-        if (cursor.moveToFirst()) {
-            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
-            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
-            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
-            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
+    public User getUserByLogin(String login) {
+        String result = "";
+        User user = null;
+//        sdb = databaseHelper.getReadableDatabase();
+//        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
+//                                    + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
+//        User user = new User();
+//        if (cursor.moveToFirst()) {
+//            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
+//            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
+//            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
+//            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
+//        }
+//        cursor.close();
+//        sdb.close();
+        try {
+            result = new Connector(context).execute("select users * where login " + login).get();
+            user = stringToUsers(result).get(0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-        cursor.close();
-        sdb.close();
         return user;
     }
 

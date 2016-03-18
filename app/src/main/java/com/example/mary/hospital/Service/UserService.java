@@ -9,8 +9,7 @@ public interface UserService {
     Boolean addUserInDB(User user);
     Boolean isUserExist(String name);
     User logIn(String name, String password);
-    Boolean isCorrectPassword(String name, String password);
-    User getUserByName(String name);
+    User getUserByLogin(String name);
     Role getUsersRole(String name);
     List<User> getAllUsers();
     List<User> getAllPatient();

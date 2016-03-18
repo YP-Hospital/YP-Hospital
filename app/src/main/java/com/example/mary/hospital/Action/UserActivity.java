@@ -18,7 +18,7 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userService = new UserServiceImpl(this);
         setContentView(R.layout.activity_user);
-        User user = userService.getUserByName(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
         TextView textView = (TextView)findViewById(R.id.userInfo);
         textView.setText(user.toString());
     }
