@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
 import com.example.mary.hospital.DatabaseHelper;
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
         try {
             answerFromServer = new Connector(context).execute("select users password role where login " + login).get();
             if (answerFromServer.equals("false")) {
-                ExtraResource.showErrorDialog(R.string.error_name_exist, context);
+                ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
             } else {
                 List<User> users = stringToUsers(answerFromServer);
@@ -88,12 +89,12 @@ public class UserServiceImpl implements UserService {
                 users.add(new User(words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)), Integer.valueOf(words.get(i++)), words.get(i++)));
             }
         } else {
-            getUsers(users, words);
+            formListOfUsers(users, words);
         }
         return users;
     }
     /**Warning! GOVNOKOD*/
-    private void getUsers(List<User> users, List<String> words) {
+    private void formListOfUsers(List<User> users, List<String> words) {
         Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false;
         int i;
         for (i = 1; !words.get(i).equals("0."); i++) {
@@ -171,18 +172,6 @@ public class UserServiceImpl implements UserService {
     public User getUserByLogin(String login) {
         String result = "";
         User user = null;
-//        sdb = databaseHelper.getReadableDatabase();
-//        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
-//                                    + " from " + User.DATABASE_TABLE + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-//        User user = new User();
-//        if (cursor.moveToFirst()) {
-//            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
-//            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
-//            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
-//            user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
-//        }
-//        cursor.close();
-//        sdb.close();
         try {
             result = new Connector(context).execute("select users * where login " + login).get();
             user = stringToUsers(result).get(0);
@@ -208,38 +197,26 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN
-                                    + ", " + User.ROLE_COLUMN + " from " + User.DATABASE_TABLE, null);
-        List<User> users = formListOfUsers(cursor);
-        cursor.close();
-        sdb.close();
-        return users;
+        String query = "select users *";
+        return getUsers(query);
     }
 
     public List<User> getAllPatient() {
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.USER_NAME_COLUMN + ", " + User.AGE_COLUMN + ", " + User.PHONE_COLUMN + ", " + User.ROLE_COLUMN
-                                    + " from " + User.DATABASE_TABLE + " where " + User.ROLE_COLUMN + "= ?", new String[]{Role.Patient.toString()});
-        List<User> users = formListOfUsers(cursor);
-        cursor.close();
-        sdb.close();
-        return users;
+        String query = "select users * where role " + Role.Patient;
+        return getUsers(query);
     }
 
-    private List<User> formListOfUsers(Cursor cursor) {
-        List<User> users = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            User user = new User();
-            user.setName(cursor.getString(cursor.getColumnIndex(User.USER_NAME_COLUMN)));
-            user.setAge(cursor.getInt(cursor.getColumnIndex(User.AGE_COLUMN)));
-            user.setPhone(cursor.getString(cursor.getColumnIndex(User.PHONE_COLUMN)));
-            try {
-                user.setRole(Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN))));
-            } catch (Exception e) {
-                user.setRole(Role.Patient);
-            }
-            users.add(user);
+
+    @Nullable
+    private List<User> getUsers(String query) {
+        List<User> users = null;
+        try {
+            String result = new Connector(context).execute(query).get();
+            users = stringToUsers(result);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return users;
     }

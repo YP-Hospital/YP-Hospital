@@ -21,7 +21,7 @@
     </string-array>
     <string name="operation_complete">"Operation complete"</string>
     <string name="error">Error</string>
-    <string name="error_invalid_email">This login is invalid</string>
+    <string name="error_invalid_login">This login is invalid</string>
     <string name="error_invalid_password">Passwords don\'t match</string>
     <string name="error_name_exist">This name already exist</string>
     <string name="error_incorrect_password">This password is incorrect</string>

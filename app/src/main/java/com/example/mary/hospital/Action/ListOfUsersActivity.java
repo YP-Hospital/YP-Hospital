@@ -17,7 +17,7 @@ import com.example.mary.hospital.Service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO When click on some person open UserActivity with him
 public class ListOfUsersActivity extends AppCompatActivity {
 
     private UserService userService;
