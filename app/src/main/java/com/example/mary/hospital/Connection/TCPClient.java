@@ -1,9 +1,7 @@
 package com.example.mary.hospital.Connection;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.example.mary.hospital.DatabaseHelper;
 
 import java.io.*;
 import java.net.InetAddress;

@@ -1,11 +1,9 @@
 package com.example.mary.hospital.Service.Impl;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
-import com.example.mary.hospital.DatabaseHelper;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Model.Role;
@@ -21,13 +19,10 @@ import java.util.concurrent.ExecutionException;
 
 public class UserServiceImpl implements UserService {
     private final static String HASH_ALGORITHM = "SHA-256";
-    private DatabaseHelper databaseHelper;
-    private SQLiteDatabase sdb;
     private Context context;
 
     public UserServiceImpl (Context context) {
         this.context = context;
-        this.databaseHelper = new DatabaseHelper(context);//TODO remove it!
     }
 
     public Boolean addUserInDB (User user) {
@@ -44,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public Boolean isUserExist(String login) {
         String result = "";
         try {
-            result = getAnswerFromServerForQuery("select users id where login " + login);
+            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ID_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -56,14 +51,15 @@ public class UserServiceImpl implements UserService {
     public User logIn(String login, String password) {
         String answerFromServer = "";
         try {
-            answerFromServer = getAnswerFromServerForQuery("select users password role where login " + login);
+            answerFromServer = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.PASSWORD_COLUMN
+                                                            + " " + User.ROLE_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
             if (answerFromServer.equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
             } else {
                 List<User> users = stringToUsers(answerFromServer);
                 if (!users.get(0).getPassword().equals(passwordToHash(password))) {
-                    ExtraResource.showErrorDialog(R.string.error_invalid_password, context);
+                    ExtraResource.showErrorDialog(R.string.error_incorrect_password, context);
                     return null;
                 }
                 return users.get(0);
@@ -96,22 +92,22 @@ public class UserServiceImpl implements UserService {
         int i;
         for (i = 1; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
-                case "login":
+                case User.LOGIN_COLUMN:
                     isLogin = true;
                     break;
-                case "password":
+                case User.PASSWORD_COLUMN:
                     isPassword = true;
                     break;
-                case "name":
+                case User.USER_NAME_COLUMN:
                     isName = true;
                     break;
-                case "role":
+                case User.ROLE_COLUMN:
                     isRole = true;
                     break;
-                case "age":
+                case User.AGE_COLUMN:
                     isAge = true;
                     break;
-                case "phone":
+                case User.PHONE_COLUMN:
                     isPhone = true;
                     break;
             }
@@ -170,7 +166,7 @@ public class UserServiceImpl implements UserService {
         String result = "";
         User user = null;
         try {
-            result = getAnswerFromServerForQuery("select users * where login " + login);
+            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " * where " + User.LOGIN_COLUMN + " " + login);
             user = stringToUsers(result).get(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -183,7 +179,8 @@ public class UserServiceImpl implements UserService {
     public Role getUsersRole(String login) {
         Role role = null;
         try {
-            String result = getAnswerFromServerForQuery("select users role where login " + login);
+            String result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ROLE_COLUMN
+                                                        + " where " + User.LOGIN_COLUMN + " " + login);
             role = Role.valueOf(result.split(" ")[3]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,12 +189,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
-        String query = "select users *";
+        String query = "select " + User.DATABASE_TABLE + " *";
         return getUsers(query);
     }
 
     public List<User> getAllPatient() {
-        String query = "select users * where role " + Role.Patient;
+        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN+ " " + Role.Patient;
         return getUsers(query);
     }
 
