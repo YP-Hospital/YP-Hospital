@@ -1,10 +1,7 @@
 package com.example.mary.hospital.Service.Impl;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
@@ -37,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Boolean isSuccess = false;
         try {
             user.setPassword(passwordToHash(user.getPassword()));
-           isSuccess = Boolean.parseBoolean(new Connector(context).execute(user.getStringToInsertInServer()).get());
+           isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(user.getStringToInsertInServer()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public Boolean isUserExist(String login) {
         String result = "";
         try {
-            result = new Connector(context).execute("select users id where login " + login).get();
+            result = getAnswerFromServerForQuery("select users id where login " + login);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public User logIn(String login, String password) {
         String answerFromServer = "";
         try {
-            answerFromServer = new Connector(context).execute("select users password role where login " + login).get();
+            answerFromServer = getAnswerFromServerForQuery("select users password role where login " + login);
             if (answerFromServer.equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
@@ -173,7 +170,7 @@ public class UserServiceImpl implements UserService {
         String result = "";
         User user = null;
         try {
-            result = new Connector(context).execute("select users * where login " + login).get();
+            result = getAnswerFromServerForQuery("select users * where login " + login);
             user = stringToUsers(result).get(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -183,16 +180,14 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public Role getUsersRole(String name) {
+    public Role getUsersRole(String login) {
         Role role = null;
-        sdb = databaseHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("Select " + User.ROLE_COLUMN + " from " + User.DATABASE_TABLE
-                + " where " + User.USER_NAME_COLUMN + "= ?", new String[]{name});
-        if (cursor.moveToFirst()) {
-           role = Role.valueOf(cursor.getString(cursor.getColumnIndex(User.ROLE_COLUMN)));
+        try {
+            String result = getAnswerFromServerForQuery("select users role where login " + login);
+            role = Role.valueOf(result.split(" ")[3]);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        cursor.close();
-        sdb.close();
         return role;
     }
 
@@ -211,7 +206,7 @@ public class UserServiceImpl implements UserService {
     private List<User> getUsers(String query) {
         List<User> users = null;
         try {
-            String result = new Connector(context).execute(query).get();
+            String result = getAnswerFromServerForQuery(query);
             users = stringToUsers(result);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -219,5 +214,9 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return users;
+    }
+
+    private String getAnswerFromServerForQuery(String query) throws InterruptedException, ExecutionException {
+        return new Connector(context).execute(query).get();
     }
 }
