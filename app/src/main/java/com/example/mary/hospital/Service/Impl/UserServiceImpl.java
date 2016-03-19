@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class UserServiceImpl implements UserService {
+    private int booleanAnswer = 0;
+    private int dataAnswer = 1;
     private final static String HASH_ALGORITHM = "SHA-256";
     private Context context;
 
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
         Boolean isSuccess = false;
         try {
             user.setPassword(passwordToHash(user.getPassword()));
-           isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(user.getStringToInsertInServer()));
+           isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(user.getStringToInsertInServer()).get(booleanAnswer));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,30 +41,30 @@ public class UserServiceImpl implements UserService {
     public Boolean isUserExist(String login) {
         String result = "";
         try {
-            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ID_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
+            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ID_COLUMN + " where " + User.LOGIN_COLUMN + " " + login).get(booleanAnswer);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        return Boolean.parseBoolean(result.split(" ")[0]);
+        return Boolean.parseBoolean(result);
     }
 
     public User logIn(String login, String password) {
-        String answerFromServer = "";
+        List<String> answerFromServer;
         try {
             answerFromServer = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.PASSWORD_COLUMN
                                                             + " " + User.ROLE_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
-            if (answerFromServer.equals("false")) {
+            if (answerFromServer.get(booleanAnswer).equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
             } else {
-                List<User> users = stringToUsers(answerFromServer);
-                if (!users.get(0).getPassword().equals(passwordToHash(password))) {
+                List<User> users = stringToUsers(answerFromServer.get(dataAnswer));
+                if (!users.get(booleanAnswer).getPassword().equals(passwordToHash(password))) {
                     ExtraResource.showErrorDialog(R.string.error_incorrect_password, context);
                     return null;
                 }
-                return users.get(0);
+                return users.get(booleanAnswer);
             }
 
         } catch (InterruptedException e) {
@@ -76,9 +78,9 @@ public class UserServiceImpl implements UserService {
     private List<User> stringToUsers(String answerFromServer) {
         List<User> users = new ArrayList<>();
         List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(" ")));
-        Boolean isAllFields = words.get(1).equals("*");
+        Boolean isAllFields = words.get(booleanAnswer).equals("*");
         if (isAllFields) {
-            for (int i = 3; i < words.size(); i++) {
+            for (int i = 2; i < words.size(); i++) {
                 users.add(new User(words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)), Integer.valueOf(words.get(i++)), words.get(i++)));
             }
         } else {
@@ -90,7 +92,7 @@ public class UserServiceImpl implements UserService {
     private void formListOfUsers(List<User> users, List<String> words) {
         Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false;
         int i;
-        for (i = 1; !words.get(i).equals("0."); i++) {
+        for (i = 0; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
                 case User.LOGIN_COLUMN:
                     isLogin = true;
@@ -166,8 +168,8 @@ public class UserServiceImpl implements UserService {
         String result = "";
         User user = null;
         try {
-            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " * where " + User.LOGIN_COLUMN + " " + login);
-            user = stringToUsers(result).get(0);
+            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " * where " + User.LOGIN_COLUMN + " " + login).get(dataAnswer);
+            user = stringToUsers(result).get(booleanAnswer);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -180,8 +182,8 @@ public class UserServiceImpl implements UserService {
         Role role = null;
         try {
             String result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ROLE_COLUMN
-                                                        + " where " + User.LOGIN_COLUMN + " " + login);
-            role = Role.valueOf(result.split(" ")[3]);
+                                                        + " where " + User.LOGIN_COLUMN + " " + login).get(dataAnswer);
+            role = Role.valueOf(result.split(" ")[2]);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -203,7 +205,7 @@ public class UserServiceImpl implements UserService {
     private List<User> getUsers(String query) {
         List<User> users = null;
         try {
-            String result = getAnswerFromServerForQuery(query);
+            String result = getAnswerFromServerForQuery(query).get(dataAnswer);
             users = stringToUsers(result);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -213,7 +215,7 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    private String getAnswerFromServerForQuery(String query) throws InterruptedException, ExecutionException {
+    private List<String> getAnswerFromServerForQuery(String query) throws InterruptedException, ExecutionException {
         return new Connector(context).execute(query).get();
     }
 }

@@ -3,16 +3,21 @@ package com.example.mary.hospital.Connection;
 import android.util.Log;
 
 
+import com.example.mary.hospital.ExtraResource;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TCPClient {
 
     public static final int SERVER_PORT = 8080;
-    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
+//    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
 //    public static final String SERVER_IP = "127.0.0.1"; /** For locallhost */
 //    public static final String SERVER_IP = "172.20.217.98"; /** For wi-fi on work */
+    public static final String SERVER_IP = "172.20.44.45"; /** For web on work */
 
     private DataOutputStream outputStream;
     private DataInputStream inputStream;
@@ -36,16 +41,20 @@ public class TCPClient {
             e.printStackTrace();
         }
     }
-    public String getAnswer() {
-        String answer = "";
+    public List<String> getAnswers() {
+        List<String> answers = new ArrayList<>();
         try {
             if (inputStream != null) {
-                answer = inputStream.readUTF();
+                String message = "";
+                while (!message.equals(ExtraResource.STOP_WORDS)) {
+                    message = inputStream.readUTF();
+                    answers.add(message);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return answer;
+        return answers;
     }
     public void stopClient() {
         try {

@@ -7,7 +7,10 @@ import android.widget.Toast;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.R;
 
-public class Connector extends AsyncTask<String, Void, String> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Connector extends AsyncTask<String, Void, List<String>> {
     private Context context;
 
     public Connector(Context context) {
@@ -29,8 +32,8 @@ public class Connector extends AsyncTask<String, Void, String> {
      * If select: "FIELDS_TO_SELECT" + (not required)" where CHOOSE_BY_FIELDS VALUE_OF_THIS_FIELDS"
      */
     @Override
-    protected String doInBackground(String ... params) {
-        String answer = "";
+    protected List<String> doInBackground(String ... params) {
+        List<String> answers = null;
         TCPClient client = new TCPClient();
         client.run();
         if (client.isConnected()) {
@@ -38,12 +41,12 @@ public class Connector extends AsyncTask<String, Void, String> {
                 client.sendMessage(message);
             }
             client.sendMessage(ExtraResource.STOP_WORDS);
-            answer = client.getAnswer();
+            answers = client.getAnswers();
             client.stopClient();
         } else {
             this.cancel(true);
         }
-        return answer;
+        return answers;
     }
 
     @Override
@@ -55,12 +58,12 @@ public class Connector extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String answer) {
+    protected void onPostExecute(List<String> answer) {
         super.onPostExecute(answer);
-        if (answer.startsWith("true")) {
+        if (answer.get(0).equals("true")) {
             Toast.makeText(context, R.string.operation_complete, Toast.LENGTH_LONG).show();
         }
-        else if (answer.equals("")) {
+        else if (answer.isEmpty()) {
             this.cancel(true);
             ExtraResource.showErrorDialog(R.string.server_error, context);//TODO Server error instead close app
         }
