@@ -11,25 +11,67 @@ public class User {
     public static final String PHONE_COLUMN = "phone";
     public static final String AGE_COLUMN = "age";
     public static final String ROLE_COLUMN = "role";
+    public static final String DOCTOR_ID_COLUMN = "doctor_id";
 
     private Integer id;
     private String login;
     private String name;
     private String password;
-    private String phone;
-    private Integer age;
     private Role role;
+    private Integer age;
+    private String phone;
+    private Integer doctorID;
 
-    public User(String login, String password, String name, Role role, Integer age, String phone) {
+    public User(Integer id, String login, String password, String name, Role role, Integer age, String phone, Integer doctorID) {
+        this.id = id;
         this.login = login;
         this.name = name;
         this.password = password;
         this.phone = phone;
         this.age = age;
         this.role = role;
+        this.doctorID = doctorID;
+    }
+
+    public User(String login, String password, String name,  Role role, Integer age, String phone) {
+        this.login = login;
+        this.name = name;
+        this.password = password;
+        this.role = role;
+        this.age = age;
+        this.phone = phone;
+    }
+
+    public User(Integer id, String login, String password, String name, Role role, Integer age, String phone) {
+        this.id = id;
+        this.login = login;
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.age = age;
+        this.role = role;
+        this.doctorID = null;
+    }
+
+    public User(String login, String password, String name, Role role, Integer age, String phone, Integer doctorID) {
+        this.login = login;
+        this.name = name;
+        this.password = password;
+        this.role = role;
+        this.age = age;
+        this.phone = phone;
+        this.doctorID = doctorID;
     }
 
     public User() {
+    }
+
+    public Integer getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(Integer doctorID) {
+        this.doctorID = doctorID;
     }
 
     public Integer getId() {
@@ -94,7 +136,8 @@ public class User {
                 + " " + name
                 + " " + role
                 + " " + age
-                + " " + phone;
+                + " " + phone
+                + " " + doctorID;
     }
 
     @Override

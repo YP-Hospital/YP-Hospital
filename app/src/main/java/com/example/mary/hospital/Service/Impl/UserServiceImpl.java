@@ -81,7 +81,8 @@ public class UserServiceImpl implements UserService {
         Boolean isAllFields = words.get(booleanAnswer).equals("*");
         if (isAllFields) {
             for (int i = 2; i < words.size(); i++) {
-                users.add(new User(words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)), Integer.valueOf(words.get(i++)), words.get(i++)));
+                users.add(new User(Integer.valueOf(words.get(i++)), words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)),
+                                    Integer.valueOf(words.get(i++)), words.get(i++), Integer.valueOf(words.get(i++))));
             }
         } else {
             formListOfUsers(users, words);
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
     /**Warning! GOVNOKOD*/
     private void formListOfUsers(List<User> users, List<String> words) {
-        Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false;
+        Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false, isDoctorID = false ;
         int i;
         for (i = 0; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
@@ -111,6 +112,9 @@ public class UserServiceImpl implements UserService {
                     break;
                 case User.PHONE_COLUMN:
                     isPhone = true;
+                    break;
+                case User.DOCTOR_ID_COLUMN:
+                    isDoctorID = true;
                     break;
             }
         }
@@ -136,6 +140,9 @@ public class UserServiceImpl implements UserService {
                 user.setAge(Integer.valueOf(words.get(i++)));
             }
             if (isPhone) {
+                user.setPhone(words.get(i++));
+            }
+            if (isDoctorID) {
                 user.setPhone(words.get(i++));
             }
             users.add(user);
