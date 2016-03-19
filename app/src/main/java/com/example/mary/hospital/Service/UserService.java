@@ -14,4 +14,5 @@ public interface UserService {
     Role getUsersRole(String name);
     List<User> getAllUsers();
     List<User> getAllPatient();
+    Boolean setDoctorToUser(User doctor, User patient);
 }

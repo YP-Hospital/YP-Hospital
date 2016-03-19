@@ -211,6 +211,11 @@ public class UserServiceImpl implements UserService {
         return useQuery(query);
     }
 
+    public Boolean setDoctorToUser(User doctor, User patient) {
+        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getDoctorID() + " " + patient.getId();
+        return useQuery(query);
+    }
+
     @NonNull
     private Boolean useQuery(String query) {
         Boolean isSuccess = false;
