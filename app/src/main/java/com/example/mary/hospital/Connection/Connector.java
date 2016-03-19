@@ -27,7 +27,7 @@ public class Connector extends AsyncTask<String, Void, List<String>> {
      * messages must be like this:
      * "WHAT_TO_DO IN_WHAT_TABLE " +
      * If insert: "FIELDS_VALUE"
-     * If update: "FIELD_NAME FIELD_VALUE OBJECT_TO_CHANGE_ID"
+     * If update: "FIELD_NAMES FIELD_VALUES OBJECT_TO_CHANGE_ID"
      * If delete: "OBJECT_TO_DELETE_ID"
      * If select: "FIELDS_TO_SELECT" + (not required)" where CHOOSE_BY_FIELDS VALUE_OF_THIS_FIELDS"
      */

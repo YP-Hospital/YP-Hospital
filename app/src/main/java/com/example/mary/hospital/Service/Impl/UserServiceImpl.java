@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Service.Impl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
@@ -28,14 +29,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean addUserInDB (User user) {
-        Boolean isSuccess = false;
-        try {
-            user.setPassword(passwordToHash(user.getPassword()));
-           isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(user.getStringToInsertInServer()).get(booleanAnswer));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isSuccess;
+        String query = user.getStringToInsertInServer();
+        user.setPassword(passwordToHash(user.getPassword()));
+        return useQuery(query);
     }
 
     public Boolean isUserExist(String login) {
@@ -206,7 +202,25 @@ public class UserServiceImpl implements UserService {
         String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN+ " " + Role.Patient;
         return getUsers(query);
     }
+    /**DON"T RECOMMEND TO USE*/
+    public Boolean updateUserInDB(User user) {
+        String query = "update " + User.DATABASE_TABLE + " " + User.LOGIN_COLUMN + " " + User.PASSWORD_COLUMN + " " + User.USER_NAME_COLUMN
+                        + " " + User.ROLE_COLUMN + " " + User.AGE_COLUMN + " " + User.PHONE_COLUMN + " " + User.DOCTOR_ID_COLUMN
+                        + " " + user.getLogin() + " " + user.getPassword() + " " + user.getName() + " " + user.getRole() + " " + user.getAge()
+                        + " " + user.getPhone() + " " + user.getDoctorID() + " " + user.getId();
+        return useQuery(query);
+    }
 
+    @NonNull
+    private Boolean useQuery(String query) {
+        Boolean isSuccess = false;
+        try {
+            isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(query).get(booleanAnswer));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
 
     @Nullable
     private List<User> getUsers(String query) {
