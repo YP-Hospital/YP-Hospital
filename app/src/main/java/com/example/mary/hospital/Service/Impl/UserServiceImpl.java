@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         return Boolean.parseBoolean(result);
     }
 
-    public User signIn(String login, String password) {
+    public User logIn(String login, String password) {
         List<String> answerFromServer;
         try {
             answerFromServer = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.PASSWORD_COLUMN

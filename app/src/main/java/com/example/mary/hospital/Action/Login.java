@@ -39,14 +39,14 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void logIn(View view) {
+    public void signIn(View view) {
         String login = ((EditText) findViewById(R.id.login)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if (login.isEmpty() || password.isEmpty()) {
             ExtraResource.showErrorDialog(R.string.error_login_password_required, this);
             return;
         }
-        User user = userService.signIn(login, password);
+        User user = userService.logIn(login, password);
         if (user != null) {
             Role role = user.getRole();
             if (role == Role.Patient) {
