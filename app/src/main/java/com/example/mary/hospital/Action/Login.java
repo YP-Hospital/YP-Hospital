@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void signIn(View view) {
+    public void logIn(View view) {
         String login = ((EditText) findViewById(R.id.login)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if (login.isEmpty() || password.isEmpty()) {

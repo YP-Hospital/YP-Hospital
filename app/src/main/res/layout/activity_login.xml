@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="@string/action_sign_in_short"
         android:id="@+id/button"
-        android:onClick="signIn"
+        android:onClick="logIn"
         android:layout_marginRight="37dp"
         android:layout_marginEnd="37dp"
         android:layout_marginBottom="37dp"
