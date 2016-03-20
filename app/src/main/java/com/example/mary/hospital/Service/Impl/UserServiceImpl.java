@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean addUserInDB (User user) {
+        if(user.getDoctorID() == null)
+            user.setDoctorID(0);
         String query = user.getStringToInsertInServer();
         user.setPassword(passwordToHash(user.getPassword()));
         return useQuery(query);
