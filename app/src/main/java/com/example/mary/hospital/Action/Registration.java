@@ -29,8 +29,8 @@ public class Registration extends AppCompatActivity {
         Intent intent = getIntent();
         currentUserName = intent.getStringExtra(ExtraResource.USER_LOGIN);
         if (currentUserName == null) {
-            spinner.setClickable(false);
-            spinner.setEnabled(false);
+            spinner.setClickable(true);
+            spinner.setEnabled(true);
         }
         userService = new UserServiceImpl(this);
     }

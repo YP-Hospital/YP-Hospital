@@ -28,7 +28,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_users);
         userService = new UserServiceImpl(this);
         getUserRole();
-        ListView listView = (ListView)findViewById(R.id.listView);
+        ListView listView = (ListView)findViewById(R.id.listOfUsersListView);
         ArrayAdapter<String> adapter = getUsersToDisplayAndFillTextsField();
         listView.setAdapter(adapter);
     }
@@ -52,7 +52,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
 
     private void setOutputText(Integer size) {
-        TextView textview = (TextView) findViewById(R.id.textView);
+        TextView textview = (TextView) findViewById(R.id.listOfUsersTextView);
         String outputText = "";
         if (size == 0) {
             outputText = getResources().getString(R.string.noUsers) + " ";

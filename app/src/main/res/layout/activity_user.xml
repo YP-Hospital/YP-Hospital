@@ -8,16 +8,45 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Action.UserActivity">
-    <TextView
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/userInfo"
-        android:layout_alignParentTop="true"
+        android:text="Add Disease"
+        android:id="@+id/userDiseaseAddButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/userDiseaseAddButton">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="userInfo"
+            android:id="@+id/userInfoTextView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="0.93" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="203dp"
+            android:id="@+id/userDiseaseListView"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/userDiseaseAddButton"
+            android:layout_below="@+id/userInfoTextView"
+            android:layout_gravity="bottom" />
+
+    </LinearLayout>
 </RelativeLayout>

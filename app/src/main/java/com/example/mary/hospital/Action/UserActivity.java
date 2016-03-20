@@ -19,7 +19,7 @@ public class UserActivity extends AppCompatActivity {
         userService = new UserServiceImpl(this);
         setContentView(R.layout.activity_user);
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-        TextView textView = (TextView)findViewById(R.id.userInfo);
+        TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
     }
 }

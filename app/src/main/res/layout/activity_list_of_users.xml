@@ -13,14 +13,26 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:id="@+id/listOfUsersTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:id="@+id/listOfUsersListView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView" />
+        android:layout_below="@+id/listOfUsersTextView"
+        android:layout_marginTop="10dp" />
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/listOfUsersSpinner"
+        android:layout_above="@+id/listOfUsersListView"
+        android:layout_alignRight="@+id/listOfUsersListView"
+        android:layout_alignEnd="@+id/listOfUsersListView"
+        android:spinnerMode="dropdown"
+        android:layout_marginBottom="0dp" />
+
 </RelativeLayout>
