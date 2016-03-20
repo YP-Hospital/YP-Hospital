@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 public class UserServiceImpl implements UserService {
     private int booleanAnswer = 0;
     private int dataAnswer = 1;
+    private String separator = "]\\[";
     private final static String HASH_ALGORITHM = "SHA-256";
     private Context context;
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
         List<String> answerFromServer;
         try {
             answerFromServer = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.PASSWORD_COLUMN
-                                                            + " " + User.ROLE_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
+                    + " " + User.ROLE_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
             if (answerFromServer.get(booleanAnswer).equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
@@ -75,24 +76,31 @@ public class UserServiceImpl implements UserService {
 
     private List<User> stringToUsers(String answerFromServer) {
         List<User> users = new ArrayList<>();
-        List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(" ")));
-        Boolean isAllFields = words.get(booleanAnswer).equals("*");
-        if (isAllFields) {
-            for (int i = 2; i < words.size(); i++) {
-                users.add(new User(Integer.valueOf(words.get(i++)), words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)),
-                                    Integer.valueOf(words.get(i++)), words.get(i++), Integer.valueOf(words.get(i++))));
+        try {
+            List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(separator)));
+            Boolean isAllFields = words.get(booleanAnswer).equals("*");
+            if (isAllFields) {
+                for (int i = 2; i < words.size(); i++) {
+                    users.add(new User(Integer.valueOf(words.get(i++)), words.get(i++), words.get(i++), words.get(i++), Role.valueOf(words.get(i++)),
+                                        Integer.valueOf(words.get(i++)), words.get(i++), Integer.valueOf(words.get(i++))));
+                }
+            } else {
+                formListOfUsers(users, words);
             }
-        } else {
-            formListOfUsers(users, words);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return users;
     }
     /**Warning! GOVNOKOD*/
     private void formListOfUsers(List<User> users, List<String> words) {
-        Boolean isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false, isDoctorID = false ;
+        Boolean isID = false, isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false, isDoctorID = false ;
         int i;
         for (i = 0; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
+                case User.ID_COLUMN:
+                    isID = true;
+                    break;
                 case User.LOGIN_COLUMN:
                     isLogin = true;
                     break;
@@ -121,6 +129,9 @@ public class UserServiceImpl implements UserService {
             if (words.get(i).matches("[0-9]+.")) {
                 user = new User();
                 continue;
+            }
+            if (isID) {
+                user.setId(Integer.valueOf(words.get(i++)));
             }
             if (isLogin) {
                 user.setLogin(words.get(i++));
@@ -188,7 +199,7 @@ public class UserServiceImpl implements UserService {
         try {
             String result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ROLE_COLUMN
                                                         + " where " + User.LOGIN_COLUMN + " " + login).get(dataAnswer);
-            role = Role.valueOf(result.split(" ")[2]);
+            role = Role.valueOf(result.split(separator)[2]);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,7 +212,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllPatient() {
-        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN+ " " + Role.Patient;
+        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN + " " + Role.Patient;
         return getUsers(query);
     }
     /**DON"T RECOMMEND TO USE*/
