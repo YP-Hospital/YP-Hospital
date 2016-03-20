@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
             ExtraResource.showErrorDialog(R.string.error_login_password_required, this);
             return;
         }
-        User user = userService.logIn(login, password);
+        User user = userService.signIn(login, password);
         if (user != null) {
             Role role = user.getRole();
             if (role == Role.Patient) {
