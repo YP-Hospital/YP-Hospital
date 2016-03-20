@@ -26,6 +26,7 @@
     <string name="error_name_exist">This name already exist</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">All fields are required</string>
+    <string name="error_login_password_required">Please input login and password</string>
     <string name="server_error">Error on server</string>
     <string name="no_connection">No connection</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>

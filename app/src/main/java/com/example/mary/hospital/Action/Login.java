@@ -42,6 +42,10 @@ public class Login extends AppCompatActivity {
     public void signIn(View view) {
         String login = ((EditText) findViewById(R.id.login)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        if (login.isEmpty() || password.isEmpty()) {
+            ExtraResource.showErrorDialog(R.string.error_login_password_required, this);
+            return;
+        }
         User user = userService.logIn(login, password);
         if (user != null) {
             Role role = user.getRole();
