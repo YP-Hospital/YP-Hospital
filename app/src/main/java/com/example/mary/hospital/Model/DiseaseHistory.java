@@ -13,6 +13,8 @@ public class DiseaseHistory {
     public static final String CLOSE_DATE_COLUMN = "close_date";
     public static final String TEXT_COLUMN = "text";
     public static final String PATIENT_ID_COLUMN = "patient_id";
+    public static final String LAST_MODIFIED_BY_COLUMN = "last_modified_by";
+    public static final String SIGNATURE_OF_LAST_MODIFIED_COLUMN = "signature_of_last_modified";
     public static final String DATE_FORMAT = "dd.MM.yyyy";
 
     private Integer id;
@@ -21,14 +23,19 @@ public class DiseaseHistory {
     private Date closeDate;
     private String text;
     private Integer patientID;
+    private String lastModifiedBy;
+    private String signatureOfLastModified;
 
-    public DiseaseHistory(Integer id, String title, Date openDate, Date closeDate, String text, Integer patientID) {
+    public DiseaseHistory(Integer id, String title, Date openDate, Date closeDate, String text,
+                          Integer patientID, String lastModifiedBy, String signatureOfLastModified) {
         this.id = id;
         this.title = title;
         this.openDate = openDate;
         this.closeDate = closeDate;
         this.text = text;
         this.patientID = patientID;
+        this.lastModifiedBy = lastModifiedBy;
+        this.signatureOfLastModified = signatureOfLastModified;
     }
 
     public DiseaseHistory(String title, Date openDate, Date closeDate, String text, Integer patientID) {
@@ -95,5 +102,21 @@ public class DiseaseHistory {
 
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public String getSignatureOfLastModified() {
+        return signatureOfLastModified;
+    }
+
+    public void setSignatureOfLastModified(String signatureOfLastModified) {
+        this.signatureOfLastModified = signatureOfLastModified;
     }
 }

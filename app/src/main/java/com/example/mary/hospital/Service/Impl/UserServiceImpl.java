@@ -29,12 +29,18 @@ public class UserServiceImpl implements UserService {
         this.context = context;
     }
 
-    public Boolean addUserInDB (User user) {
+    public String addUserInDB (User user) {
         if(user.getDoctorID() == null)
             user.setDoctorID(0);
         user.setPassword(passwordToHash(user.getPassword()));
         String query = user.getStringToInsertInServer();
-        return useQuery(query);
+        String privateKey = "";
+        try {
+            privateKey = getAnswerFromServerForQuery(query).get(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return privateKey;
     }
 
     public Boolean isUserExist(String login) {
@@ -211,10 +217,16 @@ public class UserServiceImpl implements UserService {
         return getUsers(query);
     }
 
-    public List<User> getAllPatient() {
+    public List<User> getAllPatients() {
         String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN + " " + Role.Patient;
         return getUsers(query);
     }
+
+    public List<User> getAllDoctors() {
+        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN + " " + Role.Doctor;
+        return getUsers(query);
+    }
+
     /**DON"T RECOMMEND TO USE*/
     public Boolean updateUserInDB(User user) {
         String query = "update " + User.DATABASE_TABLE + " " + User.LOGIN_COLUMN + " " + User.PASSWORD_COLUMN + " " + User.USER_NAME_COLUMN
