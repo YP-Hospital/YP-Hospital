@@ -63,7 +63,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
             String answer = getAnswerFromServerForQuery(query).get(dataAnswer);
             List<String> words = new ArrayList<>(Arrays.asList(answer.split(separator)));
             for (String word : words) {
-                if (word.matches("[0-9]+.") || word.equals(DiseaseHistory.TITLE_COLUMN)) {
+                if (word.matches("[0-9]+.") || word.equals(DiseaseHistory.TITLE_COLUMN) || word.isEmpty()) {
                     continue;
                 }
                 allTitles.add(word);

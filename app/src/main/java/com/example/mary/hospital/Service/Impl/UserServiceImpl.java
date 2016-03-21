@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
                 user.setPhone(words.get(i++));
             }
             if (isDoctorID) {
-                user.setPhone(words.get(i++));
+                user.setDoctorID(Integer.valueOf(words.get(i++)));
             }
             users.add(user);
         }
@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean setDoctorToUser(User doctor, User patient) {
-        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getDoctorID() + " " + patient.getId();
+        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getId() + " " + patient.getId();
         return useQuery(query);
     }
 
