@@ -225,7 +225,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean setDoctorToUser(User doctor, User patient) {
-        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getDoctorID() + " " + patient.getId();
+        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getId() + " " + patient.getId();
+        return useQuery(query);
+    }
+    public Boolean setDoctorToUser(String Login, User patient) {
+        User doctor = this.getUserByLogin(Login);
+        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getId() + " " + patient.getId();
         return useQuery(query);
     }
 

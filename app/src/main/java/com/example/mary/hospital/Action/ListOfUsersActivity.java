@@ -44,7 +44,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
 
     public static void addUserToDoctor(int position){
-        userService.setDoctorToUser(userService.getUserByLogin(doctorLogin), users.get(position));
+        userService.setDoctorToUser(doctorLogin, users.get(position));
         listView.invalidate();
     }
 
