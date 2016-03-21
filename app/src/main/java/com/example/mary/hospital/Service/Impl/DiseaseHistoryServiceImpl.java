@@ -8,19 +8,25 @@ import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Service.DiseaseHistoryService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     private int booleanAnswer = 0;
     private int dataAnswer = 1;
-    private String separator = "|";
+    private String separator = "]\\[";
     private Context context;
+    private DateFormat dateFormat;
 
     public DiseaseHistoryServiceImpl(Context context) {
         this.context = context;
+        dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT, Locale.getDefault());
     }
 
     public Boolean addHistoryInDB(DiseaseHistory history) {
@@ -29,8 +35,12 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     }
 
     public Boolean updateHistoryInDB(DiseaseHistory history) {
-        String query = "update " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TEXT_COLUMN
-                        + " " + history.getText() + history.getId();
+        String query = "update " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN
+                        + " " + DiseaseHistory.OPEN_DATE_COLUMN + " " + DiseaseHistory.CLOSE_DATE_COLUMN
+                        + " " + DiseaseHistory.TEXT_COLUMN + DiseaseHistory.PATIENT_ID_COLUMN
+                        + " " + history.getTitle() + " " + history.getOpenDate()
+                        + " " + history.getCloseDate() + " " + history.getText()
+                        + " " + history.getPatientID() + " " + history.getId();
         return useQuery(query);
     }
 
@@ -39,10 +49,31 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return getDiseaseHistories(query);
     }
 
-    public List<DiseaseHistory> getAllUsersHistory(User user) {
-        String query = " select " + DiseaseHistory.DATABASE_TABLE + " * where " + DiseaseHistory.PATIENT_ID_COLUMN
+    public List<DiseaseHistory> getAllUsersHistories(User user) {
+        String query = "select " + DiseaseHistory.DATABASE_TABLE + " * where " + DiseaseHistory.PATIENT_ID_COLUMN
                         + " " + user.getId();
         return getDiseaseHistories(query);
+    }
+
+    public List<String> getTitlesOfAllUsersHistories(User user) {
+        String query = "select " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN + " where " + DiseaseHistory.PATIENT_ID_COLUMN
+                + " " + user.getId();
+        List<String> allTitles = new ArrayList<>();
+        try {
+            String answer = getAnswerFromServerForQuery(query).get(dataAnswer);
+            List<String> words = new ArrayList<>(Arrays.asList(answer.split(separator)));
+            for (String word : words) {
+                if (word.matches("[0-9]+.") || word.equals(DiseaseHistory.TITLE_COLUMN)) {
+                    continue;
+                }
+                allTitles.add(word);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return allTitles;
     }
 
     private List<DiseaseHistory> getDiseaseHistories(String query) {
@@ -50,21 +81,20 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         try {
             String result = getAnswerFromServerForQuery(query).get(dataAnswer);
             histories = stringToHistories(result);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return histories;
     }
 
-    private List<DiseaseHistory> stringToHistories(String answerFromServer) {
+    private List<DiseaseHistory> stringToHistories(String answerFromServer) throws Exception{
         List<DiseaseHistory> histories = new ArrayList<>();
         List<String> words = new ArrayList<>(Arrays.asList(answerFromServer.split(separator)));
         Boolean isAllFields = words.get(0).equals("*");
         if (isAllFields) {
             for (int i = 2; i < words.size(); i++) {
-                histories.add(new DiseaseHistory(Integer.getInteger(words.get(i++)), words.get(i++), Integer.valueOf(words.get(i++))));
+                histories.add(new DiseaseHistory(Integer.getInteger(words.get(i++)), words.get(i++),
+                        dateFormat.parse(words.get(i++)), dateFormat.parse(words.get(i++)), words.get(i++),  Integer.valueOf(words.get(i++))));
             }
         } else {
             formListOfHistories(histories, words);
@@ -72,13 +102,22 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return histories;
     }
 
-    private void formListOfHistories(List<DiseaseHistory> histories, List<String> words) {
-        Boolean isID = false, isText = false, isPatient = false;
+    private void formListOfHistories(List<DiseaseHistory> histories, List<String> words) throws Exception{
+        Boolean isID = false, isTitle = false, isOpenDate = false, isCloseDate = false, isText = false, isPatient = false;
         int i;
         for (i = 0; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
                 case DiseaseHistory.ID_COLUMN:
                     isID = true;
+                    break;
+                case DiseaseHistory.TITLE_COLUMN:
+                    isTitle = true;
+                    break;
+                case DiseaseHistory.OPEN_DATE_COLUMN:
+                    isOpenDate = true;
+                    break;
+                case DiseaseHistory.CLOSE_DATE_COLUMN:
+                    isCloseDate = true;
                     break;
                 case DiseaseHistory.TEXT_COLUMN:
                     isText = true;
@@ -96,6 +135,15 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
             }
             if (isID) {
                 diseaseHistory.setId(Integer.valueOf(words.get(i++)));
+            }
+            if (isTitle) {
+                diseaseHistory.setTitle(words.get(i++));
+            }
+            if (isOpenDate) {
+                diseaseHistory.setOpenDate(dateFormat.parse(words.get(i++)));
+            }
+            if (isCloseDate) {
+                diseaseHistory.setCloseDate(dateFormat.parse(words.get(i++)));
             }
             if (isText) {
                 diseaseHistory.setText(words.get(i++));

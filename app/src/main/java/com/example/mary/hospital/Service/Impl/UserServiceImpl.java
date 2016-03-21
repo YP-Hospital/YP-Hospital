@@ -229,6 +229,12 @@ public class UserServiceImpl implements UserService {
         return useQuery(query);
     }
 
+    public Boolean deleteDoctorToUser(User patient) {
+        User doc = new User();
+        doc.setId(0);
+        return setDoctorToUser(doc, patient);
+    }
+
     @NonNull
     private Boolean useQuery(String query) {
         Boolean isSuccess = false;
