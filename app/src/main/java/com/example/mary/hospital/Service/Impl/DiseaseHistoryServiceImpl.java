@@ -63,7 +63,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     }
 
     public List<DiseaseHistory> getAllUsersHistories(User user) {
-        String query = "select " + DiseaseHistory.DATABASE_TABLE + " * where " + DiseaseHistory.PATIENT_ID_COLUMN
+        String query = "select" + DiseaseHistory.DATABASE_TABLE + " * where " + DiseaseHistory.PATIENT_ID_COLUMN
                         + " " + user.getId();
         return getDiseaseHistories(query);
     }

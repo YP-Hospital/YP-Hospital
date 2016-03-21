@@ -10,8 +10,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
+import com.example.mary.hospital.Adapters.ItemDiseaseAdapter;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
+import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.DiseaseHistoryService;
 import com.example.mary.hospital.Service.Impl.DiseaseHistoryServiceImpl;
@@ -47,25 +49,11 @@ public class EditDiseaseActivity extends AppCompatActivity {
         openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
-        createAndRepaintListView();
-        diseases = diseaseService.getAllUsersHistories(userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_ID)));
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_ID)));
-    }
-
-    public void createAndRepaintListView(){
-        ListView listView = (ListView) findViewById(R.id.userDiseaseListView);
-        listView.setFocusable(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditDiseaseActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-                Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
-
-                startActivity(IntentTemp);
-                Toast.makeText(EditDiseaseActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        //listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        diseases = diseaseService.getAllUsersHistories(user);
+        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
+        //if(diseaseNames.size() == 1 && diseaseNames.get(0).equals(""))
+         //   diseaseNames.clear();
     }
 
     public void saveDisease(View view){

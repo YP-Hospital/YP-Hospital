@@ -34,7 +34,7 @@ public class ItemDiseaseAdapter extends ArrayAdapter<String> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.title = (TextView) convertView.findViewById(R.id.itemTextView);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.itemDiseaseTextView);
             viewHolder.buttonAdd = (ImageView) convertView.findViewById(R.id.itemDiseaseEditImageView);
             convertView.setTag(viewHolder);
         }
@@ -49,6 +49,10 @@ public class ItemDiseaseAdapter extends ArrayAdapter<String> {
             }
         });
         mainViewholder.title.setText(getItem(position));
+        if(mObjects.isEmpty()) {
+            mainViewholder.title.setText("There is no disease");
+            mainViewholder.buttonAdd.setVisibility(View.GONE);
+        }
         return convertView;
     }
 }
