@@ -9,5 +9,6 @@ public interface DiseaseHistoryService {
     Boolean addHistoryInDB(DiseaseHistory history);
     Boolean updateHistoryInDB(DiseaseHistory history);
     List<DiseaseHistory> getAllHistories();
-    List<DiseaseHistory> getAllUsersHistory(User user);
+    List<DiseaseHistory> getAllUsersHistories(User user);
+    List<String> getTitlesOfAllUsersHistories(User user);
 }
