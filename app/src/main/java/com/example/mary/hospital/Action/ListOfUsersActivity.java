@@ -28,7 +28,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
     private static UserService userService;
     private String userRole;
     private static String doctorLogin;
-    private final String[] typeOfPatients = {"All","My", "My"};
+    private final String[] typeOfPatients = {"All","My"};
     private static ArrayList<User> users;
     private static ListView listView;
     private static Spinner spinner;
@@ -53,7 +53,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
     public void createAndRepaintListView(int position){
         getUsersToDisplayAndFillTextsField(position);
-        Toast.makeText(getBaseContext(), "DoctID = " + users.get(0).getDoctorID(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "DoctID = " + users.get(0).getDoctorID()+ " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
         listView = (ListView)findViewById(R.id.listOfUsersListView);
         listView.setFocusable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +63,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
                 IntentTemp.putExtra(ExtraResource.USER_LOGIN, users.get(position).getName());
                 IntentTemp.putExtra(ExtraResource.USER_ROLE, users.get(position).getRole().toString());
+                IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId().toString());
                 startActivity(IntentTemp);
                 Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
             }
@@ -70,7 +71,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
     }
     public void createSpinner(){
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeOfPatients);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfPatients);
         spinnerAdapter.notifyDataSetChanged();
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = (Spinner) findViewById(R.id.listOfUsersSpinner);

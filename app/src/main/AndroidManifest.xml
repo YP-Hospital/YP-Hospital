@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".Action.Registration" />
         <activity android:name=".Action.UserActivity" />
+        <activity android:name=".Action.EditDiseaseActivity" />
         <activity android:name=".Action.ListOfUsersActivity"></activity>
     </application>
 

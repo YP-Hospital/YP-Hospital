@@ -8,44 +8,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView3" />
+        android:text="Disease"
+        android:id="@+id/editDiseaseNameTextView" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText" />
+        android:id="@+id/editDiseaseNameEditText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView4" />
+        android:text="Open Date"
+        android:id="@+id/editDiseaseOpenDateTextView" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editDiseaseOpenDateEditText"
         android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView5" />
+        android:text="Close Date"
+        android:id="@+id/editDiseaseCloseDateTextView" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:layout_weight="0.94" />
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editDiseaseCloseDateEditText"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Text"
+        android:id="@+id/editDiseaseTextTextView" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editDiseaseTextEditText"
+        android:layout_weight="0.94"
+        android:autoText="false"
+        android:scrollIndicators="left"
+        android:padding="20dp"
+        android:paddingTop="20dp" />
 
     <Button
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button6"
+        android:text="Save"
+        android:onClick="saveDisease"
+        android:id="@+id/editDiseaseSaveButton"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
