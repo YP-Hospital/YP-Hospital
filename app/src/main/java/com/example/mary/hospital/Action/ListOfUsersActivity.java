@@ -68,7 +68,8 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
             }
         });
-        listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
+        if(!names.isEmpty())
+            listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
     }
     public void createSpinner(){
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfPatients);
@@ -110,7 +111,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 names.add(patient.getName());
                 users.add(patient);
             } else {
-                if (patient.getDoctorID().equals(userService.getUserByLogin(doctorLogin).getDoctorID())) {
+                if (patient.getDoctorID().toString().equals(getIntent().getStringExtra(ExtraResource.DOCTOR_ID))) {
                     names.add(patient.getName());
                     users.add(patient);
                 }

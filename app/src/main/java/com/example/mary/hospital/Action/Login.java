@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
@@ -61,7 +62,7 @@ public class Login extends AppCompatActivity {
         Intent IntentTemp = new Intent(this, activityToRedirect);
         IntentTemp.putExtra(ExtraResource.USER_LOGIN, login);
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_LOGIN, login);
-        IntentTemp.putExtra(ExtraResource.DOCTOR_ID, userService.getUserByLogin(login).getId());
+        IntentTemp.putExtra(ExtraResource.DOCTOR_ID, userService.getUserByLogin(login).getId().toString());
         IntentTemp.putExtra(ExtraResource.USER_ROLE, role.toString());
         startActivity(IntentTemp);
     }
