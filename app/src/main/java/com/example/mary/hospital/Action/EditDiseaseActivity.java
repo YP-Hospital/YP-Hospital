@@ -52,8 +52,8 @@ public class EditDiseaseActivity extends AppCompatActivity {
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
         diseases = diseaseService.getAllUsersHistories(user);
         diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
-        if(diseaseNames.size() == 1 && diseaseNames.get(0).equals(""))
-            diseaseNames.clear();
+        //if(diseaseNames.size() == 1 && diseaseNames.get(0).equals(""))
+         //   diseaseNames.clear();
     }
 
     public void saveDisease(View view){
