@@ -47,28 +47,26 @@ public class ListOfUsersActivity extends AppCompatActivity {
         listView.invalidate();
     }
     public static void deleteUserFromDoctor(int position){
-        users.get(position).setDoctorID(0);
-        userService.updateUserInDB(users.get(position));
+        userService.deleteDoctorToUser(users.get(position));
         listView.invalidate();
     }
     public void createAndRepaintListView(int position){
         getUsersToDisplayAndFillTextsField(position);
-        Toast.makeText(getBaseContext(), "DoctID = " + users.get(0).getDoctorID()+ " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
-        listView = (ListView)findViewById(R.id.listOfUsersListView);
-        listView.setFocusable(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-                Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
-                IntentTemp.putExtra(ExtraResource.USER_LOGIN, users.get(position).getName());
-                IntentTemp.putExtra(ExtraResource.USER_ROLE, users.get(position).getRole().toString());
-                IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId().toString());
-                startActivity(IntentTemp);
-                Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        if(!names.isEmpty())
+        Toast.makeText(getBaseContext(), "DoctID = " + " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
+            listView = (ListView) findViewById(R.id.listOfUsersListView);
+            listView.setFocusable(true);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
+                    Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
+                    IntentTemp.putExtra(ExtraResource.USER_LOGIN, users.get(position).getName());
+                    IntentTemp.putExtra(ExtraResource.USER_ROLE, users.get(position).getRole().toString());
+                    IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId().toString());
+                    startActivity(IntentTemp);
+                    Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
+                }
+            });
             listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
     }
     public void createSpinner(){
