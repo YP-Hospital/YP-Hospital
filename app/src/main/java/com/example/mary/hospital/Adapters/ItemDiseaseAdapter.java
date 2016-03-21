@@ -35,7 +35,7 @@ public class ItemDiseaseAdapter extends ArrayAdapter<String> {
             convertView = inflater.inflate(layout, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) convertView.findViewById(R.id.itemTextView);
-            viewHolder.buttonAdd = (ImageView) convertView.findViewById(R.id.itemAddImage);
+            viewHolder.buttonAdd = (ImageView) convertView.findViewById(R.id.itemDiseaseEditImageView);
             convertView.setTag(viewHolder);
         }
         mainViewholder = (ViewHolder) convertView.getTag();

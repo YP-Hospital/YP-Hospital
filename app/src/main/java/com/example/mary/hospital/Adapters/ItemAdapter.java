@@ -39,17 +39,8 @@ public class ItemAdapter extends ArrayAdapter<String> {
             viewHolder.buttonAdd = (ImageView) convertView.findViewById(R.id.itemAddImage);
             viewHolder.buttonDelete = (ImageView) convertView.findViewById(R.id.itemDeleteImage);
             convertView.setTag(viewHolder);
-        } else {
-
         }
         mainViewholder = (ViewHolder) convertView.getTag();
-       /* if(mObjects.get(position).getDoctorID() == 0) {
-            mainViewholder.buttonAdd.setClickable(true);
-            mainViewholder.buttonDelete.setClickable(false);
-        } else {
-            mainViewholder.buttonAdd.setClickable(false);
-            mainViewholder.buttonDelete.setClickable(true);
-        }*/
         mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

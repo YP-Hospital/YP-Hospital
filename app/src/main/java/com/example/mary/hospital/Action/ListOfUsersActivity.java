@@ -42,14 +42,17 @@ public class ListOfUsersActivity extends AppCompatActivity {
         createAndRepaintListView(0);
         createSpinner();
     }
+
     public static void addUserToDoctor(int position){
         userService.setDoctorToUser(userService.getUserByLogin(doctorLogin), users.get(position));
         listView.invalidate();
     }
+
     public static void deleteUserFromDoctor(int position){
         userService.deleteDoctorToUser(users.get(position));
         listView.invalidate();
     }
+
     public void createAndRepaintListView(int position){
         getUsersToDisplayAndFillTextsField(position);
         Toast.makeText(getBaseContext(), "DoctID = " + " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
@@ -69,6 +72,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
             });
             listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
     }
+
     public void createSpinner(){
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfPatients);
         spinnerAdapter.notifyDataSetChanged();
