@@ -98,23 +98,15 @@
         android:id="@+id/showDiseaseShowKeyButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/showDiseaseSignature"
-        android:id="@+id/showDiseaseSignatureButton"
-        android:layout_alignTop="@+id/showDiseaseShowKeyButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/showDiseaseShowKeyButton" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/showDiseaseTextTextView"
+        android:layout_alignEnd="@+id/showDiseaseTextTextView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Last Modified Key and Signature"
+        android:text="Last Modified Key"
         android:id="@+id/textView11"
         android:layout_above="@+id/showDiseaseShowKeyButton"
         android:layout_alignParentLeft="true"
