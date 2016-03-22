@@ -48,6 +48,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
                 //v.setClickable(false);
                 v.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                v.invalidate();
             }
         });
 

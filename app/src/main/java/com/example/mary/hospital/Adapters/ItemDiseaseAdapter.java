@@ -42,7 +42,7 @@ public class ItemDiseaseAdapter extends ArrayAdapter<String> {
         mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListOfUsersActivity.addUserToDoctor(position);
+                //ListOfUsersActivity.addUserToDoctor(position);
                 //v.setClickable(false);
                 //v.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();

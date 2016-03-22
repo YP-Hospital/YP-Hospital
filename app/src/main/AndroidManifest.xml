@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
 
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +25,8 @@
         <activity android:name=".Action.Registration" />
         <activity android:name=".Action.UserActivity" />
         <activity android:name=".Action.EditDiseaseActivity" />
-        <activity android:name=".Action.ListOfUsersActivity"></activity>
+        <activity android:name=".Action.ListOfUsersActivity" />
+        <activity android:name=".Action.ShowDiseaseActivity"></activity>
     </application>
 
 </manifest>

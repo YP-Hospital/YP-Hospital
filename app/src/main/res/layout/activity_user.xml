@@ -38,16 +38,24 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_weight="0.93" />
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Diseases"
+            android:id="@+id/textView" />
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="203dp"
             android:id="@+id/userDiseaseListView"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/userDiseaseAddButton"
             android:layout_below="@+id/userInfoTextView"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            android:layout_weight="0.6" />
 
     </LinearLayout>
 </RelativeLayout>

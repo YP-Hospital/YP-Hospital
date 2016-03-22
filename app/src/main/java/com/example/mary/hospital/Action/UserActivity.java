@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.example.mary.hospital.Adapters.ItemDiseaseAdapter;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.DiseaseHistoryService;
@@ -31,22 +33,22 @@ public class UserActivity extends AppCompatActivity {
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
     private ListView listView;
+    private String userRole;
+    private Button addButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
+        userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         setContentView(R.layout.activity_user);
-        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        addButton = (Button) findViewById(R.id.userDiseaseAddButton);
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//исправить, с логина посылаю одно, с листа другое
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         listView = (ListView) findViewById(R.id.userDiseaseListView);
-        String str = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
-       // diseases = diseaseService.getAllUsersHistories(user);
+        diseases = diseaseService.getAllUsersHistories(user);
         diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
-       // if(diseases == null || diseases.isEmpty()) {
-        //    diseaseNames.clear();
-        //}
         createAndRepaintListView();
     }
 
@@ -56,12 +58,18 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(UserActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-                //Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
-
-                //startActivity(IntentTemp);
+                Intent IntentTemp = new Intent(view.getContext(), ShowDiseaseActivity.class);
+                startActivity(IntentTemp);
             }
         });
-        listView.setAdapter(new ItemDiseaseAdapter(this, R.layout.item_list_of_disease, diseaseNames));
+        if(userRole.equals(Role.Patient.toString())){
+            String[] str = new String[diseaseNames.size()];
+            str = diseaseNames.toArray(str);
+            listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str));
+            addButton.setVisibility(View.GONE);
+        } else {
+            listView.setAdapter(new ItemDiseaseAdapter(this, R.layout.item_list_of_disease, diseaseNames));
+        }
     }
 
     public void redirectToEditDisease(View view) {
