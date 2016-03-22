@@ -71,13 +71,6 @@ public class CertificateServiceImpl implements CertificateService {
         return getCertificates(query).get(0);
     }
 
-    public Certificate getCertificateBySignature(String signature) {
-        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
-                        + "*" + separatorForSending + "where" + separatorForSending
-                + Certificate.SIGNATURE_COLUMN + separatorForSending + signature;
-        return getCertificates(query).get(0);
-    }
-
     private void formListOfCertificates(List<Certificate> users, List<String> words) {
         Boolean isID = false, isOpenKey = false, isSignature = false, isDoctorID = false ;
         int i;
@@ -88,9 +81,6 @@ public class CertificateServiceImpl implements CertificateService {
                     break;
                 case Certificate.OPEN_KEY_COLUMN:
                     isOpenKey = true;
-                    break;
-                case Certificate.SIGNATURE_COLUMN:
-                    isSignature = true;
                     break;
                 case Certificate.DOCTOR_ID_COLUMN:
                     isDoctorID = true;
@@ -108,9 +98,6 @@ public class CertificateServiceImpl implements CertificateService {
             }
             if (isOpenKey) {
                 certificate.setOpenKey(words.get(i++));
-            }
-            if (isSignature) {
-                certificate.setSignature(words.get(i++));
             }
             if (isDoctorID) {
                 certificate.setDoctorID(Integer.valueOf(words.get(i++)));
