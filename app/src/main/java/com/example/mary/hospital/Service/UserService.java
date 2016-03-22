@@ -18,5 +18,6 @@ public interface UserService {
     List<User> getAllDoctors();
     Boolean setDoctorToUser(User doctor, User patient);
     Boolean setDoctorToUser(Integer id, User patient);
+    Boolean setDoctorToUser(String login, User patient);
     Boolean deleteDoctorToUser(User patient);
 }

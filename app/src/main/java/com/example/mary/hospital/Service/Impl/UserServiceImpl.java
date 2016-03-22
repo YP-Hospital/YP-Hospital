@@ -278,6 +278,13 @@ public class UserServiceImpl implements UserService {
         return useQuery(query);
     }
 
+    public Boolean setDoctorToUser(String login, User patient) {
+        User user = getUserByLogin(login);
+        return setDoctorToUser(user, patient);
+    }
+
+
+
     public Boolean deleteDoctorToUser(User patient) {
         User doc = new User();
         doc.setId(0);
