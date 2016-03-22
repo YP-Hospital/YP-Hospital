@@ -42,9 +42,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
         getUserRole();
         createAndRepaintListView(0);
         createSpinner();
-        AlertDialog dialog = DialogScreen.getDialog(this);
-        dialog.show();
-        initSettings(dialog);
 
     }
     void initSettings(AlertDialog dialog){

@@ -1,5 +1,6 @@
 package com.example.mary.hospital.Action;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,7 +58,8 @@ public class Registration extends AppCompatActivity {
                         User user = new User(login, password, name, role, age, phone);
                         String privateKey = userService.addUserInDB(user);
                         Boolean isSuccess = !privateKey.isEmpty();
-                        Toast.makeText(Registration.this, privateKey, Toast.LENGTH_LONG).show();//TODO Normal signal about PK
+                        //AlertDialog dialog = DialogScreen.getDialog(this, privateKey); //TODO change
+                        //dialog.show();
                         if (isSuccess) {
                             returnBack(view);
                         }
