@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private int booleanAnswer = 0;
     private int dataAnswer = 1;
     private String separator = "]\\[";
+    private String separatorForSending = "][";
     private final static String HASH_ALGORITHM = "SHA-256";
     private Context context;
 
@@ -46,7 +47,9 @@ public class UserServiceImpl implements UserService {
     public Boolean isUserExist(String login) {
         String result = "";
         try {
-            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ID_COLUMN + " where " + User.LOGIN_COLUMN + " " + login).get(booleanAnswer);
+            result = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE + separatorForSending
+                    + User.ID_COLUMN + separatorForSending + "where" + separatorForSending 
+                    + User.LOGIN_COLUMN + separatorForSending + login).get(booleanAnswer);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -58,8 +61,9 @@ public class UserServiceImpl implements UserService {
     public User signIn(String login, String password) {
         List<String> answerFromServer;
         try {
-            answerFromServer = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.PASSWORD_COLUMN
-                    + " " + User.ROLE_COLUMN + " where " + User.LOGIN_COLUMN + " " + login);
+            answerFromServer = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE
+                    + separatorForSending + User.PASSWORD_COLUMN + separatorForSending + User.ROLE_COLUMN
+                    + separatorForSending + "where" + separatorForSending + User.LOGIN_COLUMN + separatorForSending + login);
             if (answerFromServer.get(booleanAnswer).equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
@@ -190,7 +194,26 @@ public class UserServiceImpl implements UserService {
         String result = "";
         User user = null;
         try {
-            result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " * where " + User.LOGIN_COLUMN + " " + login).get(dataAnswer);
+            result = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE
+                    + separatorForSending + "*" + separatorForSending + "where" + separatorForSending
+                    + User.LOGIN_COLUMN + separatorForSending + login).get(dataAnswer);
+            user = stringToUsers(result).get(booleanAnswer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public User getUserById(Integer id) {
+        String result = "";
+        User user = null;
+        try {
+            result = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE
+                                                + separatorForSending + "*" + separatorForSending
+                                                + "where" + separatorForSending
+                                                + User.ID_COLUMN + separatorForSending + id).get(dataAnswer);
             user = stringToUsers(result).get(booleanAnswer);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -203,8 +226,10 @@ public class UserServiceImpl implements UserService {
     public Role getUsersRole(String login) {
         Role role = null;
         try {
-            String result = getAnswerFromServerForQuery("select " + User.DATABASE_TABLE + " " + User.ROLE_COLUMN
-                                                        + " where " + User.LOGIN_COLUMN + " " + login).get(dataAnswer);
+            String result = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE 
+                                                        + separatorForSending + User.ROLE_COLUMN 
+                                                        + separatorForSending + "where" + separatorForSending 
+                                                        + User.LOGIN_COLUMN + separatorForSending + login).get(dataAnswer);
             role = Role.valueOf(result.split(separator)[2]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -213,37 +238,46 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
-        String query = "select " + User.DATABASE_TABLE + " *";
+        String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending + "*";
         return getUsers(query);
     }
 
     public List<User> getAllPatients() {
-        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN + " " + Role.Patient;
+        String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending 
+                        + "*" + separatorForSending + "where" + separatorForSending
+                        + User.ROLE_COLUMN + separatorForSending + Role.Patient;
         return getUsers(query);
     }
 
     public List<User> getAllDoctors() {
-        String query = "select " + User.DATABASE_TABLE + " * where " + User.ROLE_COLUMN + " " + Role.Doctor;
+        String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending 
+                        + "*" + separatorForSending + "where" + separatorForSending
+                        + User.ROLE_COLUMN + separatorForSending + Role.Doctor;
         return getUsers(query);
     }
 
     /**DON"T RECOMMEND TO USE*/
     public Boolean updateUserInDB(User user) {
-        String query = "update " + User.DATABASE_TABLE + " " + User.LOGIN_COLUMN + " " + User.PASSWORD_COLUMN + " " + User.USER_NAME_COLUMN
-                        + " " + User.ROLE_COLUMN + " " + User.AGE_COLUMN + " " + User.PHONE_COLUMN + " " + User.DOCTOR_ID_COLUMN
-                        + " " + user.getLogin() + " " + user.getPassword() + " " + user.getName() + " " + user.getRole() + " " + user.getAge()
-                        + " " + user.getPhone() + " " + user.getDoctorID() + " " + user.getId();
+        String query = "update" + separatorForSending + User.DATABASE_TABLE + separatorForSending
+                + User.LOGIN_COLUMN + separatorForSending + User.PASSWORD_COLUMN + separatorForSending + User.USER_NAME_COLUMN
+                + separatorForSending + User.ROLE_COLUMN + separatorForSending + User.AGE_COLUMN + separatorForSending 
+                + User.PHONE_COLUMN + separatorForSending + User.DOCTOR_ID_COLUMN + separatorForSending 
+                + user.getLogin() + separatorForSending + user.getPassword() + separatorForSending + user.getName() 
+                + separatorForSending + user.getRole() + separatorForSending + user.getAge() + separatorForSending 
+                + user.getPhone() + separatorForSending + user.getDoctorID() + separatorForSending + user.getId();
         return useQuery(query);
     }
 
     public Boolean setDoctorToUser(User doctor, User patient) {
-        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getId() + " " + patient.getId();
+        String query = "update" + separatorForSending + User.DATABASE_TABLE + separatorForSending 
+                + User.DOCTOR_ID_COLUMN + separatorForSending + doctor.getId() + separatorForSending + patient.getId();
         return useQuery(query);
     }
 
     public Boolean setDoctorToUser(String login, User patient) {
         User doctor = getUserByLogin(login);
-        String query = "update " + User.DATABASE_TABLE + " " + User.DOCTOR_ID_COLUMN + " " + doctor.getId() + " " + patient.getId();
+        String query = "update" + separatorForSending + User.DATABASE_TABLE + separatorForSending 
+                + User.DOCTOR_ID_COLUMN + separatorForSending + doctor.getId() + separatorForSending + patient.getId();
         return useQuery(query);
     }
 

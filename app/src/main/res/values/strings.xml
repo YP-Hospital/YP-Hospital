@@ -18,7 +18,6 @@
     <string-array name="existingRoles">
         <item>Patient</item>
         <item>Doctor</item>
-        <item>Admin</item>
     </string-array>
     <string name="operation_complete">"Operation complete"</string>
     <string name="error">Error</string>

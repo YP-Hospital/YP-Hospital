@@ -11,7 +11,8 @@ public interface UserService {
     Boolean isUserExist(String name);
     User signIn(String name, String password);
     User getUserByLogin(String name);
-    Role getUsersRole(String name);
+    User getUserById(Integer id);
+    Role getUsersRole(String login);
     List<User> getAllUsers();
     List<User> getAllPatients();
     List<User> getAllDoctors();

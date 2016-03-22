@@ -24,6 +24,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     private int booleanAnswer = 0;
     private int dataAnswer = 1;
     private String separator = "]\\[";
+    private String separatorForSending = "][";
     private Context context;
     private DateFormat dateFormat;
     private CertificateService certificateService;
@@ -44,33 +45,40 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     /**
      * DOESN'T WORK!
      */
-    public Boolean updateHistoryInDB(DiseaseHistory history, String signature) {
-        return null;
-//        String query = "update " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN
-//                        + " " + DiseaseHistory.OPEN_DATE_COLUMN + " " + DiseaseHistory.CLOSE_DATE_COLUMN
-//                        + " " + DiseaseHistory.TEXT_COLUMN + " " + DiseaseHistory.PATIENT_ID_COLUMN
-//                        + " " + DiseaseHistory.LAST_MODIFIED_BY_COLUMN + " " + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN
-//                        + " " + history.getTitle() + " " + history.getOpenDate()
-//                        + " " + history.getCloseDate() + " " + history.getText()
-//                        + " " + history.getPatientID() + " " + user.getName()
-//                        + " " + certificate.getSignature() + " " + history.getId();
-//        return useQuery(query);
+    public Boolean updateHistoryInDB(DiseaseHistory history, String privateKey) {
+        String signature = certificateService.getSignatureByPrivateKey(privateKey);
+        if (signature.equals("false")) {
+            return false;
+        }
+        Certificate certificate = certificateService.getCertificateBySignature(signature);
+        User user = userService.getUserById(certificate.getDoctorID());
+        String query = "update" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + DiseaseHistory.TITLE_COLUMN
+                        + separatorForSending + DiseaseHistory.OPEN_DATE_COLUMN + separatorForSending + DiseaseHistory.CLOSE_DATE_COLUMN
+                        + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
+                        + separatorForSending + DiseaseHistory.LAST_MODIFIED_BY_COLUMN + separatorForSending
+                        + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
+                        + separatorForSending + history.getOpenDate() + separatorForSending + history.getCloseDate()
+                        + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
+                        + separatorForSending + user.getName() + separatorForSending + signature + separatorForSending + history.getId();
+        return useQuery(query);
     }
 
     public List<DiseaseHistory> getAllHistories() {
-        String query = "select " + DiseaseHistory.DATABASE_TABLE + " *";
+        String query = "select" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + "*";
         return getDiseaseHistories(query);
     }
 
     public List<DiseaseHistory> getAllUsersHistories(User user) {
-        String query = "select" + DiseaseHistory.DATABASE_TABLE + " * where " + DiseaseHistory.PATIENT_ID_COLUMN
-                        + " " + user.getId();
+        String query = "select" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending
+                        + "*" + separatorForSending + "where" + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
+                        + separatorForSending + user.getId();
         return getDiseaseHistories(query);
     }
 
     public List<String> getTitlesOfAllUsersHistories(User user) {
-        String query = "select " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN + " where " + DiseaseHistory.PATIENT_ID_COLUMN
-                + " " + user.getId();
+        String query = "select" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending
+                + DiseaseHistory.TITLE_COLUMN + separatorForSending + "where" + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
+                + separatorForSending + user.getId();
         List<String> allTitles = new ArrayList<>();
         try {
             String answer = getAnswerFromServerForQuery(query).get(dataAnswer);
