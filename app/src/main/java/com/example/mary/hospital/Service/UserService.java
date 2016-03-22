@@ -6,14 +6,15 @@ import com.example.mary.hospital.Model.Role;
 import java.util.List;
 
 public interface UserService {
-    Boolean addUserInDB(User user);
+    String addUserInDB(User user);
     Boolean updateUserInDB(User user);
     Boolean isUserExist(String name);
     User signIn(String name, String password);
     User getUserByLogin(String name);
     Role getUsersRole(String name);
     List<User> getAllUsers();
-    List<User> getAllPatient();
+    List<User> getAllPatients();
+    List<User> getAllDoctors();
     Boolean setDoctorToUser(User doctor, User patient);
     Boolean setDoctorToUser(String Login, User patient);
     Boolean deleteDoctorToUser(User patient);

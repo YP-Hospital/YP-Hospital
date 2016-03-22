@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.mary.hospital.Connection.Connector;
+import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.User;
+import com.example.mary.hospital.Service.CertificateService;
 import com.example.mary.hospital.Service.DiseaseHistoryService;
+import com.example.mary.hospital.Service.UserService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,9 +26,13 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     private String separator = "]\\[";
     private Context context;
     private DateFormat dateFormat;
+    private CertificateService certificateService;
+    private UserService userService;
 
     public DiseaseHistoryServiceImpl(Context context) {
         this.context = context;
+        certificateService = new CertificateServiceImpl(context);
+        userService = new UserServiceImpl(context);
         dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT, Locale.getDefault());
     }
 
@@ -34,18 +41,24 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return useQuery(query);
     }
 
-    public Boolean updateHistoryInDB(DiseaseHistory history) {
-        String query = "update " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN
-                        + " " + DiseaseHistory.OPEN_DATE_COLUMN + " " + DiseaseHistory.CLOSE_DATE_COLUMN
-                        + " " + DiseaseHistory.TEXT_COLUMN + DiseaseHistory.PATIENT_ID_COLUMN
-                        + " " + history.getTitle() + " " + history.getOpenDate()
-                        + " " + history.getCloseDate() + " " + history.getText()
-                        + " " + history.getPatientID() + " " + history.getId();
-        return useQuery(query);
+    /**
+     * DOESN'T WORK!
+     */
+    public Boolean updateHistoryInDB(DiseaseHistory history, String signature) {
+        return null;
+//        String query = "update " + DiseaseHistory.DATABASE_TABLE + " " + DiseaseHistory.TITLE_COLUMN
+//                        + " " + DiseaseHistory.OPEN_DATE_COLUMN + " " + DiseaseHistory.CLOSE_DATE_COLUMN
+//                        + " " + DiseaseHistory.TEXT_COLUMN + " " + DiseaseHistory.PATIENT_ID_COLUMN
+//                        + " " + DiseaseHistory.LAST_MODIFIED_BY_COLUMN + " " + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN
+//                        + " " + history.getTitle() + " " + history.getOpenDate()
+//                        + " " + history.getCloseDate() + " " + history.getText()
+//                        + " " + history.getPatientID() + " " + user.getName()
+//                        + " " + certificate.getSignature() + " " + history.getId();
+//        return useQuery(query);
     }
 
     public List<DiseaseHistory> getAllHistories() {
-        String query = " select " + DiseaseHistory.DATABASE_TABLE + " *";
+        String query = "select " + DiseaseHistory.DATABASE_TABLE + " *";
         return getDiseaseHistories(query);
     }
 
@@ -94,7 +107,9 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         if (isAllFields) {
             for (int i = 2; i < words.size(); i++) {
                 histories.add(new DiseaseHistory(Integer.getInteger(words.get(i++)), words.get(i++),
-                        dateFormat.parse(words.get(i++)), dateFormat.parse(words.get(i++)), words.get(i++),  Integer.valueOf(words.get(i++))));
+                        dateFormat.parse(words.get(i++)), dateFormat.parse(words.get(i++)),
+                        words.get(i++),  Integer.valueOf(words.get(i++)), words.get(i++),
+                        words.get(i++)));
             }
         } else {
             formListOfHistories(histories, words);
@@ -103,7 +118,8 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     }
 
     private void formListOfHistories(List<DiseaseHistory> histories, List<String> words) throws Exception{
-        Boolean isID = false, isTitle = false, isOpenDate = false, isCloseDate = false, isText = false, isPatient = false;
+        Boolean isID = false, isTitle = false, isOpenDate = false, isCloseDate = false, isText = false,
+                isPatient = false, isLastModifiedBy = false, isSignature = false;
         int i;
         for (i = 0; !words.get(i).equals("0."); i++) {
             switch (words.get(i)) {
@@ -124,6 +140,12 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                     break;
                 case DiseaseHistory.PATIENT_ID_COLUMN:
                     isPatient = true;
+                    break;
+                case DiseaseHistory.LAST_MODIFIED_BY_COLUMN:
+                    isLastModifiedBy = true;
+                    break;
+                case DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN:
+                    isSignature = true;
                     break;
             }
         }
@@ -150,6 +172,12 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
             }
             if (isPatient) {
                 diseaseHistory.setPatientID(Integer.valueOf(words.get(i++)));
+            }
+            if (isLastModifiedBy) {
+                diseaseHistory.setLastModifiedBy(words.get(i++));
+            }
+            if (isSignature) {
+                diseaseHistory.setSignatureOfLastModified(words.get(i++));
             }
             histories.add(diseaseHistory);
         }

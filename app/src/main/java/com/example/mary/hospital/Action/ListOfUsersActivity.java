@@ -104,7 +104,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         if(!users.isEmpty())
             users.clear();
         if (userRole.equals(Role.Doctor.toString())) {
-            patients = userService.getAllPatient();
+            patients = userService.getAllPatients();
         } else {
             patients = userService.getAllUsers();
         }

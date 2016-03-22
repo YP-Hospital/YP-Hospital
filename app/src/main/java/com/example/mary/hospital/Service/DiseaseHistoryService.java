@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DiseaseHistoryService {
     Boolean addHistoryInDB(DiseaseHistory history);
-    Boolean updateHistoryInDB(DiseaseHistory history);
+    Boolean updateHistoryInDB(DiseaseHistory history, String signature);
     List<DiseaseHistory> getAllHistories();
     List<DiseaseHistory> getAllUsersHistories(User user);
     List<String> getTitlesOfAllUsersHistories(User user);

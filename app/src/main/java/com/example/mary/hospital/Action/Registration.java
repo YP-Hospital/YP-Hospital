@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
@@ -54,7 +55,9 @@ public class Registration extends AppCompatActivity {
                         this.login = login;
                         this.password = password;
                         User user = new User(login, password, name, role, age, phone);
-                        Boolean isSuccess = userService.addUserInDB(user);
+                        String privateKey = userService.addUserInDB(user);
+                        Boolean isSuccess = !privateKey.isEmpty();
+                        Toast.makeText(Registration.this, privateKey, Toast.LENGTH_LONG).show();//TODO Normal signal about PK
                         if (isSuccess) {
                             returnBack(view);
                         }

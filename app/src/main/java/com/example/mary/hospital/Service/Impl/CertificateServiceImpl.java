@@ -8,9 +8,11 @@ import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Service.CertificateService;
+import com.example.mary.hospital.Service.UserService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -20,9 +22,11 @@ public class CertificateServiceImpl implements CertificateService {
     private int dataAnswer = 1;
     private String separator = "]\\[";
     private Context context;
+    private UserService userService;
 
     public CertificateServiceImpl(Context context) {
         this.context = context;
+        userService = new UserServiceImpl(context);
     }
 
     public List<Certificate> getAllCertificates() {
@@ -31,9 +35,25 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     public Map<String, Certificate> getAllCertificatesWithUsersNames() {
+        Map<String, Certificate> usersNameToCertificates = new HashMap<>();
         String query = "select " + Certificate.DATABASE_TABLE + " *";
         List<Certificate> certificates = getCertificates(query);
-        return null;
+        List<User> users = userService.getAllDoctors();
+        for (Certificate certificate : certificates) {
+            for (User user : users) {
+                if (user.getId().equals(certificate.getDoctorID())) {
+                    usersNameToCertificates.put(user.getName(), certificate);
+                    break;
+                }
+            }
+        }
+        return usersNameToCertificates;
+    }
+
+    public Certificate getCertificateByUser(User user) {
+        String query = "select " + Certificate.DATABASE_TABLE + " * where "
+                        + Certificate.DOCTOR_ID_COLUMN + " " + user.getId();
+        return getCertificates(query).get(0);
     }
 
     private void formListOfCertificates(List<Certificate> users, List<String> words) {
