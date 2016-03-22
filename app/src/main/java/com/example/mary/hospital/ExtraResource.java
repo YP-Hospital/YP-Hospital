@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 
 public class ExtraResource {
     public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
-    public static final String CURRENT_DOCTOR_LOGIN = "com.example.mary.hospital.DOCTOR_LOGIN";
+    public static final String CURRENT_DOCTOR_ID = "com.example.mary.hospital.CURRENT_DOCTOR_ID";
     public static final String DOCTOR_ID = "com.example.mary.hospital.USER_ID";
     public static final String PATIENT_ID = "com.example.mary.hospital.PATIENT_ID";
     public static final String USER_ROLE = "com.example.mary.hospital.USER_ROLE";

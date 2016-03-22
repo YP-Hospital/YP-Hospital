@@ -27,7 +27,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
 
     private static UserService userService;
     private String userRole;
-    private static String doctorLogin;
+    private static String doctorID;
     private final String[] typeOfPatients = {"All","My"};
     private static ArrayList<User> users;
     private static ListView listView;
@@ -44,7 +44,8 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
 
     public static void addUserToDoctor(int position){
-        userService.setDoctorToUser(doctorLogin, users.get(position));
+        int temp = Integer.parseInt(doctorID);
+        userService.setDoctorToUser(temp, users.get(position));
         listView.invalidate();
     }
 
@@ -134,6 +135,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
     private void getUserRole() {
         Intent intent = getIntent();
         userRole = intent.getStringExtra(ExtraResource.USER_ROLE);
-        doctorLogin = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_LOGIN);
+        doctorID = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
     }
 }
