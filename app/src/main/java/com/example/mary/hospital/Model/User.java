@@ -1,6 +1,8 @@
 package com.example.mary.hospital.Model;
 
 
+import com.example.mary.hospital.ExtraResource;
+
 public class User {
 
     public static final String DATABASE_TABLE = "users";
@@ -131,13 +133,14 @@ public class User {
     }
 
     public String getStringToInsertInServer(){
-        return "insert " + DATABASE_TABLE + " " + login
-                + " " + password
-                + " " + name
-                + " " + role
-                + " " + age
-                + " " + phone
-                + " " + doctorID;
+        return "insert" + ExtraResource.separatorForSending + DATABASE_TABLE
+                + ExtraResource.separatorForSending + login
+                + ExtraResource.separatorForSending + password
+                + ExtraResource.separatorForSending + name
+                + ExtraResource.separatorForSending + role
+                + ExtraResource.separatorForSending + age
+                + ExtraResource.separatorForSending + phone
+                + ExtraResource.separatorForSending + doctorID;
     }
 
     @Override

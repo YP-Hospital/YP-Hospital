@@ -1,5 +1,7 @@
 package com.example.mary.hospital.Model;
 
+import com.example.mary.hospital.ExtraResource;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -74,10 +76,10 @@ public class DiseaseHistory {
     }
 
     public String getStringToInsert() {
-        return "insert " + DATABASE_TABLE + " " + title + " "
-                + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(openDate)) + " "
+        return "insert" + ExtraResource.separatorForSending + DATABASE_TABLE + ExtraResource.separatorForSending + title + ExtraResource.separatorForSending
+                + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(openDate)) + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(closeDate))
-                + " " + text + " " + patientID;
+                + ExtraResource.separatorForSending + text + ExtraResource.separatorForSending + patientID;
     }
 
     public String getTitle() {

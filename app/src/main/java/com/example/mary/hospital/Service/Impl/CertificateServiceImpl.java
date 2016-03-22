@@ -10,6 +10,7 @@ import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Service.CertificateService;
 import com.example.mary.hospital.Service.UserService;
 
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class CertificateServiceImpl implements CertificateService {
     private int booleanAnswer = 0;
     private int dataAnswer = 1;
     private String separator = "]\\[";
+    private String separatorForSending = "][";
     private Context context;
     private UserService userService;
 
@@ -30,13 +32,25 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     public List<Certificate> getAllCertificates() {
-        String query = "select " + Certificate.DATABASE_TABLE + " *";
+        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + "*";
         return getCertificates(query);
+    }
+
+    public String getSignatureByPrivateKey(String privateKey) {
+        String messageForServer = "check" + separatorForSending + privateKey;
+        try {
+            return getAnswerFromServerForQuery(messageForServer).get(0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Map<String, Certificate> getAllCertificatesWithUsersNames() {
         Map<String, Certificate> usersNameToCertificates = new HashMap<>();
-        String query = "select " + Certificate.DATABASE_TABLE + " *";
+        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + "*";
         List<Certificate> certificates = getCertificates(query);
         List<User> users = userService.getAllDoctors();
         for (Certificate certificate : certificates) {
@@ -51,8 +65,16 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     public Certificate getCertificateByUser(User user) {
-        String query = "select " + Certificate.DATABASE_TABLE + " * where "
-                        + Certificate.DOCTOR_ID_COLUMN + " " + user.getId();
+        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + "*"
+                        + separatorForSending + "where" + separatorForSending
+                        + Certificate.DOCTOR_ID_COLUMN + separatorForSending + user.getId();
+        return getCertificates(query).get(0);
+    }
+
+    public Certificate getCertificateBySignature(String signature) {
+        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
+                        + "*" + separatorForSending + "where" + separatorForSending
+                + Certificate.SIGNATURE_COLUMN + separatorForSending + signature;
         return getCertificates(query).get(0);
     }
 
