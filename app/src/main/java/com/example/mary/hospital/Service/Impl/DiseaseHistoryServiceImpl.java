@@ -45,13 +45,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     /**
      * DOESN'T WORK!
      */
-    public Boolean updateHistoryInDB(DiseaseHistory history, String privateKey) {
-        String signature = certificateService.getSignatureByPrivateKey(privateKey);
-        if (signature.equals("false")) {
-            return false;
-        }
-        Certificate certificate = certificateService.getCertificateBySignature(signature);
-        User user = userService.getUserById(certificate.getDoctorID());
+    public Boolean updateHistoryInDB(DiseaseHistory history, User user, String privateKey) {
         String query = "update" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + DiseaseHistory.TITLE_COLUMN
                         + separatorForSending + DiseaseHistory.OPEN_DATE_COLUMN + separatorForSending + DiseaseHistory.CLOSE_DATE_COLUMN
                         + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
@@ -59,7 +53,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                         + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
                         + separatorForSending + history.getOpenDate() + separatorForSending + history.getCloseDate()
                         + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
-                        + separatorForSending + user.getName() + separatorForSending + signature + separatorForSending + history.getId();
+                        + separatorForSending + user.getName() + separatorForSending + history.getId() + privateKey;
         return useQuery(query);
     }
 

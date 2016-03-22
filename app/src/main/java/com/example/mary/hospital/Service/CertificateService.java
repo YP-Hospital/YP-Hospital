@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface CertificateService {
     Certificate getCertificateByUser(User user);
-    Certificate getCertificateBySignature(String signature);
     String getSignatureByPrivateKey(String privateKey);
     List<Certificate> getAllCertificates();
     Map<String, Certificate> getAllCertificatesWithUsersNames();
