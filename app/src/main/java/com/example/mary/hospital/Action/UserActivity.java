@@ -43,6 +43,7 @@ public class UserActivity extends AppCompatActivity {
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         setContentView(R.layout.activity_user);
         addButton = (Button) findViewById(R.id.userDiseaseAddButton);
+        String temp = getIntent().getStringExtra(ExtraResource.USER_LOGIN);
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//исправить, с логина посылаю одно, с листа другое
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
