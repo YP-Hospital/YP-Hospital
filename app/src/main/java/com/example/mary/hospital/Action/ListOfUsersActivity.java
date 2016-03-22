@@ -1,5 +1,6 @@
 package com.example.mary.hospital.Action;
 //check
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,13 @@ public class ListOfUsersActivity extends AppCompatActivity {
         getUserRole();
         createAndRepaintListView(0);
         createSpinner();
+        AlertDialog dialog = DialogScreen.getDialog(this);
+        dialog.show();
+        initSettings(dialog);
+
+    }
+    void initSettings(AlertDialog dialog){
+
     }
 
     public static void addUserToDoctor(int position){
@@ -135,6 +143,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
     private void getUserRole() {
         Intent intent = getIntent();
         userRole = intent.getStringExtra(ExtraResource.USER_ROLE);
-        doctorID = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+        doctorID = intent.getStringExtra(ExtraResource.USER_ID);
     }
 }
