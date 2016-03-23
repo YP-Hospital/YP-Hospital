@@ -24,9 +24,8 @@
         </activity>
         <activity android:name=".Action.Registration" />
         <activity android:name=".Action.UserActivity" />
-        <activity android:name=".Action.EditDiseaseActivity" />
+        <activity android:name=".Action.DiseaseActivity" />
         <activity android:name=".Action.ListOfUsersActivity" />
-        <activity android:name=".Action.ShowDiseaseActivity" />
         <activity android:name=".Action.CertificatesActivity"></activity>
     </application>
 
