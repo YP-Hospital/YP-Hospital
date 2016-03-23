@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
 import com.example.mary.hospital.ExtraResource;
-import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.R;
@@ -257,22 +256,22 @@ public class UserServiceImpl implements UserService {
         return getUsers(query);
     }
 
-    public List<User> getDoctorsPatients(User doctor) {
-        return getDoctorsPatients(doctor.getId());
+    public List<User> getPatientsByDoctor(User doctor) {
+        return getPatientsByDoctor(doctor.getId());
     }
 
-    public List<User> getDoctorsPatients(Integer doctorID) {
+    public List<User> getPatientsByDoctor(Integer doctorID) {
         String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending
                 + "*" + separatorForSending + "where" + separatorForSending
                 + User.DOCTOR_ID_COLUMN + separatorForSending + doctorID;
         return getUsers(query);
     }
 
-    public List<String> getNamesOfDoctorsPatients(User doctor) {
-        return getNamesOfDoctorsPatients(doctor.getId());
+    public List<String> getNamesOfPatientsByDoctor(User doctor) {
+        return getNamesOfPatientsByDoctor(doctor.getId());
     }
 
-    public List<String> getNamesOfDoctorsPatients(Integer doctorID) {
+    public List<String> getNamesOfPatientsByDoctor(Integer doctorID) {
         String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending
                 + User.USER_NAME_COLUMN + separatorForSending + "where" + separatorForSending + User.DOCTOR_ID_COLUMN
                 + separatorForSending + doctorID;
