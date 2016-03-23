@@ -64,15 +64,16 @@ public class EditDiseaseActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
         Integer idi = Integer.parseInt(id);
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
-            ExtraResource.showErrorDialog(R.string.error_name_exist, EditDiseaseActivity.this);
+            ExtraResource.showErrorDialog(R.string.error_field_required, EditDiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
             DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                     parseStringToDate(closeDateS), textS, idi);
             diseaseService.addHistoryInDB(temp);
         } else {
-            ExtraResource.showErrorDialog(R.string.error_field_required, this);
+            ExtraResource.showErrorDialog(R.string.incorrect_date_format, this);
         }
     }
+
     private Boolean isStringParsibleToDate(String str){
         SimpleDateFormat format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
         try {
@@ -82,6 +83,7 @@ public class EditDiseaseActivity extends AppCompatActivity {
         }
         return true;
     }
+
     private Date parseStringToDate(String str){
         SimpleDateFormat format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
         Date date;
@@ -91,5 +93,9 @@ public class EditDiseaseActivity extends AppCompatActivity {
             return null;
         }
         return date;
+    }
+
+    public void returnBack(View view) {
+
     }
 }
