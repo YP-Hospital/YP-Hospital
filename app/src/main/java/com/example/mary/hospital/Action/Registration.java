@@ -15,7 +15,7 @@ import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
-//TODO Login and Name - different things
+
 public class Registration extends AppCompatActivity {
 
     private UserService userService;
