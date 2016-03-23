@@ -19,9 +19,9 @@ public class TCPClient {
  //   public static final String SERVER_IP = "10.160.16.230"; /** For GrishaServ */
 //    public static final String SERVER_IP = "10.160.16.174"; /** For MashaServ */
 //    public static final String SERVER_IP = "10.150.5.140"; /** For 507 univer */
-//   public static final String SERVER_IP = "192.168.1.3"; /** Grisha some wi-fi */
+  public static final String SERVER_IP = "192.168.1.3"; /** Grisha some wi-fi */
 //    public static final String SERVER_IP = "172.20.217.98"; /** For wi-fi on work */
-    public static final String SERVER_IP = "172.20.44.45"; /** For web on work */
+ //   public static final String SERVER_IP = "172.20.44.45"; /** For web on work */
 
     private DataOutputStream outputStream;
     private DataInputStream inputStream;
