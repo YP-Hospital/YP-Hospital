@@ -44,9 +44,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
         createSpinner();
 
     }
-    void initSettings(AlertDialog dialog){
-
-    }
 
     public static void addUserToDoctor(int position){
         int temp = Integer.parseInt(doctorID);
@@ -61,22 +58,22 @@ public class ListOfUsersActivity extends AppCompatActivity {
 
     public void createAndRepaintListView(int position){
         getUsersToDisplayAndFillTextsField(position);
-        Toast.makeText(getBaseContext(), "DoctID = " + " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), "DoctID = " + " " + (getIntent().getStringExtra(ExtraResource.DOCTOR_ID)), Toast.LENGTH_SHORT).show();
             listView = (ListView) findViewById(R.id.listOfUsersListView);
             listView.setFocusable(true);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
                     Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
                     IntentTemp.putExtra(ExtraResource.USER_LOGIN, users.get(position).getLogin());
                     IntentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
                     IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId().toString());
                     startActivity(IntentTemp);
-                    Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
                 }
             });
-            listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, names));
+            listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, position, names, Integer.parseInt(doctorID)));
     }
 
     public void createSpinner(){
@@ -119,7 +116,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 names.add(patient.getName());
                 users.add(patient);
             } else {
-                if (patient.getDoctorID().toString().equals(getIntent().getStringExtra(ExtraResource.DOCTOR_ID))) {
+                if (patient.getDoctorID().toString().equals(doctorID)) {
                     names.add(patient.getName());
                     users.add(patient);
                 }
@@ -140,6 +137,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
     private void getUserRole() {
         Intent intent = getIntent();
         userRole = intent.getStringExtra(ExtraResource.USER_ROLE);
-        doctorID = intent.getStringExtra(ExtraResource.USER_ID);
+        doctorID = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
     }
 }

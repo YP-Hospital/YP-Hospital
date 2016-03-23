@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
     private void redirectToHomePage(String login, Role role, Class activityToRedirect) {
         Intent IntentTemp = new Intent(this, activityToRedirect);
         IntentTemp.putExtra(ExtraResource.USER_LOGIN, login);
-        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userService.getUserByLogin(login).getDoctorID().toString());
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userService.getUserByLogin(login).getId().toString());
         IntentTemp.putExtra(ExtraResource.USER_ID, userService.getUserByLogin(login).getId().toString());
         IntentTemp.putExtra(ExtraResource.USER_ROLE, role.toString());
         startActivity(IntentTemp);
