@@ -31,6 +31,6 @@
     <string name="no_connection">No connection</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="showDiseaseSignature">Signature</string>
-    <string name="dialog_settings_title">dialog_show_key</string>
+    <string name="dialog_show_key">This is your private key</string>
     <string name="attention">Attention</string>
 </resources>

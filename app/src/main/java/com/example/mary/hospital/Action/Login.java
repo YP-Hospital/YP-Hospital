@@ -1,5 +1,6 @@
 package com.example.mary.hospital.Action;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,12 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
         fillLoginAndPassword();
+        String key = getIntent().getStringExtra(ExtraResource.USER_PRIVATE_KEY);
+        String role = getIntent().getStringExtra(ExtraResource.USER_ROLE);
+        if(key != null && role.equals(Role.Doctor.toString())){
+            AlertDialog dialog = DialogScreen.getDialog(this, key);
+            dialog.show();
+        }
     }
 
     private void fillLoginAndPassword() {
@@ -61,7 +68,7 @@ public class Login extends AppCompatActivity {
     private void redirectToHomePage(String login, Role role, Class activityToRedirect) {
         Intent IntentTemp = new Intent(this, activityToRedirect);
         IntentTemp.putExtra(ExtraResource.USER_LOGIN, login);
-        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userService.getUserByLogin(login).getDoctorID().toString());
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userService.getUserByLogin(login).getId().toString());
         IntentTemp.putExtra(ExtraResource.USER_ID, userService.getUserByLogin(login).getId().toString());
         IntentTemp.putExtra(ExtraResource.USER_ROLE, role.toString());
         startActivity(IntentTemp);

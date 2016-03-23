@@ -21,11 +21,16 @@ import java.util.List;
  */
 public class ItemAdapter extends ArrayAdapter<String> {
     private int layout;
-    private List<User> mObjects;
-    public ItemAdapter(Context context, int resource, List<User> objects, List<String> names) {
+    private List<User> users;
+    private int AllOrMy; // 0 if selected All, 1 if My
+    private int doctorID;
+
+    public ItemAdapter(Context context, int resource, List<User> users, int AllOrMy, List<String> names, int doctorID) {
         super(context, resource, names);
-        mObjects = objects;
+        this.users = users;
         layout = resource;
+        this.AllOrMy = AllOrMy;
+        this.doctorID = doctorID;
     }
 
     @Override
@@ -41,11 +46,20 @@ public class ItemAdapter extends ArrayAdapter<String> {
             convertView.setTag(viewHolder);
         }
         mainViewholder = (ViewHolder) convertView.getTag();
+        if(AllOrMy == 0){
+            mainViewholder.buttonDelete.setVisibility(View.GONE);
+            if(users.get(position).getDoctorID() == doctorID){
+                mainViewholder.buttonAdd.setVisibility(View.GONE);
+            } else {
+                mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
+            }
+        } else {
+            mainViewholder.buttonAdd.setVisibility(View.GONE);
+        }
         mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ListOfUsersActivity.addUserToDoctor(position);
-                //v.setClickable(false);
                 v.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                 v.invalidate();
@@ -56,7 +70,6 @@ public class ItemAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 ListOfUsersActivity.deleteUserFromDoctor(position);
-                //v.setClickable(false);
                 v.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                 v.invalidate();

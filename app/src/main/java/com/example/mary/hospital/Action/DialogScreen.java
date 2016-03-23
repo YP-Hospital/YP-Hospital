@@ -25,16 +25,16 @@ public class DialogScreen {
         builder.setView(view);
         Button copy = (Button)view.findViewById(R.id.dialogCopyButton);
         editText = (EditText)view.findViewById(R.id.dialogEditText);
-        builder.setTitle(R.string.dialog_settings_title);
+        builder.setTitle(R.string.dialog_show_key);
         key = k;
-
+        editText.setText(key);
+        copy.setVisibility(View.GONE);
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 //ClipData clip = ClipData.newPlainText(label, text);
                 //clipboard.setPrimaryClip(clip);
-                editText.setText(key);
             }
         });
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
