@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
 import com.example.mary.hospital.ExtraResource;
+import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.R;
@@ -254,6 +255,43 @@ public class UserServiceImpl implements UserService {
                         + "*" + separatorForSending + "where" + separatorForSending
                         + User.ROLE_COLUMN + separatorForSending + Role.Doctor;
         return getUsers(query);
+    }
+
+    public List<User> getDoctorsPatients(User doctor) {
+        return getDoctorsPatients(doctor.getId());
+    }
+
+    public List<User> getDoctorsPatients(Integer doctorID) {
+        String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending
+                + "*" + separatorForSending + "where" + separatorForSending
+                + User.DOCTOR_ID_COLUMN + separatorForSending + doctorID;
+        return getUsers(query);
+    }
+
+    public List<String> getNamesOfDoctorsPatients(User doctor) {
+        return getNamesOfDoctorsPatients(doctor.getId());
+    }
+
+    public List<String> getNamesOfDoctorsPatients(Integer doctorID) {
+        String query = "select" + separatorForSending + User.DATABASE_TABLE + separatorForSending
+                + User.USER_NAME_COLUMN + separatorForSending + "where" + separatorForSending + User.DOCTOR_ID_COLUMN
+                + separatorForSending + doctorID;
+        List<String> allNames = new ArrayList<>();
+        try {
+            String answer = getAnswerFromServerForQuery(query).get(dataAnswer);
+            List<String> words = new ArrayList<>(Arrays.asList(answer.split(separator)));
+            for (String word : words) {
+                if (word.matches("[0-9]+.") || word.equals(User.USER_NAME_COLUMN) || word.isEmpty()) {
+                    continue;
+                }
+                allNames.add(word);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return allNames;
     }
 
     /**DON"T RECOMMEND TO USE*/
