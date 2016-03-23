@@ -18,6 +18,7 @@ public class DiseaseHistory {
     public static final String LAST_MODIFIED_BY_COLUMN = "last_modified_by";
     public static final String SIGNATURE_OF_LAST_MODIFIED_COLUMN = "signature_of_last_modified";
     public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String DATE_FORMAT_FROM_DB = "yyyy-MM-dd";
 
     private Integer id;
     private String title;
@@ -79,7 +80,9 @@ public class DiseaseHistory {
         return "insert" + ExtraResource.separatorForSending + DATABASE_TABLE + ExtraResource.separatorForSending + title + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(openDate)) + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(closeDate))
-                + ExtraResource.separatorForSending + text + ExtraResource.separatorForSending + patientID;
+                + ExtraResource.separatorForSending + text + ExtraResource.separatorForSending + patientID
+                + ExtraResource.separatorForSending + lastModifiedBy + ExtraResource.separatorForSending
+                + signatureOfLastModified;
     }
 
     public String getTitle() {

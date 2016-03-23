@@ -34,7 +34,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         this.context = context;
         certificateService = new CertificateServiceImpl(context);
         userService = new UserServiceImpl(context);
-        dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT, Locale.getDefault());
+        dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT_FROM_DB, Locale.getDefault());
     }
 
     public Boolean addHistoryInDB(DiseaseHistory history) {
@@ -55,6 +55,21 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                         + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
                         + separatorForSending + user.getName() + separatorForSending + history.getId() + privateKey;
         return useQuery(query);
+    }
+
+    public DiseaseHistory getHistoryById(Integer id) {
+        String result = "";
+        DiseaseHistory history = null;
+        try {
+            result = getAnswerFromServerForQuery("select" + separatorForSending + DiseaseHistory.DATABASE_TABLE
+                    + separatorForSending + "*" + separatorForSending
+                    + "where" + separatorForSending
+                    + DiseaseHistory.ID_COLUMN + separatorForSending + id).get(dataAnswer);
+            history = stringToHistories(result).get(booleanAnswer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return history;
     }
 
     public List<DiseaseHistory> getAllHistories() {
@@ -108,9 +123,9 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         Boolean isAllFields = words.get(0).equals("*");
         if (isAllFields) {
             for (int i = 2; i < words.size(); i++) {
-                histories.add(new DiseaseHistory(Integer.getInteger(words.get(i++)), words.get(i++),
+                histories.add(new DiseaseHistory(Integer.parseInt(words.get(i++)), words.get(i++),
                         dateFormat.parse(words.get(i++)), dateFormat.parse(words.get(i++)),
-                        words.get(i++),  Integer.valueOf(words.get(i++)), words.get(i++),
+                        words.get(i++), Integer.valueOf(words.get(i++)), words.get(i++),
                         words.get(i++)));
             }
         } else {

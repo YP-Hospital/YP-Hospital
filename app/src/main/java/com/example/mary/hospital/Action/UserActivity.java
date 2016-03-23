@@ -22,9 +22,8 @@ import com.example.mary.hospital.Service.Impl.DiseaseHistoryServiceImpl;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
-
+//TODO Text area write in top
 
 public class UserActivity extends AppCompatActivity {
 
@@ -43,7 +42,7 @@ public class UserActivity extends AppCompatActivity {
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         setContentView(R.layout.activity_user);
         addButton = (Button) findViewById(R.id.userDiseaseAddButton);
-        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//исправить, с логина посылаю одно, с листа другое
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//TODO исправить, с логина посылаю одно, с листа другое
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         listView = (ListView) findViewById(R.id.userDiseaseListView);
@@ -58,8 +57,10 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(UserActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
-                Intent IntentTemp = new Intent(view.getContext(), ShowDiseaseActivity.class);
-                startActivity(IntentTemp);
+                Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
+                intentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+                intentTemp.putExtra(ExtraResource.DISEASE_ID, diseases.get(position).getId());
+                startActivity(intentTemp);
             }
         });
         if(userRole.equals(Role.Patient.toString())){
@@ -73,7 +74,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void redirectToEditDisease(View view) {
-        Intent IntentTemp = new Intent(this, EditDiseaseActivity.class);
+        Intent IntentTemp = new Intent(this, DiseaseActivity.class);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
         IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
         startActivity(IntentTemp);
