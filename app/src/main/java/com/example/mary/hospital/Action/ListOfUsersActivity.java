@@ -42,7 +42,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
         getUserRole();
         createAndRepaintListView(0);
         createSpinner();
-
     }
 
     public static void addUserToDoctor(int position){

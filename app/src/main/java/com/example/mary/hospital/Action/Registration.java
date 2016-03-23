@@ -22,6 +22,8 @@ public class Registration extends AppCompatActivity {
     private String currentUserName;
     private String login;
     private String password;
+    private String privateKey;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,14 @@ public class Registration extends AppCompatActivity {
                     String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
                     Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
                     Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
+                    this.role = role.toString();
                     if (login.isEmpty() || name.isEmpty() || password.isEmpty() || phone.isEmpty()) {
                         ExtraResource.showErrorDialog(R.string.error_field_required, Registration.this);
                     } else {
                         this.login = login;
                         this.password = password;
                         User user = new User(login, password, name, role, age, phone);
-                        String privateKey = userService.addUserInDB(user);
+                        privateKey = userService.addUserInDB(user);
                         Boolean isSuccess = !privateKey.isEmpty();
                         //AlertDialog dialog = DialogScreen.getDialog(this, privateKey); //TODO change
                         //dialog.show();
@@ -82,6 +85,8 @@ public class Registration extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             intent.putExtra(ExtraResource.USER_LOGIN, this.login);
             intent.putExtra(ExtraResource.USER_PASSWORD, this.password);
+            intent.putExtra(ExtraResource.USER_PRIVATE_KEY, this.privateKey);
+            intent.putExtra(ExtraResource.USER_ROLE, this.role);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, Login.class);//TODO Change on activity, where is button will be
