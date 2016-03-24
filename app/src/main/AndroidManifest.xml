@@ -26,7 +26,8 @@
         <activity android:name=".Action.UserActivity" />
         <activity android:name=".Action.DiseaseActivity" />
         <activity android:name=".Action.ListOfUsersActivity" />
-        <activity android:name=".Action.CertificatesActivity"></activity>
+        <activity android:name=".Action.CertificatesActivity" />
+        <activity android:name=".Action.DialogEnterPrivateKEy"></activity>
     </application>
 
 </manifest>
