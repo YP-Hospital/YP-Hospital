@@ -39,6 +39,7 @@ public class UserActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String qwe = getIntent().getStringExtra(ExtraResource.USER_LOGIN);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
@@ -80,7 +81,7 @@ public class UserActivity extends AppCompatActivity {
     public void redirectToEditDisease(View view) {
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-        IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
         startActivity(IntentTemp);
     }

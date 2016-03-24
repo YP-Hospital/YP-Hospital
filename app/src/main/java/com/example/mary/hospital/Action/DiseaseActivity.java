@@ -1,6 +1,5 @@
 package com.example.mary.hospital.Action;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -53,7 +52,7 @@ public class DiseaseActivity extends AppCompatActivity {
         if (currentHistoryID != 0) {
             fillFields();
         }
-        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         diseases = diseaseService.getAllUsersHistories(user);
         diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
     }
@@ -76,8 +75,8 @@ public class DiseaseActivity extends AppCompatActivity {
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
             ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
-            AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
-            dialog.show();
+//            AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
+//            dialog.show();
            /// DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                //     parseStringToDate(closeDateS), textS, idi);
             //diseaseService.addHistoryInDB(temp);

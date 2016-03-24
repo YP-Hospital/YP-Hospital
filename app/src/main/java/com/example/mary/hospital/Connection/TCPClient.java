@@ -14,9 +14,9 @@ import java.util.List;
 public class TCPClient {
 
     public static final int SERVER_PORT = 8080;
-//    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
+    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
 //    public static final String SERVER_IP = "127.0.0.1"; /** For locallhost */
-    public static final String SERVER_IP = "192.168.43.161"; /** For Masha mobile my comp */
+//    public static final String SERVER_IP = "192.168.43.161"; /** For Masha mobile Grisha comp */
  //   public static final String SERVER_IP = "10.160.16.230"; /** For GrishaServ eduroam*/
 //    public static final String SERVER_IP = "10.160.16.174"; /** For MashaServ eduroam*/
 //    public static final String SERVER_IP = "10.150.5.140"; /** For 507 univer */
