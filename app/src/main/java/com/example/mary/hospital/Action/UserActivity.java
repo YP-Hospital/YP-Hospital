@@ -39,7 +39,6 @@ public class UserActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String qwe = getIntent().getStringExtra(ExtraResource.USER_LOGIN);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);

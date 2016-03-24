@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.mary.hospital.ExtraResource;
@@ -81,28 +82,40 @@ public class DiseaseActivity extends AppCompatActivity {
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
             currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                     parseStringToDate(closeDateS), textS, idi, currentDoctorName);
-                AlertDialog dialog = DialogEnterPrivateKey.getDialog(DiseaseActivity.this);
-                    dialog.show();
-            if(isInserted){
-                //Intent IntentTemp = new Intent(this, DiseaseActivity.class);
-                //IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-                //IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-                //IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
-                //startActivity(IntentTemp);
-            } else {
-                ExtraResource.showErrorDialog(R.string.incorrect_date_format, this);
-            }
+                final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
+            dialog.show();
+            Button c = (Button)dialog.findViewById(R.id.button5);
+            Button b = (Button)dialog.findViewById(R.id.button7);
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = (EditText)dialog.findViewById(R.id.editText);
+                        String key = editText.getText().toString();
+                        if(diseaseService.insertHistoryInDB(currentHistory, key)){
+                            Intent IntentTemp = new Intent(v.getContext(), UserActivity.class);
+                            IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+                            IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+                            IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+                            startActivity(IntentTemp);
+                        } else {
+                            ExtraResource.showErrorDialog(R.string.incorrect_date_format, v.getContext());
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
         } else {
             ExtraResource.showErrorDialog(R.string.error_field_required, this);
         }
     }
 
     public static void checkPrivateKey(String key){
-        if(diseaseService.insertHistoryInDB(currentHistory, key)){
-            isInserted = true;
-        } else {
-            isInserted = false;
-        }
+
     }
 
     private Boolean isStringParsibleToDate(String str){
