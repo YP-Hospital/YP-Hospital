@@ -41,7 +41,6 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String currentDoctorName;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_disease_history);
@@ -89,6 +88,7 @@ public class DiseaseActivity extends AppCompatActivity {
                     dialog.show();
                 }
             });
+            t.start();
             if(isInserted){
                 Intent IntentTemp = new Intent(this, DiseaseActivity.class);
                 IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
