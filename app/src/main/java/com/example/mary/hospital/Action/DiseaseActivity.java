@@ -53,8 +53,6 @@ public class DiseaseActivity extends AppCompatActivity {
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
         diseases = diseaseService.getAllUsersHistories(user);
         diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
-        //if(diseaseNames.size() == 1 && diseaseNames.get(0).equals(""))
-         //   diseaseNames.clear();
     }
 
     private void fillFields() {
@@ -75,6 +73,7 @@ public class DiseaseActivity extends AppCompatActivity {
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
             ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
+
             DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                     parseStringToDate(closeDateS), textS, idi);
             diseaseService.addHistoryInDB(temp);
@@ -82,6 +81,11 @@ public class DiseaseActivity extends AppCompatActivity {
             ExtraResource.showErrorDialog(R.string.error_field_required, this);
         }
     }
+
+    public static void checkPrivateKey(String key){
+
+    }
+
     private Boolean isStringParsibleToDate(String str){
         try {
             Date date = format.parse(str);

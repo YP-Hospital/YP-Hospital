@@ -67,6 +67,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                     Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
                     IntentTemp.putExtra(ExtraResource.USER_LOGIN, users.get(position).getLogin());
                     IntentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
+                    IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, doctorID);
                     IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId().toString());
                     startActivity(IntentTemp);
                     //Toast.makeText(ListOfUsersActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();

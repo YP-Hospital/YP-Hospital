@@ -35,7 +35,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder mainViewholder = null;
+        final ViewHolder mainViewholder;
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
@@ -47,34 +47,57 @@ public class ItemAdapter extends ArrayAdapter<String> {
         }
         mainViewholder = (ViewHolder) convertView.getTag();
         if(AllOrMy == 0){
-            mainViewholder.buttonDelete.setVisibility(View.GONE);
             if(users.get(position).getDoctorID() == doctorID){
                 mainViewholder.buttonAdd.setVisibility(View.GONE);
-            } else {
+                mainViewholder.buttonDelete.setVisibility(View.VISIBLE);
+            } else if(users.get(position).getDoctorID() == 0){
                 mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
+                mainViewholder.buttonDelete.setVisibility(View.GONE);
+            } else {
+                mainViewholder.buttonAdd.setVisibility(View.GONE);
+                mainViewholder.buttonDelete.setVisibility(View.GONE);
             }
+            mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListOfUsersActivity.addUserToDoctor(position);
+                    v.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                    v.invalidate();
+                    mainViewholder.buttonDelete.setVisibility(View.VISIBLE);
+                }
+            });
+            mainViewholder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListOfUsersActivity.deleteUserFromDoctor(position);
+                    v.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                    v.invalidate();
+                    mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
+                }
+            });
         } else {
             mainViewholder.buttonAdd.setVisibility(View.GONE);
+            mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListOfUsersActivity.addUserToDoctor(position);
+                    v.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                    v.invalidate();
+                }
+            });
+            mainViewholder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListOfUsersActivity.deleteUserFromDoctor(position);
+                    v.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                    v.invalidate();
+                }
+            });
         }
-        mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListOfUsersActivity.addUserToDoctor(position);
-                v.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
-                v.invalidate();
-            }
-        });
-
-        mainViewholder.buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListOfUsersActivity.deleteUserFromDoctor(position);
-                v.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
-                v.invalidate();
-            }
-        });
         mainViewholder.title.setText(getItem(position));
         return convertView;
     }

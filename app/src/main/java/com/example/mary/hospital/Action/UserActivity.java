@@ -33,6 +33,8 @@ public class UserActivity extends AppCompatActivity {
     private List<String> diseaseNames;
     private ListView listView;
     private String userRole;
+    private String userDoctorID;//
+    private String currentDoctorID;//doctors id, that see
     private Button addButton;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         addButton = (Button) findViewById(R.id.userDiseaseAddButton);
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//TODO исправить, с логина посылаю одно, с листа другое
+        userDoctorID = user.getDoctorID().toString();
+        currentDoctorID =  getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         listView = (ListView) findViewById(R.id.userDiseaseListView);
@@ -63,7 +67,7 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intentTemp);
             }
         });
-        if(userRole.equals(Role.Patient.toString())){
+        if(userRole.equals(Role.Patient.toString()) || !currentDoctorID.equals(userDoctorID)){
             String[] str = new String[diseaseNames.size()];
             str = diseaseNames.toArray(str);
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str));
