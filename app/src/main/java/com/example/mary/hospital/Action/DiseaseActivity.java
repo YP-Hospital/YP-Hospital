@@ -97,9 +97,12 @@ public class DiseaseActivity extends AppCompatActivity {
                             IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                             IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
                             IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+                            IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+                            IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+
                             startActivity(IntentTemp);
                         } else {
-                            ExtraResource.showErrorDialog(R.string.incorrect_date_format, v.getContext());
+                            ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
                         }
                         dialog.dismiss();
                     }
