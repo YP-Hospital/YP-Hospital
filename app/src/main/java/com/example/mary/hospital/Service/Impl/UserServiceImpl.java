@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
         this.context = context;
     }
 
-    public String addUserInDB (User user) {
+    public String insertUserInDB(User user) {
         if(user.getDoctorID() == null)
             user.setDoctorID(0);
         user.setPassword(passwordToHash(user.getPassword()));

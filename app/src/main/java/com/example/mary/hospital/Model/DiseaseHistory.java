@@ -41,12 +41,13 @@ public class DiseaseHistory {
         this.signatureOfLastModified = signatureOfLastModified;
     }
 
-    public DiseaseHistory(String title, Date openDate, Date closeDate, String text, Integer patientID) {
+    public DiseaseHistory(String title, Date openDate, Date closeDate, String text, Integer patientID, String lastModifiedBy) {
         this.title = title;
         this.openDate = openDate;
         this.closeDate = closeDate;
         this.text = text;
         this.patientID = patientID;
+        this.lastModifiedBy = lastModifiedBy;
     }
 
     public DiseaseHistory() {

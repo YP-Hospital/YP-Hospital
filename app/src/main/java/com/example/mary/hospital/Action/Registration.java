@@ -1,13 +1,11 @@
 package com.example.mary.hospital.Action;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
@@ -59,7 +57,7 @@ public class Registration extends AppCompatActivity {
                         this.login = login;
                         this.password = password;
                         User user = new User(login, password, name, role, age, phone);
-                        privateKey = userService.addUserInDB(user);
+                        privateKey = userService.insertUserInDB(user);
                         Boolean isSuccess = !privateKey.isEmpty();
                         //AlertDialog dialog = DialogScreen.getDialog(this, privateKey); //TODO change
                         //dialog.show();
