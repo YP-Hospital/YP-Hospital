@@ -25,7 +25,7 @@ public class DialogEnterPrivateKey{
         builder.setView(view);
         editText = (EditText)view.findViewById(R.id.editText);
         builder.setTitle(R.string.dialog_show_key);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
+      /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DiseaseActivity.checkPrivateKey(editText.getText().toString());
@@ -38,7 +38,7 @@ public class DialogEnterPrivateKey{
                 // Переход
                 dialog.dismiss();
             }
-        });
+        });*/
         builder.setCancelable(true);
         return builder.create();
     }
