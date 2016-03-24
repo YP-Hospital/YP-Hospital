@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Action;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,7 +28,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private UserService userService;
     private static DiseaseHistoryService diseaseService;
     private Integer currentHistoryID;
-    private DiseaseHistory currentHistory;
+    private static DiseaseHistory currentHistory;
     private SimpleDateFormat format;
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
@@ -36,6 +37,9 @@ public class DiseaseActivity extends AppCompatActivity {
     private static EditText closeDate;
     private static EditText text;
     private static String doctorName;
+    private static Boolean isInserted;
+    private static String currentDoctorName;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
