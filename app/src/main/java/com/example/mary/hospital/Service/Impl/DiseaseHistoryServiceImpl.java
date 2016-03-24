@@ -37,8 +37,8 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT_FROM_DB, Locale.getDefault());
     }
 
-    public Boolean addHistoryInDB(DiseaseHistory history) {
-        String query = history.getStringToInsert();
+    public Boolean addHistoryInDB(DiseaseHistory history, String privateKey) {
+        String query = history.getStringToInsert() + separatorForSending + privateKey;
         return useQuery(query);
     }
 
@@ -53,7 +53,8 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                         + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
                         + separatorForSending + history.getOpenDate() + separatorForSending + history.getCloseDate()
                         + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
-                        + separatorForSending + user.getName() + separatorForSending + history.getId() + privateKey;
+                        + separatorForSending + user.getName() + separatorForSending + history.getId()
+                        + separatorForSending + privateKey;
         return useQuery(query);
     }
 
