@@ -82,8 +82,7 @@ public class DiseaseHistory {
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(openDate)) + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(closeDate))
                 + ExtraResource.separatorForSending + text + ExtraResource.separatorForSending + patientID
-                + ExtraResource.separatorForSending + lastModifiedBy + ExtraResource.separatorForSending
-                + signatureOfLastModified;
+                + ExtraResource.separatorForSending + lastModifiedBy;
     }
 
     public String getTitle() {
