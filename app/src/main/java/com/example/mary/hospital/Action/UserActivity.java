@@ -3,6 +3,7 @@ package com.example.mary.hospital.Action;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -63,6 +64,7 @@ public class UserActivity extends AppCompatActivity {
                 Toast.makeText(UserActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
                 Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
                 intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+                intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, diseases.get(position).getId());
                 startActivity(intentTemp);
             }
@@ -79,6 +81,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void redirectToEditDisease(View view) {
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
+        String q = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
         IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));

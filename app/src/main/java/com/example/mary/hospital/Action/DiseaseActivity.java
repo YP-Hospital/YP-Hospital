@@ -40,6 +40,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String doctorName;
     private static Boolean isInserted = true;
     private static String currentDoctorName;
+    String historyOwnerPatientID;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
+        historyOwnerPatientID = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
         String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         if (currentHistoryID != 0) {
             fillFields();
@@ -75,8 +77,7 @@ public class DiseaseActivity extends AppCompatActivity {
         String openDateS = openDate.getText().toString();
         String closeDateS = closeDate.getText().toString();
         String textS = text.getText().toString();
-        String id = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
-        Integer idi = Integer.parseInt(id);
+        Integer idi = Integer.parseInt(historyOwnerPatientID);
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
             ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
