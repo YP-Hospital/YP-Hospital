@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Action;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,7 +16,7 @@ import com.example.mary.hospital.R;
 /**
  * Created by Grishalive on 22.03.2016.
  */
-public class DialogEnterPrivateKey {
+public class DialogEnterPrivateKey{
     static EditText editText;
 
     public static AlertDialog getDialog(Activity activity){

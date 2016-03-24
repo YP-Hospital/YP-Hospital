@@ -37,7 +37,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT_FROM_DB, Locale.getDefault());
     }
 
-    public Boolean addHistoryInDB(DiseaseHistory history, String privateKey) {
+    public Boolean insertHistoryInDB(DiseaseHistory history, String privateKey) {
         String query = history.getStringToInsert() + separatorForSending + privateKey;
         return useQuery(query);
     }

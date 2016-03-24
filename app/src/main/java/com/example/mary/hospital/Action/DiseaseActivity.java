@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Action;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,7 +28,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private UserService userService;
     private static DiseaseHistoryService diseaseService;
     private Integer currentHistoryID;
-    private DiseaseHistory currentHistory;
+    private static DiseaseHistory currentHistory;
     private SimpleDateFormat format;
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
@@ -35,7 +36,8 @@ public class DiseaseActivity extends AppCompatActivity {
     private static EditText openDate;
     private static EditText closeDate;
     private static EditText text;
-    private static String doctorName;
+    private static String currentDoctorName;
+    private static Boolean isInserted;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,13 @@ public class DiseaseActivity extends AppCompatActivity {
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
         String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+        currentDoctorName = userService.getUserById(Integer.parseInt(doctorID)).getName();
         if (currentHistoryID != 0) {
             fillFields();
         }
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-        diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
+        //diseases = diseaseService.getAllUsersHistories(user);
+        //diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
     }
 
     private void fillFields() {
@@ -76,19 +79,35 @@ public class DiseaseActivity extends AppCompatActivity {
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
             ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
-            AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
-            dialog.show();
-           /// DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
-               //     parseStringToDate(closeDateS), textS, idi);
-            //diseaseService.addHistoryInDB(temp);
+            currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
+                    parseStringToDate(closeDateS), textS, idi, currentDoctorName);
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog dialog = DialogEnterPrivateKey.getDialog(DiseaseActivity.this);
+                    dialog.show();
+                }
+            });
+            if(isInserted){
+                Intent IntentTemp = new Intent(this, DiseaseActivity.class);
+                IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+                IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+                IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+                startActivity(IntentTemp);
+            } else {
+                ExtraResource.showErrorDialog(R.string.incorrect_date_format, this);
+            }
         } else {
             ExtraResource.showErrorDialog(R.string.error_field_required, this);
         }
     }
 
     public static void checkPrivateKey(String key){
-        //DiseaseHistory diseaseHistory = new DiseaseHistory(diseaseName, openDate, closeDate, text,)
-        //diseaseService.addHistoryInDB( )
+        if(diseaseService.insertHistoryInDB(currentHistory, key)){
+            isInserted = true;
+        } else {
+            isInserted = false;
+        }
     }
 
     private Boolean isStringParsibleToDate(String str){
