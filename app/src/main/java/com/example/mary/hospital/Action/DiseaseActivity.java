@@ -37,7 +37,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static EditText closeDate;
     private static EditText text;
     private static String doctorName;
-    private static Boolean isInserted;
+    private static Boolean isInserted = true;
     private static String currentDoctorName;
 
 
@@ -69,7 +69,7 @@ public class DiseaseActivity extends AppCompatActivity {
         text.setText(currentHistory.getText());
     }
 
-    public void saveDisease(View view){
+    public void saveDisease(View view) throws InterruptedException {
         String diseaseNameS =  diseaseName.getText().toString();
         String openDateS = openDate.getText().toString();
         String closeDateS = closeDate.getText().toString();
@@ -81,20 +81,14 @@ public class DiseaseActivity extends AppCompatActivity {
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
             currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                     parseStringToDate(closeDateS), textS, idi, currentDoctorName);
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog dialog = DialogEnterPrivateKey.getDialog(DiseaseActivity.this);
+                AlertDialog dialog = DialogEnterPrivateKey.getDialog(DiseaseActivity.this);
                     dialog.show();
-                }
-            });
-            t.start();
             if(isInserted){
-                Intent IntentTemp = new Intent(this, DiseaseActivity.class);
-                IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-                IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-                IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
-                startActivity(IntentTemp);
+                //Intent IntentTemp = new Intent(this, DiseaseActivity.class);
+                //IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+                //IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+                //IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+                //startActivity(IntentTemp);
             } else {
                 ExtraResource.showErrorDialog(R.string.incorrect_date_format, this);
             }
