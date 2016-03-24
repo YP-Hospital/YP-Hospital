@@ -1,7 +1,6 @@
 package com.example.mary.hospital.Action;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,7 +27,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private UserService userService;
     private static DiseaseHistoryService diseaseService;
     private Integer currentHistoryID;
-    private static DiseaseHistory currentHistory;
+    private DiseaseHistory currentHistory;
     private SimpleDateFormat format;
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
@@ -36,8 +35,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static EditText openDate;
     private static EditText closeDate;
     private static EditText text;
-    private static String currentDoctorName;
-    private static Boolean isInserted;
+    private static String doctorName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +50,12 @@ public class DiseaseActivity extends AppCompatActivity {
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
         String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
-        currentDoctorName = userService.getUserById(Integer.parseInt(doctorID)).getName();
         if (currentHistoryID != 0) {
             fillFields();
         }
-        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-        //diseases = diseaseService.getAllUsersHistories(user);
-        //diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
+        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+        diseases = diseaseService.getAllUsersHistories(user);
+        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
     }
 
     private void fillFields() {
