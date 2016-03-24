@@ -1,5 +1,6 @@
 package com.example.mary.hospital.Action;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,16 +25,17 @@ import java.util.List;
  */
 public class DiseaseActivity extends AppCompatActivity {
     private UserService userService;
-    private DiseaseHistoryService diseaseService;
+    private static DiseaseHistoryService diseaseService;
     private Integer currentHistoryID;
     private DiseaseHistory currentHistory;
     private SimpleDateFormat format;
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
-    private EditText diseaseName;
-    private EditText openDate;
-    private EditText closeDate;
-    private EditText text;
+    private static EditText diseaseName;
+    private static EditText openDate;
+    private static EditText closeDate;
+    private static EditText text;
+    private static String doctorName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
+        String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         if (currentHistoryID != 0) {
             fillFields();
         }
@@ -73,17 +76,19 @@ public class DiseaseActivity extends AppCompatActivity {
         if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
             ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
         } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
-
-            DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
-                    parseStringToDate(closeDateS), textS, idi);
-            diseaseService.addHistoryInDB(temp);
+            AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
+            dialog.show();
+           /// DiseaseHistory temp = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
+               //     parseStringToDate(closeDateS), textS, idi);
+            //diseaseService.addHistoryInDB(temp);
         } else {
             ExtraResource.showErrorDialog(R.string.error_field_required, this);
         }
     }
 
     public static void checkPrivateKey(String key){
-
+        //DiseaseHistory diseaseHistory = new DiseaseHistory(diseaseName, openDate, closeDate, text,)
+        //diseaseService.addHistoryInDB( )
     }
 
     private Boolean isStringParsibleToDate(String str){
