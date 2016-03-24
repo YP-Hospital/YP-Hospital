@@ -63,7 +63,7 @@ public class UserActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(UserActivity.this, "List item was clicked at " + position, Toast.LENGTH_SHORT).show();
                 Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
-                intentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+                intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, diseases.get(position).getId());
                 startActivity(intentTemp);
             }
