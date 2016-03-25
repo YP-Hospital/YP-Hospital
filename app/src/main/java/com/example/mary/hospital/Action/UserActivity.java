@@ -69,8 +69,11 @@ public class UserActivity extends AppCompatActivity {
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                 int i = diseases.get(position).getId();
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
-                if(userService.getUserById(Integer.parseInt(userDoctorID)).getName().
-                intentTemp.putExtra(ExtraResource.IS_EDITABLE, "false");
+                if (userDoctorID.equals(currentDoctorID)) {
+                    intentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
+                } else {
+                    intentTemp.putExtra(ExtraResource.IS_EDITABLE, "false");
+                }
                 intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, currentDoctorID);
                 startActivity(intentTemp);
             }
