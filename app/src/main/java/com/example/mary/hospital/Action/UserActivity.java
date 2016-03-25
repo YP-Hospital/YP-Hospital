@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -94,5 +96,36 @@ public class UserActivity extends AppCompatActivity {
         startActivity(IntentTemp);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+//
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.certificatesPage:
+                redirectToHomePage(CertificatesActivity.class);
+                return true;
+            case R.id.mainPage:
+                redirectToHomePage(UserActivity.class);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void redirectToHomePage(Class activityToRedirect) {
+        Intent IntentTemp = new Intent(this, activityToRedirect);
+        IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+        IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        startActivity(IntentTemp);
+    }
 }
 

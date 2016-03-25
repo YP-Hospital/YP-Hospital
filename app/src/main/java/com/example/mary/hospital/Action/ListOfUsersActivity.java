@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
 import com.example.mary.hospital.ExtraResource;
+import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
@@ -43,6 +46,29 @@ public class ListOfUsersActivity extends AppCompatActivity {
         createAndRepaintListView(0);
         createSpinner();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.certificatesPage:
+                redirectToHomePage(CertificatesActivity.class);
+                return true;
+            case R.id.mainPage:
+                redirectToHomePage(ListOfUsersActivity.class);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     public static void addUserToDoctor(int position){
         int temp = Integer.parseInt(doctorID);
@@ -138,5 +164,14 @@ public class ListOfUsersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userRole = intent.getStringExtra(ExtraResource.USER_ROLE);
         doctorID = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+    }
+
+    private void redirectToHomePage(Class activityToRedirect) {
+        Intent IntentTemp = new Intent(this, activityToRedirect);
+        IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ID, getIntent().getStringExtra(ExtraResource.USER_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        startActivity(IntentTemp);
     }
 }
