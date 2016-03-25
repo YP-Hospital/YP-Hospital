@@ -43,6 +43,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String currentDoctorName;
     private static String userRole;
     private  String isEditable;
+    private String currentDoctorID;
     String historyOwnerPatientID;
 
 
@@ -51,7 +52,7 @@ public class DiseaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_disease_history);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
-        String currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+        currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         if (currentDoctorID != null)
             currentDoctorName = userService.getUserById(Integer.parseInt(currentDoctorID)).getName();
         isEditable = getIntent().getStringExtra(ExtraResource.IS_EDITABLE);
@@ -115,7 +116,7 @@ public class DiseaseActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
-                        if (diseaseService.insertHistoryInDB(currentHistory, key)) {
+                        if (diseaseService.updateHistoryInDB(currentHistory, currentDoctorID, key)) {
                             Intent IntentTemp = new Intent(v.getContext(), UserActivity.class);
                             IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                             IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
