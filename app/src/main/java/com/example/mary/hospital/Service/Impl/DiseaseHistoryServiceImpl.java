@@ -65,7 +65,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                 + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
                 + separatorForSending + DiseaseHistory.LAST_MODIFIED_BY_COLUMN + separatorForSending
                 + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
-                + separatorForSending + history.getOpenDate() + separatorForSending + history.getCloseDate()
+                + separatorForSending + dateFormat.format(history.getOpenDate()) + separatorForSending + dateFormat.format(history.getCloseDate())
                 + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
                 + separatorForSending + user.getName() + separatorForSending + history.getId()
                 + separatorForSending + privateKey;
