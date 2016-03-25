@@ -40,7 +40,7 @@ public class DialogScreen {
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Переход
+                // ,,,
                 dialog.dismiss();
             }
         });
