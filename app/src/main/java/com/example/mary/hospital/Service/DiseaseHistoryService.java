@@ -8,6 +8,7 @@ import java.util.List;
 public interface DiseaseHistoryService {
     Boolean insertHistoryInDB(DiseaseHistory history, String privateKey);
     Boolean updateHistoryInDB(DiseaseHistory history, User user, String privateKey);
+    Boolean updateHistoryInDB(DiseaseHistory history, Integer id, String privateKey);
     DiseaseHistory getHistoryById(Integer id);
     List<DiseaseHistory> getAllHistories();
     List<DiseaseHistory> getAllUsersHistories(User user);
