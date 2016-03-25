@@ -127,8 +127,7 @@ public class CertificateServiceImpl implements CertificateService {
             Boolean isAllFields = words.get(booleanAnswer).equals("*");
             if (isAllFields) {
                 for (int i = 2; i < words.size(); i++) {
-                    certificates.add(new Certificate(Integer.valueOf(words.get(i++)), words.get(i++),
-                                        words.get(i++), Integer.valueOf(words.get(i++))));
+                    certificates.add(new Certificate(Integer.valueOf(words.get(i++)), words.get(i++), Integer.valueOf(words.get(i++))));
                 }
             } else {
                 formListOfCertificates(certificates, words);
