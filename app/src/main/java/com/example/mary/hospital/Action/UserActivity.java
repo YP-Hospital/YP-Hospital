@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemDiseaseAdapter;
+import com.example.mary.hospital.CurrentPerson;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.Role;
@@ -46,6 +47,10 @@ public class UserActivity extends AppCompatActivity {
         diseaseService = new DiseaseHistoryServiceImpl(this);
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         setContentView(R.layout.activity_user);
+        CurrentPerson.setUserLogin( getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        CurrentPerson.setPatientID(getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+        CurrentPerson.setPatientLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+        CurrentPerson.setUserRole(getIntent().getStringExtra(ExtraResource.USER_ROLE));
         addButton = (Button) findViewById(R.id.userDiseaseAddButton);
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//TODO исправить, с логина посылаю одно, с листа другое
         userDoctorID = user.getDoctorID().toString();
@@ -93,7 +98,7 @@ public class UserActivity extends AppCompatActivity {
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
         IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
-        IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        IntentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
         IntentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
         startActivity(IntentTemp);
     }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mary.hospital.CurrentPerson;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.User;
@@ -41,10 +42,15 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String doctorName;
     private static Boolean isInserted = true;
     private static String currentDoctorName;
-    private static String userRole;
     private  String isEditable;
     private String currentDoctorID;
     String historyOwnerPatientID;
+    private static String patientID;
+    private static String userLogin;
+    private static String patientLogin;
+    private static String userRole;
+    private static Intent intentTemp;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,11 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
         closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
+        patientID = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
+        userLogin = getIntent().getStringExtra(ExtraResource.USER_LOGIN);
+        currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+        userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
+        patientLogin = getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN);
         historyOwnerPatientID = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
         String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         if (currentHistoryID != 0) {
@@ -102,6 +113,13 @@ public class DiseaseActivity extends AppCompatActivity {
             String closeDateS = closeDate.getText().toString();
             String textS = text.getText().toString();
             Integer idi = Integer.parseInt(historyOwnerPatientID);
+            intentTemp = new Intent(this, UserActivity.class);
+            intentTemp.putExtra(ExtraResource.PATIENT_ID, CurrentPerson.getPatientID());
+            intentTemp.putExtra(ExtraResource.USER_LOGIN, CurrentPerson.getUserLogin());
+            intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, CurrentPerson.getCurrentDoctorID());
+            String user = CurrentPerson.getUserRole();
+            intentTemp.putExtra(ExtraResource.USER_ROLE, CurrentPerson.getUserRole());
+            intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, CurrentPerson.getPatientLogin());
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
                 ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
             } else if (isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)) {
@@ -117,13 +135,7 @@ public class DiseaseActivity extends AppCompatActivity {
                         EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
                         if (diseaseService.updateHistoryInDB(currentHistory, Integer.valueOf(currentDoctorID), key)) {
-                            Intent IntentTemp = new Intent(v.getContext(), UserActivity.class);
-                            IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-                            IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-                            IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
-                            IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
-                            IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
-                            startActivity(IntentTemp);
+                            startActivity(intentTemp);
                         } else {
                             ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
                         }

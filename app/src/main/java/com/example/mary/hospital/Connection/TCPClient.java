@@ -14,11 +14,11 @@ import java.util.List;
 public class TCPClient {
 
     public static final int SERVER_PORT = 8080;
-    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
+//    public static final String SERVER_IP = "192.168.43.229"; /** My phone wifi */ //TODO It changes every time. Don't forget this!
 //    public static final String SERVER_IP = "127.0.0.1"; /** For locallhost */
 //    public static final String SERVER_IP = "192.168.43.161"; /** For Masha mobile Grisha comp */
  //   public static final String SERVER_IP = "10.160.31.189"; /** For GrishaServ eduroam*/
- //  public static final String SERVER_IP = "10.160.16.174"; /** For MashaServ eduroam*/
+   public static final String SERVER_IP = "10.160.16.174"; /** For MashaServ eduroam*/
 //    public static final String SERVER_IP = "10.150.5.140"; /** For 507 univer */
 //  public static final String SERVER_IP = "192.168.1.4"; /** Grisha some wi-fi */
 //    public static final String SERVER_IP = "172.20.217.98"; /** For wi-fi on work */
