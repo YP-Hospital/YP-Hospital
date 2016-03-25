@@ -13,7 +13,7 @@ public class Certificate {
     public Certificate() {
     }
 
-    public Certificate(Integer id, String openKey, String signature, Integer doctorID) {
+    public Certificate(Integer id, String openKey, Integer doctorID) {
         this.id = id;
         this.openKey = openKey;
         this.doctorID = doctorID;

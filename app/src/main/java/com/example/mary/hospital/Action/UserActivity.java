@@ -90,7 +90,6 @@ public class UserActivity extends AppCompatActivity {
 
     public void redirectToEditDisease(View view) {
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
-        String q = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
         IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
