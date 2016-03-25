@@ -58,6 +58,20 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return useQuery(query);
     }
 
+    public Boolean updateHistoryInDB(DiseaseHistory history, Integer id, String privateKey) {
+        User user = userService.getUserById(id);
+        String query = "update" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + DiseaseHistory.TITLE_COLUMN
+                + separatorForSending + DiseaseHistory.OPEN_DATE_COLUMN + separatorForSending + DiseaseHistory.CLOSE_DATE_COLUMN
+                + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
+                + separatorForSending + DiseaseHistory.LAST_MODIFIED_BY_COLUMN + separatorForSending
+                + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
+                + separatorForSending + history.getOpenDate() + separatorForSending + history.getCloseDate()
+                + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
+                + separatorForSending + user.getName() + separatorForSending + history.getId()
+                + separatorForSending + privateKey;
+        return useQuery(query);
+    }
+
     public DiseaseHistory getHistoryById(Integer id) {
         String result = "";
         DiseaseHistory history = null;
