@@ -27,7 +27,7 @@ public class CertificatesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);//
         setContentView(R.layout.activity_certificates);
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
         final Map<String, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
