@@ -36,20 +36,9 @@ public class ItemCertificatesAdapter extends ArrayAdapter<String> {
             convertView = inflater.inflate(layout, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) convertView.findViewById(R.id.itemTextView);
-            viewHolder.buttonShow = (Button) convertView.findViewById(R.id.button4);
             convertView.setTag(viewHolder);
         }
         mainViewholder = (ViewHolder) convertView.getTag();
-        mainViewholder.buttonShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListOfUsersActivity.deleteUserFromDoctor(position);
-                //v.setClickable(false);
-                v.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
-                v.invalidate();
-            }
-        });
         mainViewholder.title.setText(getItem(position));
         return convertView;
     }
