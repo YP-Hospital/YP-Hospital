@@ -11,7 +11,7 @@ import com.example.mary.hospital.R;
 /**
  * Created by Grishalive on 25.03.2016.
  */
-public class DialogShowSertificate {
+public class DialogShowCertificate {
     static EditText editText;
 
     public static AlertDialog getDialog(Activity activity, Certificate cert){
