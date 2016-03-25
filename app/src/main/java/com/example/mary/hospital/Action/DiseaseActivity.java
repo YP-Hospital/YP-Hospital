@@ -116,7 +116,7 @@ public class DiseaseActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
-                        if (diseaseService.updateHistoryInDB(currentHistory, currentDoctorID, key)) {
+                        if (diseaseService.updateHistoryInDB(currentHistory, Integer.valueOf(currentDoctorID), key)) {
                             Intent IntentTemp = new Intent(v.getContext(), UserActivity.class);
                             IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                             IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
