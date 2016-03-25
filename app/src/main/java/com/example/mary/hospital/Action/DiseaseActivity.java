@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
@@ -40,6 +41,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String doctorName;
     private static Boolean isInserted = true;
     private static String currentDoctorName;
+    private static String userRole;
     private  String isEditable;
     String historyOwnerPatientID;
 
@@ -49,6 +51,9 @@ public class DiseaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_disease_history);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
+        String currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+        if (currentDoctorID != null)
+            currentDoctorName = userService.getUserById(Integer.parseInt(currentDoctorID)).getName();
         isEditable = getIntent().getStringExtra(ExtraResource.IS_EDITABLE);
         format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
         currentHistoryID = getIntent().getIntExtra(ExtraResource.DISEASE_ID, 0);
@@ -61,6 +66,9 @@ public class DiseaseActivity extends AppCompatActivity {
         if (currentHistoryID != 0) {
             fillFields();
         }
+        TextView e = (TextView) findViewById(R.id.textView3);
+        e.setVisibility(View.INVISIBLE);
+        currentHistory = diseaseService.getHistoryById(currentHistoryID);
         if(isEditable.equals("false")){
             diseaseName.setEnabled(false);
             openDate.setEnabled(false);
@@ -68,6 +76,10 @@ public class DiseaseActivity extends AppCompatActivity {
             text.setEnabled(false);
             Button b = (Button) findViewById(R.id.editDiseaseSaveButton);
             b.setText("Signature");
+            e.setVisibility(View.VISIBLE);
+            e.setText("Last modified by " + currentHistory.getLastModifiedBy());
+        } else {
+            e.setVisibility(View.GONE);
         }
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         diseases = diseaseService.getAllUsersHistories(user);
@@ -127,7 +139,7 @@ public class DiseaseActivity extends AppCompatActivity {
                 ExtraResource.showErrorDialog(R.string.error_field_required, this);
             }
         } else {
-            final AlertDialog dialog = DialogShowSignature.getDialog(this, "dddd");
+            final AlertDialog dialog = DialogShowSignature.getDialog(this, currentHistory.getSignatureOfLastModified());
             dialog.show();
             Button b = (Button) dialog.findViewById(R.id.button5);
             Button c = (Button) dialog.findViewById(R.id.button7);

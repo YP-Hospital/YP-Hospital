@@ -65,8 +65,11 @@ public class UserActivity extends AppCompatActivity {
                 Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
                 intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-                intentTemp.putExtra(ExtraResource.DISEASE_ID, diseases.get(position).getId());
+                int i = diseases.get(position).getId();
+                intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
+                if(userService.getUserById(Integer.parseInt(userDoctorID)).getName().
                 intentTemp.putExtra(ExtraResource.IS_EDITABLE, "false");
+                intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, currentDoctorID);
                 startActivity(intentTemp);
             }
         });
@@ -87,6 +90,7 @@ public class UserActivity extends AppCompatActivity {
         IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
         IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        IntentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
         startActivity(IntentTemp);
     }
 
