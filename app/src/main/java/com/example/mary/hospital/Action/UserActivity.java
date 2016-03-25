@@ -71,8 +71,8 @@ public class UserActivity extends AppCompatActivity {
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
                 if (userDoctorID.equals(currentDoctorID)) {
                     intentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
-                }else{
-                    intentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
+                } else {
+                    intentTemp.putExtra(ExtraResource.IS_EDITABLE, "false");
                 }
                 intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, currentDoctorID);
                 startActivity(intentTemp);
