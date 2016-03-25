@@ -112,7 +112,7 @@ public class DiseaseActivity extends AppCompatActivity {
             String openDateS = openDate.getText().toString();
             String closeDateS = closeDate.getText().toString();
             String textS = text.getText().toString();
-            Integer idi = Integer.parseInt(historyOwnerPatientID);//
+            Integer idi = Integer.parseInt(historyOwnerPatientID);///
             intentTemp = new Intent(this, UserActivity.class);
             intentTemp.putExtra(ExtraResource.PATIENT_ID, CurrentPerson.getPatientID());
             intentTemp.putExtra(ExtraResource.USER_LOGIN, CurrentPerson.getUserLogin());
