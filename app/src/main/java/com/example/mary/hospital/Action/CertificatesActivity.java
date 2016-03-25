@@ -32,7 +32,7 @@ public class CertificatesActivity extends AppCompatActivity {
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
         final Map<String, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
         final List<String> usersNames = new ArrayList<>(outputText.keySet());
-        ListView listView = (ListView) findViewById(R.id.listOfUsersListView);
+        ListView listView = (ListView) findViewById(R.id.listView);
         listView.setFocusable(true);
         listView.setAdapter(new ItemCertificatesAdapter(this, R.layout.activity_certificates, outputText, usersNames));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
