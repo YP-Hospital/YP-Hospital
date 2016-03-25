@@ -99,7 +99,7 @@ public class UserActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-
+//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
