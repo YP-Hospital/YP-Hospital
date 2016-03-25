@@ -10,6 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="phone">Phone number</string>
     <string name="age">Age</string>
+    <string name="certificates">Certificates</string>
+    <string name="main">Main</string>
     <string name="role">Role</string>
     <string name="noUsers">There is no</string>
     <string name="Patients">Patients</string>
