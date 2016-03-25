@@ -47,5 +47,4 @@ public class DialogScreen {
         builder.setCancelable(true);
         return builder.create();
     }
-    //
 }
