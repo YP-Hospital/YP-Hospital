@@ -40,6 +40,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String doctorName;
     private static Boolean isInserted = true;
     private static String currentDoctorName;
+    private  String isEditable;
     String historyOwnerPatientID;
 
 
@@ -48,6 +49,7 @@ public class DiseaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_disease_history);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
+        isEditable = getIntent().getStringExtra(ExtraResource.IS_EDITABLE);
         format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
         currentHistoryID = getIntent().getIntExtra(ExtraResource.DISEASE_ID, 0);
         diseaseName = ((EditText) findViewById(R.id.editDiseaseNameEditText));
@@ -58,6 +60,14 @@ public class DiseaseActivity extends AppCompatActivity {
         String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
         if (currentHistoryID != 0) {
             fillFields();
+        }
+        if(isEditable.equals("false")){
+            diseaseName.setEnabled(false);
+            openDate.setEnabled(false);
+            closeDate.setEnabled(false);
+            text.setEnabled(false);
+            Button b = (Button) findViewById(R.id.editDiseaseSaveButton);
+            b.setText("Signature");
         }
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
         diseases = diseaseService.getAllUsersHistories(user);
@@ -73,33 +83,33 @@ public class DiseaseActivity extends AppCompatActivity {
     }
 
     public void saveDisease(View view) throws InterruptedException {
-        String diseaseNameS =  diseaseName.getText().toString();
-        String openDateS = openDate.getText().toString();
-        String closeDateS = closeDate.getText().toString();
-        String textS = text.getText().toString();
-        Integer idi = Integer.parseInt(historyOwnerPatientID);
-        if(diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()){
-            ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
-        } else if(isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)){
-            currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
-                    parseStringToDate(closeDateS), textS, idi, currentDoctorName);
+        if(isEditable.equals("true")) {
+            String diseaseNameS = diseaseName.getText().toString();
+            String openDateS = openDate.getText().toString();
+            String closeDateS = closeDate.getText().toString();
+            String textS = text.getText().toString();
+            Integer idi = Integer.parseInt(historyOwnerPatientID);
+            if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
+                ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
+            } else if (isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)) {
+                currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
+                        parseStringToDate(closeDateS), textS, idi, currentDoctorName);
                 final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
-            dialog.show();
-            Button c = (Button)dialog.findViewById(R.id.button5);
-            Button b = (Button)dialog.findViewById(R.id.button7);
+                dialog.show();
+                Button c = (Button) dialog.findViewById(R.id.button5);
+                Button b = (Button) dialog.findViewById(R.id.button7);
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText editText = (EditText)dialog.findViewById(R.id.editText);
+                        EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
-                        if(diseaseService.insertHistoryInDB(currentHistory, key)){
+                        if (diseaseService.insertHistoryInDB(currentHistory, key)) {
                             Intent IntentTemp = new Intent(v.getContext(), UserActivity.class);
                             IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                             IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
                             IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
                             IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
                             IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
-
                             startActivity(IntentTemp);
                         } else {
                             ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
@@ -107,19 +117,28 @@ public class DiseaseActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+                c.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            } else {
+                ExtraResource.showErrorDialog(R.string.error_field_required, this);
+            }
+        } else {
+            final AlertDialog dialog = DialogShowSignature.getDialog(this, "dddd");
+            dialog.show();
+            Button b = (Button) dialog.findViewById(R.id.button5);
+            Button c = (Button) dialog.findViewById(R.id.button7);
+            b.setVisibility(View.GONE);
             c.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
                 }
             });
-        } else {
-            ExtraResource.showErrorDialog(R.string.error_field_required, this);
         }
-    }
-
-    public static void checkPrivateKey(String key){
-
     }
 
     private Boolean isStringParsibleToDate(String str){

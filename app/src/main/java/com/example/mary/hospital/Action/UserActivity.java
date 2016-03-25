@@ -68,6 +68,7 @@ public class UserActivity extends AppCompatActivity {
                 intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, diseases.get(position).getId());
+                intentTemp.putExtra(ExtraResource.IS_EDITABLE, "false");
                 startActivity(intentTemp);
             }
         });

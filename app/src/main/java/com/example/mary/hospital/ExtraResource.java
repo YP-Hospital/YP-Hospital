@@ -15,6 +15,7 @@ public class ExtraResource {
     public static final String USER_ROLE = "com.example.mary.hospital.USER_ROLE";
     public static final String USER_PASSWORD = "com.example.mary.hospital.USER_PASSWORD";
     public static final String USER_PRIVATE_KEY = "com.example.mary.hospital.USER_PRIVATE_KEY";
+    public static final String IS_EDITABLE = "com.example.mary.hospital.USER_PRIVATE_KEY";
     public static final String STOP_WORDS = "This is a stop message";
     public static final String separatorForSending = "][";
 
