@@ -105,14 +105,23 @@ public class UserActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.certificatesPage:
-                //TODO
+                redirectToHomePage(CertificatesActivity.class);
                 return true;
             case R.id.mainPage:
-                //TODO
+                redirectToHomePage(UserActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void redirectToHomePage(Class activityToRedirect) {
+        Intent IntentTemp = new Intent(this, activityToRedirect);
+        IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+        IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        startActivity(IntentTemp);
     }
 }
 

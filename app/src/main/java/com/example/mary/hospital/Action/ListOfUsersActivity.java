@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
 import com.example.mary.hospital.ExtraResource;
+import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
@@ -58,10 +59,10 @@ public class ListOfUsersActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.certificatesPage:
-                //TODO
+                redirectToHomePage(CertificatesActivity.class);
                 return true;
             case R.id.mainPage:
-                //TODO
+                redirectToHomePage(ListOfUsersActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,5 +164,14 @@ public class ListOfUsersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userRole = intent.getStringExtra(ExtraResource.USER_ROLE);
         doctorID = intent.getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
+    }
+
+    private void redirectToHomePage(Class activityToRedirect) {
+        Intent IntentTemp = new Intent(this, activityToRedirect);
+        IntentTemp.putExtra(ExtraResource.USER_LOGIN, getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ID, getIntent().getStringExtra(ExtraResource.USER_ID));
+        IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        startActivity(IntentTemp);
     }
 }
