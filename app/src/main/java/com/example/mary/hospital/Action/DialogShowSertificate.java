@@ -21,7 +21,7 @@ public class DialogShowSertificate {
         editText = (EditText)view.findViewById(R.id.editText);
         editText.setText(cert.getOpenKey());
         editText.setEnabled(false);
-        builder.setTitle(R.string.dialog_show_key);
+        builder.setTitle(R.string.show_doctor_certificate);
       /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
             public void onClick(DialogInterface dialog, int which) {

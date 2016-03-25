@@ -36,5 +36,6 @@
     <string name="dialog_show_key">This is your private key</string>
     <string name="incorrect_date_format">An incorrect date format</string>
     <string name="wrong_key">Wrong key</string>
+    <string name="show_doctor_certificate">Doctors certificate</string>
     <string name="attention">Attention</string>
 </resources>
