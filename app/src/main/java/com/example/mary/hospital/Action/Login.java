@@ -75,12 +75,6 @@ public class Login extends AppCompatActivity {
         User user = userService.getUserByLogin(login);
         new CurrentUser(user.getName(), user.getId(), user.getLogin(), user.getRole(), user.getDoctorID());
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, user.getId());//for UserActivity
-
-
-        IntentTemp.putExtra(ExtraResource.USER_LOGIN, login);
-        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userService.getUserByLogin(login).getId().toString());
-        IntentTemp.putExtra(ExtraResource.USER_ID, userService.getUserByLogin(login).getId().toString());
-        IntentTemp.putExtra(ExtraResource.USER_ROLE, role.toString());
         startActivity(IntentTemp);
     }
 }
