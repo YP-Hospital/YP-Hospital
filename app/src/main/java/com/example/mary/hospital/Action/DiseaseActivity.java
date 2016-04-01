@@ -48,7 +48,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static int patientID;
     private static Role userRole;
     private static Intent intentTemp;
-    private Boolean isInserteds = false;
+    private Boolean isInserted = false;
 
 
 
@@ -101,7 +101,7 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate.setText(format.format(currentHistory.getOpenDate()));
         closeDate.setText(format.format(currentHistory.getCloseDate()));
         text.setText(currentHistory.getText());
-        isInserteds = true;
+        isInserted = true;
     }
 
     public void saveDisease(View view) throws InterruptedException {
@@ -127,7 +127,7 @@ public class DiseaseActivity extends AppCompatActivity {
                         EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
                         Boolean isAdded = false;
-                        if(isInserteds) {
+                        if(isInserted) {
                             isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);
                         } else {
                             isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
