@@ -15,12 +15,12 @@
         android:inputType="textPersonName"
         android:hint="@string/login"
         android:ems="10"
-        android:id="@+id/login"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:id="@+id/registrationLoginEditText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,12 +28,12 @@
         android:inputType="textPersonName"
         android:hint="@string/name"
         android:ems="10"
-        android:id="@+id/name"
-        android:layout_below="@+id/login"
+        android:id="@+id/registrationNameEditText"
+        android:layout_below="@+id/registrationLoginEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/login"
-        android:layout_alignEnd="@+id/login" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -41,96 +41,69 @@
         android:hint="@string/phone"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/phone"
-        android:layout_below="@+id/name"
+        android:id="@+id/registrationPhoneEditText"
+        android:layout_below="@+id/registrationNameEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/name"
-        android:layout_alignEnd="@+id/name" />
+        android:layout_toStartOf="@+id/registrationRoleSpinner"
+        android:layout_alignRight="@+id/registrationNameEditText"
+        android:layout_alignEnd="@+id/registrationNameEditText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/age"
-        android:layout_below="@+id/phone"
-        android:layout_alignRight="@+id/phone"
-        android:layout_alignEnd="@+id/phone" />
+        android:id="@+id/registrationAgeEditText"
+        android:layout_below="@+id/registrationPhoneEditText"
+        android:hint="@string/age" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/role"
-        android:layout_below="@+id/age"
-        android:layout_alignLeft="@+id/age"
-        android:layout_alignStart="@+id/age"
+        android:id="@+id/registrationRoleSpinner"
         android:spinnerMode="dropdown"
         android:entries="@array/existingRoles"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:scrollIndicators="right"
         android:clickable="true"
-        android:touchscreenBlocksFocus="false" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/age"
-        android:id="@+id/listOfUsersTextView"
-        android:layout_below="@+id/phone"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/textView2" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/role"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/age"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/role"
-        android:layout_marginTop="10px"
-        android:editable="false"
-        android:enabled="true" />
+        android:touchscreenBlocksFocus="false"
+        android:layout_alignBottom="@+id/registrationAgeEditText"
+        android:layout_toRightOf="@+id/registrationCancelButton"
+        android:layout_below="@+id/registrationPhoneEditText" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registration"
-        android:id="@+id/button2"
+        android:id="@+id/registrationRegistrationButton"
         android:onClick="saveNewUser"
-        android:layout_below="@+id/confirmPassword"
-        android:layout_toRightOf="@+id/button3"
-        android:layout_toEndOf="@+id/button3" />
+        android:layout_below="@+id/registrationConfirmPasswordEditText"
+        android:layout_alignRight="@+id/registrationNameEditText"
+        android:layout_alignEnd="@+id/registrationNameEditText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/password"
+        android:id="@+id/registrationPasswordEditText"
         android:hint="@string/prompt_password"
-        android:layout_below="@+id/role"
-        android:layout_alignRight="@+id/role"
-        android:layout_alignEnd="@+id/role"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_below="@+id/registrationRoleSpinner"
+        android:layout_alignRight="@+id/registrationRoleSpinner"
+        android:layout_alignEnd="@+id/registrationRoleSpinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/confirmPassword"
+        android:id="@+id/registrationConfirmPasswordEditText"
         android:hint="@string/confirmPassword"
-        android:layout_below="@+id/password"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password"
+        android:layout_below="@+id/registrationPasswordEditText"
+        android:layout_alignLeft="@+id/registrationPasswordEditText"
+        android:layout_alignStart="@+id/registrationPasswordEditText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -138,10 +111,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
-        android:id="@+id/button3"
+        android:id="@+id/registrationCancelButton"
         android:onClick="returnBack"
-        android:layout_below="@+id/confirmPassword"
-        android:layout_toRightOf="@+id/listOfUsersTextView"
-        android:layout_toEndOf="@+id/listOfUsersTextView" />
+        android:layout_below="@+id/registrationConfirmPasswordEditText"
+        android:layout_toLeftOf="@+id/registrationRegistrationButton" />
 
 </RelativeLayout>

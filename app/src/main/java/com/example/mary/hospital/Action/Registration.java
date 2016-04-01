@@ -39,17 +39,17 @@ public class Registration extends AppCompatActivity {
 
     public void saveNewUser(View view){
         try {
-            EditText passwordText = (EditText) findViewById(R.id.password);
-            EditText confirmPasswordText = (EditText) findViewById(R.id.confirmPassword);
+            EditText passwordText = (EditText) findViewById(R.id.registrationPasswordEditText);
+            EditText confirmPasswordText = (EditText) findViewById(R.id.registrationConfirmPasswordEditText);
             String password = passwordText.getText().toString();
             String confirmPassword = confirmPasswordText.getText().toString();
             if (password.equals(confirmPassword)) {
-                String login = ((EditText) findViewById(R.id.login)).getText().toString();
+                String login = ((EditText) findViewById(R.id.registrationLoginEditText)).getText().toString();
                 if (!userService.isUserExist(login)) {
-                    String name = ((EditText) findViewById(R.id.name)).getText().toString();
-                    String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
-                    Integer age = Integer.valueOf(((EditText) findViewById(R.id.age)).getText().toString());
-                    Role role = Role.valueOf(((Spinner) findViewById(R.id.role)).getSelectedItem().toString());
+                    String name = ((EditText) findViewById(R.id.registrationNameEditText)).getText().toString();
+                    String phone = ((EditText) findViewById(R.id.registrationPhoneEditText)).getText().toString();
+                    Integer age = Integer.valueOf(((EditText) findViewById(R.id.registrationAgeEditText)).getText().toString());
+                    Role role = Role.valueOf(((Spinner) findViewById(R.id.registrationRoleSpinner)).getSelectedItem().toString());
                     this.role = role.toString();
                     if (login.isEmpty() || name.isEmpty() || password.isEmpty() || phone.isEmpty()) {
                         ExtraResource.showErrorDialog(R.string.error_field_required, Registration.this);

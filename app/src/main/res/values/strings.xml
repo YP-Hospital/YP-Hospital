@@ -16,7 +16,7 @@
     <string name="noUsers">There is no</string>
     <string name="Patients">Patients</string>
     <string name="Users">Users</string>
-    <string name="yourPrivetKey">It is your private key, please don\'t forget it! Better write it somewhere.</string>
+    <string name="your_private_key">It is your private key, please don\'t forget it! Better write it somewhere.</string>
     <string-array name="existingRoles">
         <item>Patient</item>
         <item>Doctor</item>
@@ -33,9 +33,11 @@
     <string name="no_connection">No connection</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="showDiseaseSignature">Signature</string>
-    <string name="dialog_show_key">This is your private key</string>
+    <string name="this_is_your_private_key">This is your private key</string>
     <string name="incorrect_date_format">An incorrect date format</string>
     <string name="wrong_key">Wrong key</string>
-    <string name="show_doctor_certificate">Doctors certificate</string>
+    <string name="doctors_certificate">Doctors certificate</string>
     <string name="attention">Attention</string>
+    <string name="please_enter_your_private_key">Please, enter your private key</string>
+    <string name="this_is_signature_of_the_last_modified">This is signature of the last modified</string>
 </resources>

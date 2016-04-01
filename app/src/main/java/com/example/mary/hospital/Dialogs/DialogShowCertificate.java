@@ -16,26 +16,12 @@ public class DialogShowCertificate {
 
     public static AlertDialog getDialog(Activity activity, Certificate cert){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        View view = activity.getLayoutInflater().inflate(R.layout.activity_dialog_enter_private_key, null); // Получаем layout по его ID
+        View view = activity.getLayoutInflater().inflate(R.layout.dialog_enter_private_key, null); // Получаем layout по его ID
         builder.setView(view);
-        editText = (EditText)view.findViewById(R.id.editText);
+        editText = (EditText)view.findViewById(R.id.dialogEnterKeyEditText);
         editText.setText(cert.getOpenKey());
         editText.setEnabled(false);
-        builder.setTitle(R.string.show_doctor_certificate);
-      /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                DiseaseActivity.checkPrivateKey(editText.getText().toString());
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // Переход на оценку приложения
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Переход
-                dialog.dismiss();
-            }
-        });*/
+        builder.setTitle(R.string.doctors_certificate);
         builder.setCancelable(true);
         return builder.create();
     }

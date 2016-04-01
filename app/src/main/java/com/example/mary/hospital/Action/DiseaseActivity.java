@@ -61,7 +61,7 @@ public class DiseaseActivity extends AppCompatActivity {
     }
 
     private void setActivityEditableOrNot(){
-        TextView textView = (TextView) findViewById(R.id.textView3);
+        TextView textView = (TextView) findViewById(R.id.editDiseaseLastModifiedTextView);
         if(!isEditableActivity){
             diseaseName.setEnabled(false);
             openDate.setEnabled(false);
@@ -113,22 +113,22 @@ public class DiseaseActivity extends AppCompatActivity {
             intentTemp = new Intent(this, UserActivity.class);
             intentTemp.putExtra(ExtraResource.PATIENT_ID, patientID);
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
-                ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
+                ExtraResource.showErrorDialog(R.string.error_field_required, DiseaseActivity.this);
             } else if (isStringConvertibleToDate(openDateS) && isStringConvertibleToDate(closeDateS)) {
                 currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                         parseStringToDate(closeDateS), textS, patientID, userName);
                 final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
                 dialog.show();
-                Button c = (Button) dialog.findViewById(R.id.button5);
-                Button b = (Button) dialog.findViewById(R.id.button7);
+                Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+                Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText editText = (EditText) dialog.findViewById(R.id.editText);
+                        EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
                         String key = editText.getText().toString();
                         Boolean isAdded = false;
                         if(isInserted) {
-                            isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);
+                            isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);//TODO don't work
                         } else {
                             isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
                         }
@@ -152,8 +152,8 @@ public class DiseaseActivity extends AppCompatActivity {
         } else {
             final AlertDialog dialog = DialogShowSignature.getDialog(this, currentHistory.getSignatureOfLastModified());
             dialog.show();
-            Button b = (Button) dialog.findViewById(R.id.button5);
-            Button c = (Button) dialog.findViewById(R.id.button7);
+            Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+            Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
             b.setVisibility(View.GONE);
             c.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -17,30 +17,19 @@ import com.example.mary.hospital.R;
  */
 public class DialogShowPrivateKey {
     static EditText editText;
-    static String key;
 
-    public static AlertDialog getDialog(Activity activity, String k){
+    public static AlertDialog getDialog(Activity activity, String key){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_show_private_key, null); // Получаем layout по его ID
         builder.setView(view);
-        Button copy = (Button)view.findViewById(R.id.dialogCopyButton);
-        editText = (EditText)view.findViewById(R.id.dialogEditText);
-        builder.setTitle(R.string.dialog_show_key);
-        key = k;
+        editText = (EditText)view.findViewById(R.id.dialogShowKeyEditText);
+        builder.setTitle(R.string.your_private_key);
         editText.setText(key);
-        copy.setVisibility(View.GONE);
-        copy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                //ClipData clip = ClipData.newPlainText(label, text);
-                //clipboard.setPrimaryClip(clip);
-            }
-        });
+        Button button = (Button)view.findViewById(R.id.dialogShowKeyButton);
+        button.setVisibility(View.GONE);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // ,,,
                 dialog.dismiss();
             }
         });

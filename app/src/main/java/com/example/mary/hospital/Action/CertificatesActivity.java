@@ -30,11 +30,10 @@ public class CertificatesActivity extends AppCompatActivity {
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
         final Map<String, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
         final List<String> usersNames = new ArrayList<>(outputText.keySet());
-        ListView listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.certificatesListView);
         listView.setFocusable(true);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, usersNames);
-        //listView.setAdapter(new ItemCertificatesAdapter(this, R.layout.activity_certificates, outputText, usersNames));
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -42,15 +41,10 @@ public class CertificatesActivity extends AppCompatActivity {
                 Certificate cert = outputText.get(usersNames.get(position));
                 final AlertDialog dialog = DialogShowCertificate.getDialog(CertificatesActivity.this, cert);
                 dialog.show();
-                Button c = (Button) dialog.findViewById(R.id.button5);
-                Button b = (Button) dialog.findViewById(R.id.button7);
+                Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+                Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+                c.setVisibility(View.GONE);
                 b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                c.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();

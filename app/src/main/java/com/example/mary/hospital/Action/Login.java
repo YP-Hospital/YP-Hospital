@@ -32,8 +32,8 @@ public class Login extends AppCompatActivity {
         Intent intent = getIntent();
         String login = intent.getStringExtra(ExtraResource.USER_LOGIN);
         String password = intent.getStringExtra(ExtraResource.USER_PASSWORD);
-        EditText loginText = (EditText) findViewById(R.id.login);
-        EditText passwordText = (EditText) findViewById(R.id.password);
+        EditText loginText = (EditText) findViewById(R.id.loginLoginEditText);
+        EditText passwordText = (EditText) findViewById(R.id.registrationPasswordEditText);
         loginText.setText(login);
         passwordText.setText(password);
     }
@@ -53,8 +53,8 @@ public class Login extends AppCompatActivity {
     }
 
     public void signIn(View view) {
-        String login = ((EditText) findViewById(R.id.login)).getText().toString();
-        String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        String login = ((EditText) findViewById(R.id.loginLoginEditText)).getText().toString();
+        String password = ((EditText) findViewById(R.id.registrationPasswordEditText)).getText().toString();
         if (login.isEmpty() || password.isEmpty()) {
             ExtraResource.showErrorDialog(R.string.error_login_password_required, this);
             return;

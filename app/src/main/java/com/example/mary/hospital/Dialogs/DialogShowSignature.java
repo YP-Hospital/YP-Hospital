@@ -15,26 +15,12 @@ public class DialogShowSignature {
 
     public static AlertDialog getDialog(Activity activity, String signature){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        View view = activity.getLayoutInflater().inflate(R.layout.activity_dialog_enter_private_key, null); // Получаем layout по его ID
+        View view = activity.getLayoutInflater().inflate(R.layout.dialog_enter_private_key, null); // Получаем layout по его ID
         builder.setView(view);
-        editText = (EditText)view.findViewById(R.id.editText);
+        editText = (EditText)view.findViewById(R.id.dialogEnterKeyEditText);
         editText.setText(signature);
         editText.setEnabled(false);
-        builder.setTitle(R.string.dialog_show_key);
-      /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                DiseaseActivity.checkPrivateKey(editText.getText().toString());
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // Переход на оценку приложения
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Переход
-                dialog.dismiss();
-            }
-        });*/
+        builder.setTitle(R.string.this_is_signature_of_the_last_modified);
         builder.setCancelable(true);
         return builder.create();
     }

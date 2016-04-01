@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemDiseaseAdapter;
 import com.example.mary.hospital.CurrentUser;
@@ -43,7 +42,7 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         userService = new UserServiceImpl(this);
         diseaseService = new DiseaseHistoryServiceImpl(this);
-        getUserInfoAndFillFilelds();
+        getUserInfoAndFillFields();
         createAndRepaintListView();
     }
 
@@ -79,7 +78,7 @@ public class UserActivity extends AppCompatActivity {
     public void redirectToEditDisease(View view) {// addButton was clicked
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
-        IntentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
+        IntentTemp.putExtra(ExtraResource.IS_EDITABLE, true);
         startActivity(IntentTemp);
     }
 
@@ -115,7 +114,7 @@ public class UserActivity extends AppCompatActivity {
         startActivity(IntentTemp);
     }
 
-    private void getUserInfoAndFillFilelds(){
+    private void getUserInfoAndFillFields(){
         userRole = CurrentUser.getUserRole();
         userID =  CurrentUser.getUserID();
         User user = userService.getUserById(getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
@@ -123,7 +122,7 @@ public class UserActivity extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
+        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);//TODO return 0 diseaseNames
     }
 }
 
