@@ -47,11 +47,12 @@ public class UserActivity extends AppCompatActivity {
         diseaseService = new DiseaseHistoryServiceImpl(this);
         userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         setContentView(R.layout.activity_user);
-        CurrentPerson.setUserLogin( getIntent().getStringExtra(ExtraResource.USER_LOGIN));
-        CurrentPerson.setPatientID(getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-        CurrentPerson.setPatientLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
-        CurrentPerson.setUserRole(getIntent().getStringExtra(ExtraResource.USER_ROLE));
+        //CurrentPerson.setUserLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));
+        //CurrentPerson.setPatientID(getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+        //CurrentPerson.setPatientLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+        //CurrentPerson.setUserRole(getIntent().getStringExtra(ExtraResource.USER_ROLE));
         addButton = (Button) findViewById(R.id.userDiseaseAddButton);
+        userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
         User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.USER_LOGIN));//TODO исправить, с логина посылаю одно, с листа другое
         userDoctorID = user.getDoctorID().toString();
         currentDoctorID =  getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
@@ -72,6 +73,7 @@ public class UserActivity extends AppCompatActivity {
                 Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
                 intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
+                intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
                 int i = diseases.get(position).getId();
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
                 if (userDoctorID.equals(currentDoctorID)) {

@@ -50,6 +50,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static String patientLogin;
     private static String userRole;
     private static Intent intentTemp;
+    private Boolean isInserteds = false;
 
 
 
@@ -104,6 +105,7 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate.setText(format.format(currentHistory.getOpenDate()));
         closeDate.setText(format.format(currentHistory.getCloseDate()));
         text.setText(currentHistory.getText());
+        isInserteds = true;
     }
 
     public void saveDisease(View view) throws InterruptedException {
@@ -114,12 +116,12 @@ public class DiseaseActivity extends AppCompatActivity {
             String textS = text.getText().toString();
             Integer idi = Integer.parseInt(historyOwnerPatientID);///
             intentTemp = new Intent(this, UserActivity.class);
-            intentTemp.putExtra(ExtraResource.PATIENT_ID, CurrentPerson.getPatientID());
-            intentTemp.putExtra(ExtraResource.USER_LOGIN, CurrentPerson.getUserLogin());
-            intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, CurrentPerson.getCurrentDoctorID());
-            String user = CurrentPerson.getUserRole();
-            intentTemp.putExtra(ExtraResource.USER_ROLE, CurrentPerson.getUserRole());
-            intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, CurrentPerson.getPatientLogin());
+            intentTemp.putExtra(ExtraResource.PATIENT_ID, patientID);
+            intentTemp.putExtra(ExtraResource.USER_LOGIN, userLogin);
+            intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, currentDoctorID);
+           // String user = CurrentPerson.getUserRole();
+            intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
+            intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, patientLogin);
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
                 ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
             } else if (isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)) {
@@ -134,7 +136,13 @@ public class DiseaseActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         EditText editText = (EditText) dialog.findViewById(R.id.editText);
                         String key = editText.getText().toString();
-                        if (diseaseService.updateHistoryInDB(currentHistory, Integer.valueOf(currentDoctorID), key)) {
+                        Boolean isAdded = false;
+                        if(isInserteds) {
+                            isAdded = diseaseService.updateHistoryInDB(currentHistory, Integer.valueOf(currentDoctorID), key);
+                        } else {
+                            isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
+                        }
+                        if (isAdded) {
                             startActivity(intentTemp);
                         } else {
                             ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
