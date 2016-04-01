@@ -1,30 +1,27 @@
-package com.example.mary.hospital.Action;
+package com.example.mary.hospital.Dialogs;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.R;
 
 /**
- * Created by Grishalive on 22.03.2016.
+ * Created by Grishalive on 25.03.2016.
  */
-public class DialogEnterPrivateKey{
+public class DialogShowCertificate {
     static EditText editText;
 
-    public static AlertDialog getDialog(Activity activity){
+    public static AlertDialog getDialog(Activity activity, Certificate cert){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         View view = activity.getLayoutInflater().inflate(R.layout.activity_dialog_enter_private_key, null); // Получаем layout по его ID
         builder.setView(view);
         editText = (EditText)view.findViewById(R.id.editText);
-        builder.setTitle(R.string.dialog_show_key);
+        editText.setText(cert.getOpenKey());
+        editText.setEnabled(false);
+        builder.setTitle(R.string.show_doctor_certificate);
       /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
             public void onClick(DialogInterface dialog, int which) {

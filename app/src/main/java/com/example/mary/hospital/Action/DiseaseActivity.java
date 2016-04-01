@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.mary.hospital.CurrentPerson;
+import com.example.mary.hospital.CurrentUser;
+import com.example.mary.hospital.Dialogs.DialogEnterPrivateKey;
+import com.example.mary.hospital.Dialogs.DialogShowSignature;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.DiseaseHistoryService;
@@ -30,25 +33,20 @@ import java.util.List;
 public class DiseaseActivity extends AppCompatActivity {
     private UserService userService;
     private static DiseaseHistoryService diseaseService;
+    private static EditText diseaseName;
+    private static EditText openDate;
+    private static EditText closeDate;
+    private static EditText text;
     private Integer currentHistoryID;
     private static DiseaseHistory currentHistory;
     private SimpleDateFormat format;
     private List<DiseaseHistory> diseases;
     private List<String> diseaseNames;
-    private static EditText diseaseName;
-    private static EditText openDate;
-    private static EditText closeDate;
-    private static EditText text;
-    private static String doctorName;
-    private static Boolean isInserted = true;
-    private static String currentDoctorName;
-    private  String isEditable;
-    private String currentDoctorID;
-    String historyOwnerPatientID;
-    private static String patientID;
-    private static String userLogin;
-    private static String patientLogin;
-    private static String userRole;
+    private static String userName;
+    private Boolean isEditableActivity;
+    private int userID;
+    private static int patientID;
+    private static Role userRole;
     private static Intent intentTemp;
     private Boolean isInserteds = false;
 
@@ -57,50 +55,48 @@ public class DiseaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_disease_history);
-        userService = new UserServiceImpl(this);
-        diseaseService = new DiseaseHistoryServiceImpl(this);
-        currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
-        if (currentDoctorID != null)
-            currentDoctorName = userService.getUserById(Integer.parseInt(currentDoctorID)).getName();
-        isEditable = getIntent().getStringExtra(ExtraResource.IS_EDITABLE);
-        format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
-        currentHistoryID = getIntent().getIntExtra(ExtraResource.DISEASE_ID, 0);
-        diseaseName = ((EditText) findViewById(R.id.editDiseaseNameEditText));
-        openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
-        closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
-        text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
-        patientID = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
-        userLogin = getIntent().getStringExtra(ExtraResource.USER_LOGIN);
-        currentDoctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
-        userRole = getIntent().getStringExtra(ExtraResource.USER_ROLE);
-        patientLogin = getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN);
-        historyOwnerPatientID = getIntent().getStringExtra(ExtraResource.PATIENT_ID);
-        String doctorID = getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID);
-        if (currentHistoryID != 0) {
-            fillFields();
-        }
-        TextView e = (TextView) findViewById(R.id.textView3);
-        e.setVisibility(View.INVISIBLE);
-        currentHistory = diseaseService.getHistoryById(currentHistoryID);
-        if(isEditable.equals("false")){
+        getUserInfoAndInitVariables();
+        if (currentHistoryID != 0) { fillFields();}
+        setActivityEditableOrNot();
+    }
+
+    private void setActivityEditableOrNot(){
+        TextView textView = (TextView) findViewById(R.id.textView3);
+        if(!isEditableActivity){
             diseaseName.setEnabled(false);
             openDate.setEnabled(false);
             closeDate.setEnabled(false);
             text.setEnabled(false);
             Button b = (Button) findViewById(R.id.editDiseaseSaveButton);
             b.setText("Signature");
-            e.setVisibility(View.VISIBLE);
-            e.setText("Last modified by " + currentHistory.getLastModifiedBy());
+            textView.setVisibility(View.VISIBLE);
+            textView.setText("Last modified by " + currentHistory.getLastModifiedBy());
         } else {
-            e.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
         }
-        User user = userService.getUserByLogin(getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
+    }
+
+    private void getUserInfoAndInitVariables(){
+        userService = new UserServiceImpl(this);
+        diseaseService = new DiseaseHistoryServiceImpl(this);
+        diseaseName = ((EditText) findViewById(R.id.editDiseaseNameEditText));
+        openDate = ((EditText) findViewById(R.id.editDiseaseOpenDateEditText));
+        closeDate = ((EditText) findViewById(R.id.editDiseaseCloseDateEditText));
+        text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
+        format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
+        currentHistoryID = getIntent().getIntExtra(ExtraResource.DISEASE_ID, 0);
+        userID = CurrentUser.getUserID();
+        userName = CurrentUser.getUserName();
+        userRole = CurrentUser.getUserRole();
+        isEditableActivity = getIntent().getBooleanExtra(ExtraResource.IS_EDITABLE, true);
+        patientID = getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0);
+        currentHistory = diseaseService.getHistoryById(currentHistoryID);
+        User user = userService.getUserById(patientID);
         diseases = diseaseService.getAllUsersHistories(user);
         diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
     }
 
     private void fillFields() {
-        currentHistory = diseaseService.getHistoryById(currentHistoryID);
         diseaseName.setText(currentHistory.getTitle());
         openDate.setText(format.format(currentHistory.getOpenDate()));
         closeDate.setText(format.format(currentHistory.getCloseDate()));
@@ -109,24 +105,20 @@ public class DiseaseActivity extends AppCompatActivity {
     }
 
     public void saveDisease(View view) throws InterruptedException {
-        if(isEditable.equals("true")) {
+        if(isEditableActivity) {
             String diseaseNameS = diseaseName.getText().toString();
             String openDateS = openDate.getText().toString();
             String closeDateS = closeDate.getText().toString();
             String textS = text.getText().toString();
-            Integer idi = Integer.parseInt(historyOwnerPatientID);///
             intentTemp = new Intent(this, UserActivity.class);
             intentTemp.putExtra(ExtraResource.PATIENT_ID, patientID);
-            intentTemp.putExtra(ExtraResource.USER_LOGIN, userLogin);
-            intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, currentDoctorID);
-           // String user = CurrentPerson.getUserRole();
-            intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
-            intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, patientLogin);
+            //intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userID);
+            //intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
                 ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
-            } else if (isStringParsibleToDate(openDateS) && isStringParsibleToDate(closeDateS)) {
+            } else if (isStringConvertibleToDate(openDateS) && isStringConvertibleToDate(closeDateS)) {
                 currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
-                        parseStringToDate(closeDateS), textS, idi, currentDoctorName);
+                        parseStringToDate(closeDateS), textS, patientID, userName);
                 final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
                 dialog.show();
                 Button c = (Button) dialog.findViewById(R.id.button5);
@@ -138,7 +130,7 @@ public class DiseaseActivity extends AppCompatActivity {
                         String key = editText.getText().toString();
                         Boolean isAdded = false;
                         if(isInserteds) {
-                            isAdded = diseaseService.updateHistoryInDB(currentHistory, Integer.valueOf(currentDoctorID), key);
+                            isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);
                         } else {
                             isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
                         }
@@ -174,7 +166,7 @@ public class DiseaseActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean isStringParsibleToDate(String str){
+    private Boolean isStringConvertibleToDate(String str){
         try {
             Date date = format.parse(str);
         } catch (ParseException e) {
@@ -182,6 +174,7 @@ public class DiseaseActivity extends AppCompatActivity {
         }
         return true;
     }
+
     private Date parseStringToDate(String str){
         Date date;
         try {

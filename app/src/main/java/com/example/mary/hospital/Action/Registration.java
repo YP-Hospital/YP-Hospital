@@ -27,13 +27,13 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Spinner spinner = (Spinner) findViewById(R.id.role);
-        Intent intent = getIntent();
-        currentUserName = intent.getStringExtra(ExtraResource.USER_LOGIN);
-        if (currentUserName == null) {
-            spinner.setClickable(true);
-            spinner.setEnabled(true);
-        }
+        //Spinner spinner = (Spinner) findViewById(R.id.role);
+        //Intent intent = getIntent();
+        //currentUserName = intent.getStringExtra(ExtraResource.USER_LOGIN);
+        //if (currentUserName == null) {
+        //    spinner.setClickable(true);
+        //    spinner.setEnabled(true);
+        //}
         userService = new UserServiceImpl(this);
     }
 
@@ -59,8 +59,6 @@ public class Registration extends AppCompatActivity {
                         User user = new User(login, password, name, role, age, phone);
                         privateKey = userService.insertUserInDB(user);
                         Boolean isSuccess = !privateKey.isEmpty();
-                        //AlertDialog dialog = DialogScreen.getDialog(this, privateKey); //TODO change
-                        //dialog.show();
                         if (isSuccess) {
                             returnBack(view);
                         }

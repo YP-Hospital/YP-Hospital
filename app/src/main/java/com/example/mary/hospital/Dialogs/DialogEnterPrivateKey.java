@@ -1,25 +1,29 @@
-package com.example.mary.hospital.Action;
+package com.example.mary.hospital.Dialogs;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.mary.hospital.R;
 
 /**
- * Created by Grishalive on 25.03.2016.
+ * Created by Grishalive on 22.03.2016.
  */
-public class DialogShowSignature {
+public class DialogEnterPrivateKey{
     static EditText editText;
 
-    public static AlertDialog getDialog(Activity activity, String signature){
+    public static AlertDialog getDialog(Activity activity){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         View view = activity.getLayoutInflater().inflate(R.layout.activity_dialog_enter_private_key, null); // Получаем layout по его ID
         builder.setView(view);
         editText = (EditText)view.findViewById(R.id.editText);
-        editText.setText(signature);
-        editText.setEnabled(false);
         builder.setTitle(R.string.dialog_show_key);
       /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override
@@ -39,4 +43,3 @@ public class DialogShowSignature {
         return builder.create();
     }
 }
-

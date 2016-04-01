@@ -1,4 +1,4 @@
-package com.example.mary.hospital.Action;
+package com.example.mary.hospital.Dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +15,7 @@ import com.example.mary.hospital.R;
 /**
  * Created by Grishalive on 22.03.2016.
  */
-public class DialogScreen {
+public class DialogShowPrivateKey {
     static EditText editText;
     static String key;
 
