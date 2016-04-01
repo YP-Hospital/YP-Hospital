@@ -55,9 +55,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intentTemp = new Intent(view.getContext(), DiseaseActivity.class);
-                //intentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
-                //intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
                 int i = diseases.get(position).getId();
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
                 if (patientsDoctorID == userID) {
@@ -65,7 +63,6 @@ public class UserActivity extends AppCompatActivity {
                 } else {
                     intentTemp.putExtra(ExtraResource.IS_EDITABLE, false);
                 }
-                //intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userID);
                 startActivity(intentTemp);
             }
         });
@@ -81,10 +78,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void redirectToEditDisease(View view) {// addButton was clicked
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
-        IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getStringExtra(ExtraResource.PATIENT_ID));
-        IntentTemp.putExtra(ExtraResource.PATIENT_LOGIN, getIntent().getStringExtra(ExtraResource.PATIENT_LOGIN));
-        IntentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, getIntent().getStringExtra(ExtraResource.CURRENT_DOCTOR_ID));
-        IntentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
+        IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
         IntentTemp.putExtra(ExtraResource.IS_EDITABLE, "true");
         startActivity(IntentTemp);
     }

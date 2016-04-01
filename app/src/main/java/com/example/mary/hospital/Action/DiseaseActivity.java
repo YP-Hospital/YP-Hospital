@@ -112,8 +112,6 @@ public class DiseaseActivity extends AppCompatActivity {
             String textS = text.getText().toString();
             intentTemp = new Intent(this, UserActivity.class);
             intentTemp.putExtra(ExtraResource.PATIENT_ID, patientID);
-            //intentTemp.putExtra(ExtraResource.CURRENT_DOCTOR_ID, userID);
-            //intentTemp.putExtra(ExtraResource.USER_ROLE, userRole);
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
                 ExtraResource.showErrorDialog(R.string.error_name_exist, DiseaseActivity.this);
             } else if (isStringConvertibleToDate(openDateS) && isStringConvertibleToDate(closeDateS)) {
