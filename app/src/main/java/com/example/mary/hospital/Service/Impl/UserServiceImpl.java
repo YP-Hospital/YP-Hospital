@@ -62,20 +62,20 @@ public class UserServiceImpl implements UserService {
         List<String> answerFromServer;
         try {
             answerFromServer = getAnswerFromServerForQuery("select" + separatorForSending + User.DATABASE_TABLE
-                    + separatorForSending + User.PASSWORD_COLUMN + separatorForSending + User.ROLE_COLUMN
-                    + separatorForSending + "where" + separatorForSending + User.LOGIN_COLUMN + separatorForSending + login);
+                    + separatorForSending + "*" + separatorForSending + "where" + separatorForSending
+                    + User.LOGIN_COLUMN + separatorForSending + login);
             if (answerFromServer.get(booleanAnswer).equals("false")) {
                 ExtraResource.showErrorDialog(R.string.error_invalid_login, context);
                 return null;
             } else {
                 List<User> users = stringToUsers(answerFromServer.get(dataAnswer));
-                if (!users.get(booleanAnswer).getPassword().equals(passwordToHash(password))) {
+                if (!users.get(0).getPassword().equals(passwordToHash(password))) {
                     ExtraResource.showErrorDialog(R.string.error_incorrect_password, context);
                     return null;
                 }
-                return users.get(booleanAnswer);
+                ExtraResource.setCurrentUser(users.get(0));
+                return users.get(0);
             }
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
