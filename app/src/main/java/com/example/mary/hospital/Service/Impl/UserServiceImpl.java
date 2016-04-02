@@ -148,7 +148,6 @@ public class UserServiceImpl implements UserService {
             }
             if (isPassword) {
                 user.setPassword(words.get(i++));
-                user.setPassword("");
             }
             if (isName) {
                 user.setName(words.get(i++));
