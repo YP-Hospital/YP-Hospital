@@ -9,6 +9,7 @@ public interface UserService {
     String insertUserInDB(User user);
     Boolean updateUserInDB(User user);
     Boolean isUserExist(String name);
+    Boolean deleteUserFromDB();
     User signIn(String name, String password);
     User getUserByLogin(String name);
     User getUserById(Integer id);
