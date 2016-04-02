@@ -128,6 +128,7 @@ public class DiseaseActivity extends AppCompatActivity {
                         String key = editText.getText().toString();
                         Boolean isAdded = false;
                         if(isInserted) {
+                            currentHistory.setId(currentHistoryID);
                             isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);//TODO don't work
                         } else {
                             isAdded = diseaseService.insertHistoryInDB(currentHistory, key);

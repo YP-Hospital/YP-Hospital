@@ -40,4 +40,10 @@
     <string name="attention">Attention</string>
     <string name="please_enter_your_private_key">Please, enter your private key</string>
     <string name="this_is_signature_of_the_last_modified">This is signature of the last modified</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
