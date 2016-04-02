@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
-    /**Warning! GOVNOKOD!*/
+    /**Warning! GOVNOKOD*/
     private void formListOfUsers(List<User> users, List<String> words) {
         Boolean isID = false, isLogin = false, isPassword = false, isName = false, isRole = false, isAge = false, isPhone = false, isDoctorID = false ;
         int i;
