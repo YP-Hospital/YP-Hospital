@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.example.mary.hospital.Model.Role;
+import com.example.mary.hospital.Model.User;
+
 public class ExtraResource {
     public static final String USER_LOGIN = "com.example.mary.hospital.USER_LOGIN";
     public static final String PATIENT_LOGIN = "com.example.mary.hospital.USER_LOGIN";
@@ -18,7 +21,43 @@ public class ExtraResource {
     public static final String IS_EDITABLE = "com.example.mary.hospital.USER_PRIVATE_KEY";
     public static final String STOP_WORDS = "This is a stop message";
     public static final String separatorForSending = "][";
+    private static User currentUser;
 
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static Integer getCurrentUserId(){
+        return currentUser.getId();
+    }
+
+    public static String getCurrentUserLogin(){
+        return currentUser.getLogin();
+    }
+
+    public static String getCurrentUserName(){
+        return currentUser.getName();
+    }
+
+    public static Role getCurrentUserRole(){
+        return currentUser.getRole();
+    }
+
+    public static Integer getCurrentUserAge(){
+        return currentUser.getAge();
+    }
+
+    public static String getCurrentUserPhone(){
+        return currentUser.getPhone();
+    }
+
+    public static Integer getCurrentUserDoctorID(){
+        return currentUser.getDoctorID();
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        ExtraResource.currentUser = currentUser;
+    }
 
     public static void showErrorDialog(int message, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
