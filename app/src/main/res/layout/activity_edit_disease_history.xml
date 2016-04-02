@@ -8,19 +8,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Disease"
+        android:text="@string/disease"
         android:id="@+id/editDiseaseNameTextView" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editDiseaseNameEditText" />
+        android:id="@+id/editDiseaseNameEditText"
+        android:inputType="none" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Open Date"
+        android:text="@string/open_date"
         android:id="@+id/editDiseaseOpenDateTextView" />
 
     <EditText
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Close Date"
+        android:text="@string/close_date"
         android:id="@+id/editDiseaseCloseDateTextView" />
 
     <EditText
@@ -50,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Text"
+        android:text="@string/text"
         android:id="@+id/editDiseaseTextTextView" />
 
     <EditText
@@ -61,7 +62,8 @@
         android:autoText="false"
         android:scrollIndicators="left"
         android:padding="20dp"
-        android:paddingTop="20dp" />
+        android:paddingTop="20dp"
+        android:inputType="textMultiLine" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,7 +75,7 @@
     <Button
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save"
         android:onClick="saveDisease"
         android:id="@+id/editDiseaseSaveButton"
         android:layout_gravity="center_horizontal" />

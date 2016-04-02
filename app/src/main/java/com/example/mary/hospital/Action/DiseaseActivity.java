@@ -39,17 +39,12 @@ public class DiseaseActivity extends AppCompatActivity {
     private Integer currentHistoryID;
     private static DiseaseHistory currentHistory;
     private SimpleDateFormat format;
-    private List<DiseaseHistory> diseases;
-    private List<String> diseaseNames;
     private static String userName;
     private Boolean isEditableActivity;
     private int userID;
     private static int patientID;
     private static Role userRole;
     private static Intent intentTemp;
-    private Boolean isInserted = false;
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +64,7 @@ public class DiseaseActivity extends AppCompatActivity {
             Button b = (Button) findViewById(R.id.editDiseaseSaveButton);
             b.setText(R.string.signature);
             textView.setVisibility(View.VISIBLE);
-            String lastModified = R.string.last_modified_by_ + currentHistory.getLastModifiedBy();
+            String lastModified = getString(R.string.last_modified_by) + ' ' + currentHistory.getLastModifiedBy();
             textView.setText(lastModified);
         } else {
             textView.setVisibility(View.GONE);
@@ -91,9 +86,8 @@ public class DiseaseActivity extends AppCompatActivity {
         isEditableActivity = getIntent().getBooleanExtra(ExtraResource.IS_EDITABLE, true);
         patientID = getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0);
         currentHistory = diseaseService.getHistoryById(currentHistoryID);
-        User user = userService.getUserById(patientID);
-        diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);
+        if(currentHistory == null)
+            currentHistory = new DiseaseHistory();
     }
 
     private void fillFields() {
@@ -101,7 +95,6 @@ public class DiseaseActivity extends AppCompatActivity {
         openDate.setText(format.format(currentHistory.getOpenDate()));
         closeDate.setText(format.format(currentHistory.getCloseDate()));
         text.setText(currentHistory.getText());
-        isInserted = true;
     }
 
     public void saveDisease(View view) throws InterruptedException {
@@ -115,8 +108,12 @@ public class DiseaseActivity extends AppCompatActivity {
             if (diseaseNameS.isEmpty() || openDateS.isEmpty() || closeDateS.isEmpty() || textS.isEmpty()) {
                 ExtraResource.showErrorDialog(R.string.error_field_required, DiseaseActivity.this);
             } else if (isStringConvertibleToDate(openDateS) && isStringConvertibleToDate(closeDateS)) {
-                currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
-                        parseStringToDate(closeDateS), textS, patientID, userName);
+                currentHistory.setTitle(diseaseNameS);
+                currentHistory.setOpenDate(parseStringToDate(openDateS));
+                currentHistory.setCloseDate(parseStringToDate(closeDateS));
+                currentHistory.setText(textS);
+                currentHistory.setPatientID(patientID);
+                currentHistory.setLastModifiedBy(userName);
                 showDialogEnterPrivateKey();
             } else {
                 ExtraResource.showErrorDialog(R.string.error_field_required, this);
@@ -137,9 +134,9 @@ public class DiseaseActivity extends AppCompatActivity {
                 EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
                 String key = editText.getText().toString();
                 Boolean isAdded = false;
-                if (isInserted) {
+                if (currentHistory.getId() != null) {
                     currentHistory.setId(currentHistoryID);
-                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);
+                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userName, key);//user
                 } else {
                     isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
                 }

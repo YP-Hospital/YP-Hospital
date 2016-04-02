@@ -21,6 +21,10 @@
         <item>Patient</item>
         <item>Doctor</item>
     </string-array>
+    <string-array name="typesOfPatients">
+        <item>All</item>
+        <item>My</item>
+    </string-array>
     <string name="operation_complete">"Operation complete"</string>
     <string name="error">Error</string>
     <string name="error_invalid_login">This login is invalid</string>
@@ -42,9 +46,14 @@
     <string name="this_is_signature_of_the_last_modified">This is signature of the last modified</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="signature">Signature</string>
-    <string name="last_modified_by_">Last modified by </string>
+    <string name="last_modified_by">Last modified by</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="disease">Disease</string>
+    <string name="open_date">Open Date</string>
+    <string name="close_date">Close Date</string>
+    <string name="text">Text</string>
+    <string name="save">Save</string>
 </resources>

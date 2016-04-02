@@ -58,8 +58,8 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return useQuery(query);
     }
 
-    public Boolean updateHistoryInDB(DiseaseHistory history, Integer id, String privateKey) {
-        User user = userService.getUserById(id);
+    public Boolean updateHistoryInDB(DiseaseHistory history, String name, String privateKey) {
+        //User user = userService.getUserById(id);
         String query = "update" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + DiseaseHistory.TITLE_COLUMN
                 + separatorForSending + DiseaseHistory.OPEN_DATE_COLUMN + separatorForSending + DiseaseHistory.CLOSE_DATE_COLUMN
                 + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN
@@ -67,7 +67,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                 + DiseaseHistory.SIGNATURE_OF_LAST_MODIFIED_COLUMN + separatorForSending + history.getTitle()
                 + separatorForSending + dateFormat.format(history.getOpenDate()) + separatorForSending + dateFormat.format(history.getCloseDate())
                 + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
-                + separatorForSending + user.getName() + separatorForSending + history.getId()
+                + separatorForSending + name + separatorForSending + history.getId()
                 + separatorForSending + privateKey;
         return useQuery(query);
     }

@@ -108,7 +108,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 names.add(patient.getName());
                 users.add(patient);
             } else {
-                if (patient.getDoctorID().equals(doctorID)) {//TODO create server method returns names of all patients and all doctors patients
+                if (patient.getDoctorID().equals(doctorID)) {
                     names.add(patient.getName());
                     users.add(patient);
                 }
