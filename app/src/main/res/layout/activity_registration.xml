@@ -59,8 +59,8 @@
         android:hint="@string/age" />
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/registrationRoleSpinner"
         android:spinnerMode="dropdown"
         android:entries="@array/existingRoles"
