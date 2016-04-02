@@ -17,7 +17,6 @@ import com.example.mary.hospital.Service.UserService;
 public class Registration extends AppCompatActivity {
 
     private UserService userService;
-    private String currentUserName;
     private String login;
     private String password;
     private String privateKey;
@@ -27,13 +26,6 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        //Spinner spinner = (Spinner) findViewById(R.id.role);
-        //Intent intent = getIntent();
-        //currentUserName = intent.getStringExtra(ExtraResource.USER_LOGIN);
-        //if (currentUserName == null) {
-        //    spinner.setClickable(true);
-        //    spinner.setEnabled(true);
-        //}
         userService = new UserServiceImpl(this);
     }
 
@@ -77,16 +69,11 @@ public class Registration extends AppCompatActivity {
     }
 
     public void returnBack(View view) {
-        if (currentUserName == null) {
             Intent intent = new Intent(this, Login.class);
             intent.putExtra(ExtraResource.USER_LOGIN, this.login);
             intent.putExtra(ExtraResource.USER_PASSWORD, this.password);
             intent.putExtra(ExtraResource.USER_PRIVATE_KEY, this.privateKey);
             intent.putExtra(ExtraResource.USER_ROLE, this.role);
             startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, Login.class);//TODO Change on activity, where is button will be
-            startActivity(intent);
-        }
     }
 }

@@ -25,9 +25,13 @@ public class CertificatesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);//
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certificates);
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
+        createListView();
+    }
+
+    private void createListView(){
         final Map<String, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
         final List<String> usersNames = new ArrayList<>(outputText.keySet());
         ListView listView = (ListView) findViewById(R.id.certificatesListView);
@@ -39,17 +43,21 @@ public class CertificatesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Certificate cert = outputText.get(usersNames.get(position));
-                final AlertDialog dialog = DialogShowCertificate.getDialog(CertificatesActivity.this, cert);
-                dialog.show();
-                Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
-                Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
-                c.setVisibility(View.GONE);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                showDialogCertificate(cert);
+            }
+        });
+    }
+
+    private void showDialogCertificate(Certificate cert){
+        final AlertDialog dialog = DialogShowCertificate.getDialog(CertificatesActivity.this, cert);
+        dialog.show();
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        cancelButton.setVisibility(View.GONE);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
     }

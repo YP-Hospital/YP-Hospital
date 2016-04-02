@@ -67,9 +67,10 @@ public class DiseaseActivity extends AppCompatActivity {
             closeDate.setEnabled(false);
             text.setEnabled(false);
             Button b = (Button) findViewById(R.id.editDiseaseSaveButton);
-            b.setText("Signature");
+            b.setText(R.string.signature);
             textView.setVisibility(View.VISIBLE);
-            textView.setText("Last modified by " + currentHistory.getLastModifiedBy());
+            String lastModified = R.string.last_modified_by_ + currentHistory.getLastModifiedBy();
+            textView.setText(lastModified);
         } else {
             textView.setVisibility(View.GONE);
         }
@@ -116,52 +117,60 @@ public class DiseaseActivity extends AppCompatActivity {
             } else if (isStringConvertibleToDate(openDateS) && isStringConvertibleToDate(closeDateS)) {
                 currentHistory = new DiseaseHistory(diseaseNameS, parseStringToDate(openDateS),
                         parseStringToDate(closeDateS), textS, patientID, userName);
-                final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
-                dialog.show();
-                Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
-                Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
-                        String key = editText.getText().toString();
-                        Boolean isAdded = false;
-                        if(isInserted) {
-                            currentHistory.setId(currentHistoryID);
-                            isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);//TODO don't work
-                        } else {
-                            isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
-                        }
-                        if (isAdded) {
-                            startActivity(intentTemp);
-                        } else {
-                            ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                c.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                showDialogEnterPrivateKey();
             } else {
                 ExtraResource.showErrorDialog(R.string.error_field_required, this);
             }
         } else {
-            final AlertDialog dialog = DialogShowSignature.getDialog(this, currentHistory.getSignatureOfLastModified());
-            dialog.show();
-            Button b = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
-            Button c = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
-            b.setVisibility(View.GONE);
-            c.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+           showDialogShowSignature();
         }
+    }
+
+    private void showDialogEnterPrivateKey(){
+        final AlertDialog dialog = DialogEnterPrivateKey.getDialog(this);
+        dialog.show();
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+                String key = editText.getText().toString();
+                Boolean isAdded = false;
+                if (isInserted) {
+                    currentHistory.setId(currentHistoryID);
+                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userID, key);
+                } else {
+                    isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
+                }
+                if (isAdded) {
+                    startActivity(intentTemp);
+                } else {
+                    ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
+                }
+                dialog.dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showDialogShowSignature(){
+        final AlertDialog dialog = DialogShowSignature.getDialog(this, currentHistory.getSignatureOfLastModified());
+        dialog.show();
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        cancelButton.setVisibility(View.GONE);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private Boolean isStringConvertibleToDate(String str){
