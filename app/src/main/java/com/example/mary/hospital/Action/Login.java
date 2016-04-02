@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.mary.hospital.CurrentUser;
 import com.example.mary.hospital.Dialogs.DialogShowPrivateKey;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
@@ -59,21 +58,19 @@ public class Login extends AppCompatActivity {
             ExtraResource.showErrorDialog(R.string.error_login_password_required, this);
             return;
         }
-        User user = userService.signIn(login, password);//TODO returns empty user, I want not empty
+        User user = userService.signIn(login, password);
         if (user != null) {
             Role role = user.getRole();
             if (role == Role.Patient) {
-                redirectToHomePage(login, role, UserActivity.class);//TODO change
+                redirectToHomePage(user, UserActivity.class);
             } else {
-                redirectToHomePage(login, role, ListOfUsersActivity.class);//
+                redirectToHomePage(user, ListOfUsersActivity.class);
             }
         }
     }
 
-    private void redirectToHomePage(String login, Role role, Class activityToRedirect) {
+    private void redirectToHomePage(User user, Class activityToRedirect) {
         Intent IntentTemp = new Intent(this, activityToRedirect);
-        User user = userService.getUserByLogin(login);
-        new CurrentUser(user.getName(), user.getId(), user.getLogin(), user.getRole(), user.getDoctorID());
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, user.getId());//for UserActivity
         startActivity(IntentTemp);
     }

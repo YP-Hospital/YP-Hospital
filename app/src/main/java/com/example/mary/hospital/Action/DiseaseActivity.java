@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.mary.hospital.CurrentUser;
 import com.example.mary.hospital.Dialogs.DialogEnterPrivateKey;
 import com.example.mary.hospital.Dialogs.DialogShowSignature;
 import com.example.mary.hospital.ExtraResource;
@@ -85,9 +84,9 @@ public class DiseaseActivity extends AppCompatActivity {
         text = ((EditText) findViewById(R.id.editDiseaseTextEditText));
         format = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT);
         currentHistoryID = getIntent().getIntExtra(ExtraResource.DISEASE_ID, 0);
-        userID = CurrentUser.getUserID();
-        userName = CurrentUser.getUserName();
-        userRole = CurrentUser.getUserRole();
+        userID = ExtraResource.getCurrentUserId();
+        userName = ExtraResource.getCurrentUserName();
+        userRole = ExtraResource.getCurrentUserRole();
         isEditableActivity = getIntent().getBooleanExtra(ExtraResource.IS_EDITABLE, true);
         patientID = getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0);
         currentHistory = diseaseService.getHistoryById(currentHistoryID);

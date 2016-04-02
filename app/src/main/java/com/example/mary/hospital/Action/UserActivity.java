@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.mary.hospital.Adapters.ItemDiseaseAdapter;
-import com.example.mary.hospital.CurrentUser;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.DiseaseHistory;
 import com.example.mary.hospital.Model.Role;
@@ -115,8 +114,8 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void getUserInfoAndFillFields(){
-        userRole = CurrentUser.getUserRole();
-        userID =  CurrentUser.getUserID();
+        userRole = ExtraResource.getCurrentUserRole();
+        userID =  ExtraResource.getCurrentUserId();
         User user = userService.getUserById(getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
         patientsDoctorID = user.getDoctorID();
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);

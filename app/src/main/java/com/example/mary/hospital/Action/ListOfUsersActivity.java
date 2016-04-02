@@ -12,10 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
-import com.example.mary.hospital.CurrentUser;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
@@ -129,8 +127,8 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
 
     private void getUserInfo() {
-        userRole = CurrentUser.getUserRole();
-        doctorID = CurrentUser.getUserID();//Because user - doctor
+        userRole = ExtraResource.getCurrentUserRole();
+        doctorID = ExtraResource.getCurrentUserId();//Because user - doctor
     }
 
 
