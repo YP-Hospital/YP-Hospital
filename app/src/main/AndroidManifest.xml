@@ -27,7 +27,7 @@
         <activity android:name=".Action.DiseaseActivity" />
         <activity android:name=".Action.ListOfUsersActivity" />
         <activity android:name=".Action.CertificatesActivity" />
-        <activity android:name=".Action.DialogEnterPrivateKey"/>
+        <activity android:name=".Dialogs.DialogEnterPrivateKey"/>
     </application>
 
 </manifest>

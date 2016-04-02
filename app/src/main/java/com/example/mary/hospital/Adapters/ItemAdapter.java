@@ -62,7 +62,6 @@ public class ItemAdapter extends ArrayAdapter<String> {
                 public void onClick(View v) {
                     ListOfUsersActivity.addUserToDoctor(position);
                     v.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                     v.invalidate();
                     mainViewholder.buttonDelete.setVisibility(View.VISIBLE);
                 }
@@ -72,7 +71,6 @@ public class ItemAdapter extends ArrayAdapter<String> {
                 public void onClick(View v) {
                     ListOfUsersActivity.deleteUserFromDoctor(position);
                     v.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                     v.invalidate();
                     mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
                 }
@@ -84,7 +82,6 @@ public class ItemAdapter extends ArrayAdapter<String> {
                 public void onClick(View v) {
                     ListOfUsersActivity.addUserToDoctor(position);
                     v.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Button1 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                     v.invalidate();
                 }
             });
@@ -93,7 +90,6 @@ public class ItemAdapter extends ArrayAdapter<String> {
                 public void onClick(View v) {
                     ListOfUsersActivity.deleteUserFromDoctor(position);
                     v.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Button2 was clicked for list item " + position, Toast.LENGTH_SHORT).show();
                     v.invalidate();
                 }
             });

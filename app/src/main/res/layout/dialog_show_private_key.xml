@@ -7,19 +7,19 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialogEditText"
-        android:layout_weight="0.77" />
+        android:id="@+id/dialogShowKeyEditText"
+        android:inputType="textMultiLine" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="104dp">
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Copy"
-            android:id="@+id/dialogCopyButton"
+            android:id="@+id/dialogShowKeyButton"
             android:layout_weight="0.5" />
 
     </LinearLayout>

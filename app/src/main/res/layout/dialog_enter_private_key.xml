@@ -12,7 +12,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -21,26 +21,27 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_weight="0.37" />
+            android:id="@+id/dialogEnterKeyEditText"
+            android:layout_weight="0.37"
+            android:inputType="textMultiLine" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="106dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
-                android:id="@+id/button5"
+                android:id="@+id/dialogEnterKeyCancelButton"
                 android:layout_weight="1" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ok"
-                android:id="@+id/button7"
+                android:id="@+id/dialogEnterKeyOkButton"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
