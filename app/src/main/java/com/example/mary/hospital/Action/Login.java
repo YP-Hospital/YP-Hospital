@@ -23,6 +23,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
+        User user = new User();//need for registration
+        user.setRole(Role.Patient);//
+        ExtraResource.setCurrentUser(user);//
         fillLoginAndPassword();
         showPrivateKey();
     }

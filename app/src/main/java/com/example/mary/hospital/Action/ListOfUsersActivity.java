@@ -1,6 +1,8 @@
 package com.example.mary.hospital.Action;
 //check
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +11,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
+import com.example.mary.hospital.Dialogs.DialogAreYouSure;
+import com.example.mary.hospital.Dialogs.DialogShowCertificate;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +35,16 @@ import java.util.List;
 public class ListOfUsersActivity extends AppCompatActivity {
 
     private static UserService userService;
-    private final String[] typeOfPatients = {"All","My"};
+    private final String[] typeOfPatients = {"All", "My"};
+    private final String[] typeOfUsers = {"Doctors", "Patients"};
     private static Role userRole;
-    private static int doctorID;
+    private static int userID;
     private static ArrayList<User> users;
     private static ArrayList<String> names;
     private static ListView listView;
     private static Spinner spinner;
+    public Boolean isDeleted = false;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +53,41 @@ public class ListOfUsersActivity extends AppCompatActivity {
         getUserInfo();
         createAndRepaintListView(0);
         createSpinner();
+        createButton();
     }
 
-    public static void addUserToDoctor(int position){
-        userService.setDoctorToUser(doctorID, users.get(position));
+    private void createButton(){
+        Button add = (Button) findViewById(R.id.listOfUsersButton);
+        if(userRole.equals(Role.Admin)){
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(ListOfUsersActivity.this, Registration.class));
+                }
+            });
+        } else {
+            add.setVisibility(View.GONE);
+        }
+    }
+
+    public static void addUserToDoctor(int position) {
+        userService.setDoctorToUser(userID, users.get(position));
         listView.invalidate();
     }
 
-    public static void deleteUserFromDoctor(int position){
+    public static void deleteUserFromDoctor(int position) {
         userService.deleteDoctorToUser(users.get(position));//TODO must delete users by id
         listView.invalidate();
     }
 
-    public void createAndRepaintListView(int position){
+    public void createAndRepaintListView(int position) {
         getUsersToDisplayAndFillTextField(position);
-            listView = (ListView) findViewById(R.id.listOfUsersListView);
-            listView.setFocusable(true);
+        listView = (ListView) findViewById(R.id.listOfUsersListView);
+        listView.setFocusable(true);
+        final ArrayAdapter<String> adapter;
+        if (userRole.equals(Role.Doctor)) {
+            adapter = new ItemAdapter(this, R.layout.item_list_of_users, users, position, names, userID);
+            listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -66,11 +96,59 @@ public class ListOfUsersActivity extends AppCompatActivity {
                     startActivity(IntentTemp);
                 }
             });
-            listView.setAdapter(new ItemAdapter(this, R.layout.item_list_of_users, users, position, names, doctorID));
+        } else {
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
+                    IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId());
+                    startActivity(IntentTemp);
+                }
+            });
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                    String itemToDelete = arg0.getItemAtPosition(pos).toString();
+                    showDialogAndDeleteUser(users.get(pos), adapter, itemToDelete);
+                    return true;
+                }
+            });
+        }
     }
 
-    public void createSpinner(){
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfPatients);
+    private void showDialogAndDeleteUser(final User user, final ArrayAdapter<String> adapter, final String itemDelete){
+        String dialogText = getString(R.string.are_you_sure_that_you_want_to_delete_user) + ' ' + user.getName() + " ?";
+        final AlertDialog dialog = DialogAreYouSure.getDialog(ListOfUsersActivity.this, dialogText);
+        dialog.show();
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //userService.deleteUserFromDB(user);
+                dialog.dismiss();
+                adapter.remove(itemDelete);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    private void createSpinner() {
+        ArrayAdapter<String> spinnerAdapter;
+        if (userRole.equals(Role.Doctor)) {
+            spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfPatients);
+        } else {
+            spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeOfUsers);
+        }
         spinnerAdapter.notifyDataSetChanged();
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = (Spinner) findViewById(R.id.listOfUsersSpinner);
@@ -91,30 +169,49 @@ public class ListOfUsersActivity extends AppCompatActivity {
 
     @NonNull
     private void getUsersToDisplayAndFillTextField(int position) {
-        List<User> patients;
         names = new ArrayList<>();
         users = new ArrayList<>();
-        if(!names.isEmpty())
+        if (!names.isEmpty())
             names.clear();
-        if(!users.isEmpty())
+        if (!users.isEmpty())
             users.clear();
-       // if (userRole.equals(Role.Doctor)) {
-            patients = userService.getAllPatients();
-       // } else {
-       //     patients = userService.getAllUsers();
-       // }
-        for(User patient: patients)
-            if(position == 0) {
+        if (userRole.equals(Role.Doctor)) {
+            getPatientsToDisplay(userService.getAllPatients(), position);
+        } else {
+            getUsersToDisplay(userService.getAllUsers(), position);
+        }
+        setOutputText(names.size());
+    }
+
+    private void getPatientsToDisplay(List<User> allUsers, int position) {
+        for (User patient : allUsers) {
+            if (position == 0) {
                 names.add(patient.getName());
                 users.add(patient);
             } else {
-                if (patient.getDoctorID().equals(doctorID)) {
+                if (patient.getDoctorID().equals(userID)) {
                     names.add(patient.getName());
                     users.add(patient);
                 }
             }
-        setOutputText(names.size());
-    }
+        }
+    }//for Doctor
+
+    private void getUsersToDisplay(List<User> allUsers, int position) {
+        for (User user : allUsers) {
+            if (position == 0) {
+                if (user.getRole().equals(Role.Doctor)) {
+                    names.add(user.getName());
+                    users.add(user);
+                }
+            } else {
+                if (user.getRole().equals(Role.Patient)) {
+                    names.add(user.getName());
+                    users.add(user);
+                }
+            }
+        }
+    }//for Admin
 
     private void setOutputText(Integer size) {
         TextView textview = (TextView) findViewById(R.id.listOfUsersTextView);
@@ -122,15 +219,14 @@ public class ListOfUsersActivity extends AppCompatActivity {
         if (size == 0) {
             outputText = getResources().getString(R.string.noUsers) + " ";
         }
-        outputText += getResources().getString((userRole.equals(Role.Doctor)? R.string.Patients : R.string.Users));
+        outputText += getResources().getString((userRole.equals(Role.Doctor) ? R.string.Patients : R.string.Users));
         textview.setText(outputText);
     }
 
     private void getUserInfo() {
         userRole = ExtraResource.getCurrentUserRole();
-        doctorID = ExtraResource.getCurrentUserId();//Because user - doctor
+        userID = ExtraResource.getCurrentUserId();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
