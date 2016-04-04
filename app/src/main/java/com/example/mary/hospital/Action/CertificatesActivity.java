@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.mary.hospital.Dialogs.DialogShowCertificate;
 import com.example.mary.hospital.Model.Certificate;
+import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.CertificateService;
 import com.example.mary.hospital.Service.Impl.CertificateServiceImpl;
@@ -32,8 +33,8 @@ public class CertificatesActivity extends AppCompatActivity {
     }
 
     private void createListView(){
-        final Map<String, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
-        final List<String> usersNames = new ArrayList<>(outputText.keySet());
+        final Map<User, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
+        final List<User> usersNames = new ArrayList<>(outputText.keySet());
         ListView listView = (ListView) findViewById(R.id.certificatesListView);
         listView.setFocusable(true);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

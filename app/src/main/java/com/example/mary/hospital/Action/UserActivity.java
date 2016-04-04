@@ -121,7 +121,7 @@ public class UserActivity extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);//TODO return 0 diseaseNames
+        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);//TODO without BD
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Service.Impl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.mary.hospital.Connection.Connector;
@@ -26,6 +27,23 @@ public class CertificateServiceImpl implements CertificateService {
     private Context context;
     private UserService userService;
 
+    public Boolean deleteCertificate(Integer id) {
+        String query = "delete " +separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
+                + id;
+        return useQuery(query);
+    }
+
+    @NonNull
+    private Boolean useQuery(String query) {
+        Boolean isSuccess = false;
+        try {
+            isSuccess = Boolean.parseBoolean(getAnswerFromServerForQuery(query).get(booleanAnswer));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
+
     public CertificateServiceImpl(Context context) {
         this.context = context;
         userService = new UserServiceImpl(context);
@@ -48,15 +66,15 @@ public class CertificateServiceImpl implements CertificateService {
         return null;
     }
 
-    public Map<String, Certificate> getAllCertificatesWithUsersNames() {
-        Map<String, Certificate> usersNameToCertificates = new HashMap<>();
+    public Map<User, Certificate> getAllCertificatesWithUsersNames() {
+        Map<User, Certificate> usersNameToCertificates = new HashMap<>();
         String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + "*";
         List<Certificate> certificates = getCertificates(query);
         List<User> users = userService.getAllDoctors();
         for (Certificate certificate : certificates) {
             for (User user : users) {
                 if (user.getId().equals(certificate.getDoctorID())) {
-                    usersNameToCertificates.put(user.getName(), certificate);
+                    usersNameToCertificates.put(user, certificate);
                     break;
                 }
             }

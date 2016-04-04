@@ -44,6 +44,12 @@ public class UserServiceImpl implements UserService {
         return privateKey;
     }
 
+    public Boolean deleteUserFromDB(Integer id) {
+        String query = "delete " +separatorForSending + User.DATABASE_TABLE + separatorForSending
+                        + id;
+        return useQuery(query);
+    }
+
     public Boolean isUserExist(String login) {
         String result = "";
         try {
@@ -310,9 +316,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean setDoctorToUser(Integer id, User patient) {
-        String query = "update" + separatorForSending + User.DATABASE_TABLE + separatorForSending
-                + User.DOCTOR_ID_COLUMN + separatorForSending + id + separatorForSending + patient.getId();
-        return useQuery(query);
+        return setDoctorToUser(id, patient.getId());
     }
 
     public Boolean setDoctorToUser(String login, User patient) {
@@ -320,7 +324,11 @@ public class UserServiceImpl implements UserService {
         return setDoctorToUser(user, patient);
     }
 
-
+    public Boolean setDoctorToUser(Integer idDoctor, Integer idPatient) {
+        String query = "update" + separatorForSending + User.DATABASE_TABLE + separatorForSending
+                + User.DOCTOR_ID_COLUMN + separatorForSending + idDoctor + separatorForSending + idPatient;
+        return useQuery(query);
+    }
 
     public Boolean deleteDoctorToUser(User patient) {
         User doc = new User();
