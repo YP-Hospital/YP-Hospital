@@ -27,6 +27,11 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         userService = new UserServiceImpl(this);
+        if(ExtraResource.getCurrentUserRole().equals(Role.Patient)){
+            Spinner spinner = (Spinner) findViewById(R.id.registrationRoleSpinner);
+            spinner.setEnabled(false);
+        }
+
     }
 
     public void saveNewUser(View view){
@@ -69,7 +74,12 @@ public class Registration extends AppCompatActivity {
     }
 
     public void returnBack(View view) {
-            Intent intent = new Intent(this, Login.class);
+        Intent intent;
+        if(!ExtraResource.getCurrentUserRole().equals(Role.Admin)) {
+            intent = new Intent(this, Login.class);
+        } else {
+            intent = new Intent(this, ListOfUsersActivity.class);
+        }
             intent.putExtra(ExtraResource.USER_LOGIN, this.login);
             intent.putExtra(ExtraResource.USER_PASSWORD, this.password);
             intent.putExtra(ExtraResource.USER_PRIVATE_KEY, this.privateKey);

@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService {
         return Boolean.parseBoolean(result);
     }
 
+    @Override
+    public Boolean deleteUserFromDB() {
+        return null;
+    }
+
     public User signIn(String login, String password) {
         List<String> answerFromServer;
         try {

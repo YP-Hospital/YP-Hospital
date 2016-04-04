@@ -39,6 +39,8 @@ public class ExtraResource {
         return currentUser.getName();
     }
 
+    public static void setCurrentUserRole(Role role){ currentUser.setRole(role); }
+
     public static Role getCurrentUserRole(){
         return currentUser.getRole();
     }

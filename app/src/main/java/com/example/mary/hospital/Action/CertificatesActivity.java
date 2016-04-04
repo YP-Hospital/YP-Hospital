@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.mary.hospital.Dialogs.DialogAreYouSure;
 import com.example.mary.hospital.Dialogs.DialogShowCertificate;
+import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.Certificate;
-import com.example.mary.hospital.Model.User;
+import com.example.mary.hospital.Model.Role;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.CertificateService;
 import com.example.mary.hospital.Service.Impl.CertificateServiceImpl;
@@ -37,7 +39,7 @@ public class CertificatesActivity extends AppCompatActivity {
         final List<User> usersNames = new ArrayList<>(outputText.keySet());
         ListView listView = (ListView) findViewById(R.id.certificatesListView);
         listView.setFocusable(true);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, usersNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,6 +49,16 @@ public class CertificatesActivity extends AppCompatActivity {
                 showDialogCertificate(cert);
             }
         });
+        if(ExtraResource.getCurrentUserRole().equals(Role.Admin)) {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                    String itemToDelete = arg0.getItemAtPosition(pos).toString();
+                    showDialogAndDeleteCertificate(adapter, itemToDelete);
+                    return true;
+                }
+            });
+        }
     }
 
     private void showDialogCertificate(Certificate cert){
@@ -56,6 +68,29 @@ public class CertificatesActivity extends AppCompatActivity {
         Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
         cancelButton.setVisibility(View.GONE);
         okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showDialogAndDeleteCertificate(final ArrayAdapter<String> adapter, final String name){
+        String dialogText = getString(R.string.are_you_sure_that_you_want_to_delete_certificate_of) + ' ' + name + " ?";
+        final AlertDialog dialog = DialogAreYouSure.getDialog(CertificatesActivity.this, dialogText);
+        dialog.show();
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //deleteCertificate
+                dialog.dismiss();
+                adapter.remove(name);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

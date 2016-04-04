@@ -23,6 +23,7 @@ import com.example.mary.hospital.Service.Impl.DiseaseHistoryServiceImpl;
 import com.example.mary.hospital.Service.Impl.UserServiceImpl;
 import com.example.mary.hospital.Service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 //TODO Text area write in top
 
@@ -121,7 +122,12 @@ public class UserActivity extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = diseaseService.getTitlesOfAllUsersHistories(user);//TODO without BD
+        diseaseNames = new ArrayList<>();
+        if(diseases != null) {
+            for (DiseaseHistory disease : diseases) {
+                diseaseNames.add(disease.getTitle());
+            }
+        }
     }
 }
 
