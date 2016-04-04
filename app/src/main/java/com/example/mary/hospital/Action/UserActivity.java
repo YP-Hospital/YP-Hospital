@@ -122,12 +122,17 @@ public class UserActivity extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.userInfoTextView);
         textView.setText(user.toString());
         diseases = diseaseService.getAllUsersHistories(user);
-        diseaseNames = new ArrayList<>();
+        diseaseNames = getTitles(diseases);
+    }
+
+    public static List<String> getTitles(List<DiseaseHistory> diseases) {
+        List<String> diseaseNames = new ArrayList<>();
         if(diseases != null) {
             for (DiseaseHistory disease : diseases) {
                 diseaseNames.add(disease.getTitle());
             }
         }
+        return diseaseNames;
     }
 }
 
