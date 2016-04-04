@@ -51,6 +51,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_users);
         userService = new UserServiceImpl(this);
         getUserInfo();
+        getUsersToDisplayAndFillTextField(0);
         createAndRepaintListView(0);
         createSpinner();
         createButton();
@@ -81,7 +82,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
     }
 
     public void createAndRepaintListView(int position) {
-        getUsersToDisplayAndFillTextField(position);
         listView = (ListView) findViewById(R.id.listOfUsersListView);
         listView.setFocusable(true);
         final ArrayAdapter<String> adapter;
@@ -111,26 +111,34 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                     String itemToDelete = arg0.getItemAtPosition(pos).toString();
-                    showDialogAndDeleteUser(users.get(pos), adapter, itemToDelete);
+                    showDialogAndDeleteUser(users.get(pos), adapter, itemToDelete, pos);
                     return true;
                 }
             });
         }
     }
 
-    private void showDialogAndDeleteUser(final User user, final ArrayAdapter<String> adapter, final String itemDelete){
+    private void showDialogAndDeleteUser(final User user, final ArrayAdapter<String> adapter, final String itemDelete, final int pos){
         String dialogText = getString(R.string.are_you_sure_that_you_want_to_delete_user) + ' ' + user.getName() + " ?";
         final AlertDialog dialog = DialogAreYouSure.getDialog(ListOfUsersActivity.this, dialogText);
         dialog.show();
         Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
         Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        final int spinnerInt;
+        if(user.getRole().equals(Role.Doctor))
+            spinnerInt = 0;
+        else
+            spinnerInt = 1;
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //userService.deleteUserFromDB(user);
+                userService.deleteUserFromDB(user.getId());
+                users.remove(pos);
+                names.remove(pos);
                 dialog.dismiss();
-                adapter.remove(itemDelete);
-                adapter.notifyDataSetChanged();
+                createAndRepaintListView(spinnerInt);
+                //adapter.remove(itemDelete);
+                //adapter.notifyDataSetChanged();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +166,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                getUsersToDisplayAndFillTextField(position);
                 createAndRepaintListView(position);
             }
 

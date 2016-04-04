@@ -48,10 +48,14 @@ public class Login extends AppCompatActivity {
 
     public void registration(View view) {
         Intent intent = new Intent(this, Registration.class);
+        setCurrentUserPatient();
+        startActivity(intent);
+    }
+
+    private void setCurrentUserPatient(){
         User user = new User();//need for registration
         user.setRole(Role.Patient);//
         ExtraResource.setCurrentUser(user);//
-        startActivity(intent);
     }
 
     public void signIn(View view) {

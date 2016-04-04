@@ -14,6 +14,7 @@ import com.example.mary.hospital.Dialogs.DialogShowCertificate;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.Role;
+import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
 import com.example.mary.hospital.Service.CertificateService;
 import com.example.mary.hospital.Service.Impl.CertificateServiceImpl;
@@ -25,18 +26,29 @@ import java.util.Map;
 public class CertificatesActivity extends AppCompatActivity {
 
     private CertificateService certificateService;
+    private Map<User, Certificate> certificatesAndNames;
+    private List<User> users;
+    private List<String> usersNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certificates);
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
+        initVariables();
         createListView();
     }
 
+    private void initVariables(){
+        certificatesAndNames = certificateService.getAllCertificatesWithUsersNames();
+        users = new ArrayList<>(certificatesAndNames.keySet());
+        usersNames = getTitles(users);
+    }
+
     private void createListView(){
-        final Map<User, Certificate> outputText = certificateService.getAllCertificatesWithUsersNames();
-        final List<User> usersNames = new ArrayList<>(outputText.keySet());
+        final Map<User, Certificate> outputText = certificatesAndNames;
+        final List<User> users = this.users;
+        final List<String> usersNames = this.usersNames;
         ListView listView = (ListView) findViewById(R.id.certificatesListView);
         listView.setFocusable(true);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -45,7 +57,7 @@ public class CertificatesActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Certificate cert = outputText.get(usersNames.get(position));
+                Certificate cert = outputText.get(users.get(position));
                 showDialogCertificate(cert);
             }
         });
@@ -54,11 +66,20 @@ public class CertificatesActivity extends AppCompatActivity {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                     String itemToDelete = arg0.getItemAtPosition(pos).toString();
-                    showDialogAndDeleteCertificate(adapter, itemToDelete);
+                    Certificate cert = (outputText.get(users.get(pos)));
+                    showDialogAndDeleteCertificate(cert, adapter, itemToDelete, pos);
                     return true;
                 }
             });
         }
+    }
+
+    private List<String> getTitles(List<User> users){
+        List<String> userNames = new ArrayList<String>();
+        for(User user: users){
+            userNames.add(user.getName());
+        }
+        return userNames;
     }
 
     private void showDialogCertificate(Certificate cert){
@@ -75,7 +96,7 @@ public class CertificatesActivity extends AppCompatActivity {
         });
     }
 
-    private void showDialogAndDeleteCertificate(final ArrayAdapter<String> adapter, final String name){
+    private void showDialogAndDeleteCertificate(final Certificate certificate, final ArrayAdapter<String> adapter, final String name, final int pos){
         String dialogText = getString(R.string.are_you_sure_that_you_want_to_delete_certificate_of) + ' ' + name + " ?";
         final AlertDialog dialog = DialogAreYouSure.getDialog(CertificatesActivity.this, dialogText);
         dialog.show();
@@ -84,10 +105,13 @@ public class CertificatesActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //deleteCertificate
+                certificateService.deleteCertificate(certificate.getId());
+                users.remove(pos);
+                usersNames.remove(pos);
                 dialog.dismiss();
-                adapter.remove(name);
-                adapter.notifyDataSetChanged();
+                createListView();
+                //adapter.remove(name);
+                //adapter.notifyDataSetChanged();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
