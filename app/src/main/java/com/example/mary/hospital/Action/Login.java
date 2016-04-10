@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
     private void showPrivateKey(){
         String key = getIntent().getStringExtra(ExtraResource.USER_PRIVATE_KEY);
         String role = getIntent().getStringExtra(ExtraResource.USER_ROLE);
-        if(key != null && role.equals(Role.Doctor.toString())){
+        if(key != null && !role.equals(Role.Patient.toString())){
             AlertDialog dialog = DialogShowPrivateKey.getDialog(this, key);
             dialog.show();
         }

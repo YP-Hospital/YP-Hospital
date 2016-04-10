@@ -28,7 +28,7 @@ public class CertificateServiceImpl implements CertificateService {
     private UserService userService;
 
     public Boolean deleteCertificate(Integer id) {
-        String query = "delete " +separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
+        String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
                 + id;
         return useQuery(query);
     }
@@ -50,20 +50,9 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     public List<Certificate> getAllCertificates() {
-        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + "*";
+        String query = "select" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending + Certificate.ID_COLUMN
+                        + separatorForSending + Certificate.OPEN_KEY_COLUMN + separatorForSending + Certificate.DOCTOR_ID_COLUMN;
         return getCertificates(query);
-    }
-
-    public String getSignatureByPrivateKey(String privateKey) {
-        String messageForServer = "check" + separatorForSending + privateKey;
-        try {
-            return getAnswerFromServerForQuery(messageForServer).get(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public Map<User, Certificate> getAllCertificatesWithUsersNames() {

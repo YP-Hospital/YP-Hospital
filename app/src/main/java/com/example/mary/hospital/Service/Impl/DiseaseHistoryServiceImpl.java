@@ -42,9 +42,6 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         return useQuery(query);
     }
 
-    /**
-     * DOESN'T WORK!
-     */
     public Boolean updateHistoryInDB(DiseaseHistory history, User user, String privateKey) {
         return updateHistoryInDB(history, user.getName(), privateKey);
     }
