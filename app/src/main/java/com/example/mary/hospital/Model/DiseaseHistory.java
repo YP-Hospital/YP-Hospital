@@ -78,7 +78,8 @@ public class DiseaseHistory {
     }
 
     public String getStringToInsert() {
-        return "insert" + ExtraResource.separatorForSending + DATABASE_TABLE + ExtraResource.separatorForSending + title + ExtraResource.separatorForSending
+        return "insert" + ExtraResource.separatorForSending + DATABASE_TABLE + ExtraResource.separatorForSending
+                + title + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(openDate)) + ExtraResource.separatorForSending
                 + (new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(closeDate))
                 + ExtraResource.separatorForSending + text + ExtraResource.separatorForSending + patientID

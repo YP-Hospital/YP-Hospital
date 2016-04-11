@@ -28,7 +28,7 @@ public class CertificateServiceImpl implements CertificateService {
     private UserService userService;
 
     public Boolean deleteCertificate(Integer id) {
-        String query = "delete" +separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
+        String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
                 + id;
         return useQuery(query);
     }
