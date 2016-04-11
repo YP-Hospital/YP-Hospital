@@ -24,7 +24,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
         fillLoginAndPassword();
-        showPrivateKey();
     }
 
     private void fillLoginAndPassword() {
@@ -35,15 +34,6 @@ public class Login extends AppCompatActivity {
         EditText passwordText = (EditText) findViewById(R.id.registrationPasswordEditText);
         loginText.setText(login);
         passwordText.setText(password);
-    }
-
-    private void showPrivateKey(){
-        String key = getIntent().getStringExtra(ExtraResource.USER_PRIVATE_KEY);
-        String role = getIntent().getStringExtra(ExtraResource.USER_ROLE);
-        if(key != null && role.equals(Role.Doctor.toString())){
-            AlertDialog dialog = DialogShowPrivateKey.getDialog(this, key);
-            dialog.show();
-        }
     }
 
     public void registration(View view) {

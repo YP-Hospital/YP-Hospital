@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.mary.hospital.Adapters.ItemAdapter;
 import com.example.mary.hospital.Dialogs.DialogAreYouSure;
 import com.example.mary.hospital.Dialogs.DialogShowCertificate;
+import com.example.mary.hospital.Dialogs.DialogShowPrivateKey;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
 import com.example.mary.hospital.R;
@@ -55,6 +56,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
         createAndRepaintListView(0);
         createSpinner();
         createButton();
+        showPrivateKey();
     }
 
     private void createButton(){
@@ -81,12 +83,12 @@ public class ListOfUsersActivity extends AppCompatActivity {
         listView.invalidate();
     }
 
-    public void createAndRepaintListView(int position) {
+    public void createAndRepaintListView(final int positionSpinner) {
         listView = (ListView) findViewById(R.id.listOfUsersListView);
         listView.setFocusable(true);
         final ArrayAdapter<String> adapter;
         if (userRole.equals(Role.Doctor)) {
-            adapter = new ItemAdapter(this, R.layout.item_list_of_users, users, position, names, userID);
+            adapter = new ItemAdapter(this, R.layout.item_list_of_users, users, positionSpinner, names, userID);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -102,8 +104,14 @@ public class ListOfUsersActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
-                    IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId());
+                    Intent IntentTemp;
+                    if (positionSpinner == 0) {
+                        IntentTemp = new Intent(view.getContext(), DoctorInfoActivity.class);
+                        IntentTemp.putExtra(ExtraResource.DOCTOR_ID, users.get(position).getId());
+                    } else {
+                        IntentTemp = new Intent(view.getContext(), UserActivity.class);
+                        IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId());
+                    }
                     startActivity(IntentTemp);
                 }
             });
@@ -266,5 +274,18 @@ public class ListOfUsersActivity extends AppCompatActivity {
         IntentTemp.putExtra(ExtraResource.USER_ID, getIntent().getStringExtra(ExtraResource.USER_ID));
         IntentTemp.putExtra(ExtraResource.USER_ROLE, getIntent().getStringExtra(ExtraResource.USER_ROLE));
         startActivity(IntentTemp);
+    }
+
+    private void showPrivateKey(){
+        String key = getIntent().getStringExtra(ExtraResource.USER_PRIVATE_KEY);
+        String role  = getIntent().getStringExtra(ExtraResource.USER_ROLE);
+        if(key != null && ExtraResource.getCurrentUserRole().equals(Role.Admin) && !role.equals(Role.Patient.toString())){
+            AlertDialog dialog = DialogShowPrivateKey.getDialog(this, key);
+            dialog.show();
+        }
+    }
+
+    public void onBackPressed(){
+        startActivity(new Intent(ListOfUsersActivity.this, Login.class));
     }
 }

@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Boolean deleteUserFromDB(Integer id) {
-        String query = "delete " +separatorForSending + User.DATABASE_TABLE + separatorForSending
+        String query = "delete" +separatorForSending + User.DATABASE_TABLE + separatorForSending
                         + id;
         return useQuery(query);
     }

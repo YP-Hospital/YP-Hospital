@@ -57,7 +57,7 @@ public class UserActivity extends AppCompatActivity {
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
                 int i = diseases.get(position).getId();
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
-                if (patientsDoctorID == userID) {
+                if ((patientsDoctorID == userID) || (userRole == Role.Admin)) {
                     intentTemp.putExtra(ExtraResource.IS_EDITABLE, true);
                 } else {
                     intentTemp.putExtra(ExtraResource.IS_EDITABLE, false);
@@ -65,13 +65,13 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intentTemp);
             }
         });
-        if(userRole.equals(Role.Patient) || !(userID == patientsDoctorID)){
+        if(userRole.equals(Role.Admin) || (userID == patientsDoctorID)){
+            listView.setAdapter(new ItemDiseaseAdapter(this, R.layout.item_list_of_disease, diseaseNames));
+        } else {
             String[] str = new String[diseaseNames.size()];
             str = diseaseNames.toArray(str);
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str));
             addButton.setVisibility(View.GONE);
-        } else {
-            listView.setAdapter(new ItemDiseaseAdapter(this, R.layout.item_list_of_disease, diseaseNames));
         }
     }
 
@@ -134,5 +134,6 @@ public class UserActivity extends AppCompatActivity {
         }
         return diseaseNames;
     }
+
 }
 

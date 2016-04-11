@@ -27,7 +27,9 @@
         <activity android:name=".Action.DiseaseActivity" />
         <activity android:name=".Action.ListOfUsersActivity" />
         <activity android:name=".Action.CertificatesActivity" />
-        <activity android:name=".Dialogs.DialogEnterPrivateKey" />
+        <activity android:name=".Action.DoctorInfoActivity" />
+        <activity android:name=".Action.ListOfPatientsActivity" />
+        <!--<activity android:name=".Dialogs.DialogEnterPrivateKey" /> -->
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

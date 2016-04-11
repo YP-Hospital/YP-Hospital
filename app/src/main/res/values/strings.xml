@@ -58,5 +58,8 @@
     <string name="close_date">Close Date</string>
     <string name="text">Text</string>
     <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="add_patient_to_doctor">Add patient to doctor</string>
+    <string name="patients">Patients</string>
     <string name="add_new_user">ADD NEW USER</string>
 </resources>

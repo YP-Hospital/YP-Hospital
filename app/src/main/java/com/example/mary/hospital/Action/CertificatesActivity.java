@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mary.hospital.Dialogs.DialogAreYouSure;
 import com.example.mary.hospital.Dialogs.DialogShowCertificate;
@@ -43,6 +44,10 @@ public class CertificatesActivity extends AppCompatActivity {
         certificatesAndNames = certificateService.getAllCertificatesWithUsersNames();
         users = new ArrayList<>(certificatesAndNames.keySet());
         usersNames = getTitles(users);
+        Button ok = (Button) findViewById(R.id.certificatesButton);
+        ok.setVisibility(View.GONE);
+        TextView textView = (TextView)findViewById(R.id.certificatesTextView);
+        textView.setText(R.string.certificates);
     }
 
     private void createListView(){
