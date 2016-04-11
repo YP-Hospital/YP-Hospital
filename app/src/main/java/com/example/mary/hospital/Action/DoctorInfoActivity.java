@@ -72,6 +72,8 @@ public class DoctorInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent IntentTemp = new Intent(view.getContext(), UserActivity.class);
                 IntentTemp.putExtra(ExtraResource.PATIENT_ID, patients.get(position).getId());
+                IntentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
+                ExtraResource.lastActivity = "DoctorInfoActivity";
                 startActivity(IntentTemp);
             }
         });

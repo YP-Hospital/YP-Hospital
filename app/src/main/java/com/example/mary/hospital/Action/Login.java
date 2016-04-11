@@ -81,4 +81,8 @@ public class Login extends AppCompatActivity {
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, user.getId());//for UserActivity
         startActivity(IntentTemp);
     }
+
+    public void onBackPressed(){
+        moveTaskToBack(true);
+    }
 }

@@ -135,5 +135,19 @@ public class UserActivity extends AppCompatActivity {
         return diseaseNames;
     }
 
+    public void onBackPressed(){
+        Intent intent;
+        if(userRole.equals(Role.Patient)){
+            intent = new Intent(UserActivity.this, Login.class);
+        } else if(userRole.equals(Role.Doctor)) {
+            intent = new Intent(UserActivity.this, ListOfUsersActivity.class);
+        } else if(ExtraResource.lastActivity.equals("ListOfUsersActivity")){
+            intent = new Intent(UserActivity.this, ListOfUsersActivity.class);
+        } else {
+            intent = new Intent(UserActivity.this, DoctorInfoActivity.class);
+            intent.putExtra(ExtraResource.DOCTOR_ID, getIntent().getIntExtra(ExtraResource.DOCTOR_ID, 0));
+        }
+        startActivity(intent);
+    }
 }
 

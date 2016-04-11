@@ -112,6 +112,7 @@ public class ListOfUsersActivity extends AppCompatActivity {
                         IntentTemp = new Intent(view.getContext(), UserActivity.class);
                         IntentTemp.putExtra(ExtraResource.PATIENT_ID, users.get(position).getId());
                     }
+                    ExtraResource.lastActivity = "ListOfUsersActivity";
                     startActivity(IntentTemp);
                 }
             });

@@ -22,6 +22,7 @@ public class ExtraResource {
     public static final String STOP_WORDS = "This is a stop message";
     public static final String separatorForSending = "][";
     private static User currentUser;
+    public static String lastActivity;
 
     public static User getCurrentUser() {
         return currentUser;
