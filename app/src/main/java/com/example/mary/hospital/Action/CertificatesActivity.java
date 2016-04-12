@@ -141,7 +141,7 @@ public class CertificatesActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(certificateService.deleteCertificate(certificate.getId(), key)){
+                if(certificateService.deleteCertificate(certificate.getId(), key)){//
                     users.remove(pos);
                     usersNames.remove(pos);
                     dialog.dismiss();
