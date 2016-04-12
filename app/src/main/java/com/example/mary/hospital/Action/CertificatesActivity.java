@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mary.hospital.Dialogs.DialogAreYouSure;
+import com.example.mary.hospital.Dialogs.DialogEnterPrivateKey;
 import com.example.mary.hospital.Dialogs.DialogShowCertificate;
+import com.example.mary.hospital.Dialogs.DialogUniversal;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.Certificate;
 import com.example.mary.hospital.Model.Role;
@@ -38,16 +42,41 @@ public class CertificatesActivity extends AppCompatActivity {
         certificateService = new CertificateServiceImpl(CertificatesActivity.this);
         initVariables();
         createListView();
+        createButton();
     }
 
     private void initVariables(){
         certificatesAndNames = certificateService.getAllCertificatesWithUsersNames();
         users = new ArrayList<>(certificatesAndNames.keySet());
         usersNames = getTitles(users);
-        Button ok = (Button) findViewById(R.id.certificatesButton);
-        ok.setVisibility(View.GONE);
         TextView textView = (TextView)findViewById(R.id.certificatesTextView);
         textView.setText(R.string.certificates);
+    }
+
+    private void createButton(){
+        Button signature = (Button) findViewById(R.id.certificatesButton);
+        signature.setText(R.string.signature);
+        signature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog dialog = DialogUniversal.getDialog(CertificatesActivity.this, R.string.signature, certificateService.getAllCertificatesSignature());
+                dialog.show();
+                Button ok = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+                Button cancel = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+               cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     private void createListView(){
@@ -103,18 +132,24 @@ public class CertificatesActivity extends AppCompatActivity {
 
     private void showDialogAndDeleteCertificate(final Certificate certificate, final ArrayAdapter<String> adapter, final String name, final int pos){
         String dialogText = getString(R.string.are_you_sure_that_you_want_to_delete_certificate_of) + ' ' + name + " ?";
-        final AlertDialog dialog = DialogAreYouSure.getDialog(CertificatesActivity.this, dialogText);
+        final AlertDialog dialog = DialogEnterPrivateKey.getDialog(CertificatesActivity.this);
         dialog.show();
         Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
         Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
+        EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+        final String key = editText.getText().toString();
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                certificateService.deleteCertificate(certificate.getId());
-                users.remove(pos);
-                usersNames.remove(pos);
-                dialog.dismiss();
-                createListView();
+                if(certificateService.deleteCertificate(certificate.getId(), key)){
+                    users.remove(pos);
+                    usersNames.remove(pos);
+                    dialog.dismiss();
+                    createListView();
+                } else {
+                    dialog.dismiss();
+                    Toast.makeText(v.getContext(), R.string.wrong_key, Toast.LENGTH_LONG).show();
+                }
                 //adapter.remove(name);
                 //adapter.notifyDataSetChanged();
             }

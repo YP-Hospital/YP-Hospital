@@ -27,10 +27,23 @@ public class CertificateServiceImpl implements CertificateService {
     private Context context;
     private UserService userService;
 
-    public Boolean deleteCertificate(Integer id) {
+    public Boolean deleteCertificate(Integer id, String key) {
         String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
-                + id;
+                + id + separatorForSending + key;
         return useQuery(query);
+    }
+
+    public String getAllCertificatesSignature() {
+        String query = "select" + separatorForSending + "signatures" + separatorForSending + "signature";
+        String answer = null;
+        try {
+            answer = getAnswerFromServerForQuery(query).get(dataAnswer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return answer;
     }
 
     @NonNull
