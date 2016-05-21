@@ -45,6 +45,7 @@ public class DiseaseActivity extends AppCompatActivity {
     private static int patientID;
     private static Role userRole;
     private static Intent intentTemp;
+    private static int doctorID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,7 @@ public class DiseaseActivity extends AppCompatActivity {
         userName = ExtraResource.getCurrentUserName();
         userRole = ExtraResource.getCurrentUserRole();
         isEditableActivity = getIntent().getBooleanExtra(ExtraResource.IS_EDITABLE, true);
+        doctorID =  getIntent().getIntExtra(ExtraResource.DOCTOR_ID, 0);
         patientID = getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0);
         currentHistory = diseaseService.getHistoryById(currentHistoryID);
         if(currentHistory == null)
@@ -141,6 +143,7 @@ public class DiseaseActivity extends AppCompatActivity {
                     isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
                 }
                 if (isAdded) {
+                    intentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
                     startActivity(intentTemp);
                 } else {
                     ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());

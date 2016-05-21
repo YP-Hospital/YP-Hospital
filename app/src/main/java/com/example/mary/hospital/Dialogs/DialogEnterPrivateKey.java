@@ -17,7 +17,7 @@ public class DialogEnterPrivateKey{
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_enter_private_key, null); // Получаем layout по его ID
         builder.setView(view);
-        editText = (EditText)view.findViewById(R.id.dialogEnterKeyEditText);
+        //editText = (EditText)view.findViewById(R.id.dialogEnterKeyEditText);
         builder.setTitle(R.string.please_enter_your_private_key);
       /*  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { // Переход на оценку приложения
             @Override

@@ -148,7 +148,6 @@ public class User {
         return "Name: " + name + '\n' +
                 "Phone: " + phone + '\n' +
                 "Age: " + age + '\n' +
-                "Role: " + role + '\n' +
-                "DoctorID" + doctorID;
+                "Role: " + role + '\n';
     }
 }

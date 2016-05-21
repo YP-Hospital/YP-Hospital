@@ -70,11 +70,11 @@ public class CertificatesActivity extends AppCompatActivity {
                     }
                 });
                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                   @Override
+                   public void onClick(View v) {
+                       dialog.dismiss();
+                   }
+               });
             }
         });
     }
@@ -136,11 +136,11 @@ public class CertificatesActivity extends AppCompatActivity {
         dialog.show();
         Button cancelButton = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
         Button okButton = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
-        EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
-        final String key = editText.getText().toString();
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+                String key = editText.getText().toString();
                 if(certificateService.deleteCertificate(certificate.getId(), key)){//
                     users.remove(pos);
                     usersNames.remove(pos);

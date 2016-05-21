@@ -28,6 +28,9 @@ public class CertificateServiceImpl implements CertificateService {
     private UserService userService;
 
     public Boolean deleteCertificate(Integer id, String key) {
+        if (key.isEmpty()) {
+            return false;
+        }
         String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
                 + id + separatorForSending + key;
         return useQuery(query);
@@ -43,7 +46,7 @@ public class CertificateServiceImpl implements CertificateService {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        return answer;
+        return answer.split(separator)[2];
     }
 
     @NonNull

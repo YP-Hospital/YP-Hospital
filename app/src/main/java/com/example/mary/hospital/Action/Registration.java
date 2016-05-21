@@ -30,7 +30,7 @@ public class Registration extends AppCompatActivity {
         if(ExtraResource.getCurrentUserRole().equals(Role.Patient)){
             Spinner spinner = (Spinner) findViewById(R.id.registrationRoleSpinner);
             spinner.setEnabled(false);
-            spinner.setEnabled(true);
+            //spinner.setEnabled(true);
         }
 
     }
@@ -43,7 +43,9 @@ public class Registration extends AppCompatActivity {
             String confirmPassword = confirmPasswordText.getText().toString();
             if (password.equals(confirmPassword)) {
                 String login = ((EditText) findViewById(R.id.registrationLoginEditText)).getText().toString();
-                if (!userService.isUserExist(login)) {
+                if (login.isEmpty()) {
+                    ExtraResource.showErrorDialog(R.string.error_field_required, Registration.this);
+                } else if (!userService.isUserExist(login)) {
                     String name = ((EditText) findViewById(R.id.registrationNameEditText)).getText().toString();
                     String phone = ((EditText) findViewById(R.id.registrationPhoneEditText)).getText().toString();
                     Integer age = Integer.valueOf(((EditText) findViewById(R.id.registrationAgeEditText)).getText().toString());

@@ -36,6 +36,7 @@ public class UserActivity extends AppCompatActivity {
     private int userID;//users id, that see
     private Role userRole;
     private int patientsDoctorID;// doctorID checked in listOfUsers patient
+    private static int doctorID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,7 @@ public class UserActivity extends AppCompatActivity {
         diseaseService = new DiseaseHistoryServiceImpl(this);
         getUserInfoAndFillFields();
         createAndRepaintListView();
+        doctorID = getIntent().getIntExtra(ExtraResource.DOCTOR_ID, 0);
     }
 
     public void createAndRepaintListView(){
@@ -57,6 +59,7 @@ public class UserActivity extends AppCompatActivity {
                 intentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
                 int i = diseases.get(position).getId();
                 intentTemp.putExtra(ExtraResource.DISEASE_ID, i);
+                intentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
                 if ((patientsDoctorID == userID) || (userRole == Role.Admin)) {
                     intentTemp.putExtra(ExtraResource.IS_EDITABLE, true);
                 } else {
@@ -79,6 +82,7 @@ public class UserActivity extends AppCompatActivity {
         Intent IntentTemp = new Intent(this, DiseaseActivity.class);
         IntentTemp.putExtra(ExtraResource.PATIENT_ID, getIntent().getIntExtra(ExtraResource.PATIENT_ID, 0));
         IntentTemp.putExtra(ExtraResource.IS_EDITABLE, true);
+        IntentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
         startActivity(IntentTemp);
     }
 
@@ -145,7 +149,7 @@ public class UserActivity extends AppCompatActivity {
             intent = new Intent(UserActivity.this, ListOfUsersActivity.class);
         } else {
             intent = new Intent(UserActivity.this, DoctorInfoActivity.class);
-            intent.putExtra(ExtraResource.DOCTOR_ID, getIntent().getIntExtra(ExtraResource.DOCTOR_ID, 0));
+            intent.putExtra(ExtraResource.DOCTOR_ID, doctorID);
         }
         startActivity(intent);
     }
