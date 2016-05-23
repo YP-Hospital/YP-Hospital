@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.mary.hospital.Captcha.CaptchatestActivity;
 import com.example.mary.hospital.Dialogs.DialogShowPrivateKey;
 import com.example.mary.hospital.ExtraResource;
 import com.example.mary.hospital.Model.User;
@@ -17,12 +18,14 @@ import com.example.mary.hospital.Service.UserService;
 
 public class Login extends AppCompatActivity {
     private UserService userService;
+    private int numberOfRetries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userService = new UserServiceImpl(this);
+        numberOfRetries = 0;
         fillLoginAndPassword();
         showPrivateKey();
     }
@@ -72,6 +75,11 @@ public class Login extends AppCompatActivity {
                 redirectToHomePage(user, UserActivity.class);
             } else {
                 redirectToHomePage(user, ListOfUsersActivity.class);
+            }
+        } else {
+            numberOfRetries++;
+            if(numberOfRetries == 6) {
+                startActivity(new Intent(this, CaptchatestActivity.class));
             }
         }
     }

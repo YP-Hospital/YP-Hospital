@@ -62,4 +62,7 @@
     <string name="add_patient_to_doctor">Add patient to doctor</string>
     <string name="patients">Patients</string>
     <string name="add_new_user">ADD NEW USER</string>
+    <string name="enter_captcha">Please enter captcha</string>
+    <string name="good_captcha">Good captcha</string>
+    <string name="wrong_answer">Wrong answer</string>
 </resources>
