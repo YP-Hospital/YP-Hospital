@@ -1,6 +1,7 @@
 package com.example.mary.hospital.Action;
 //check
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemAdapter;
 import com.example.mary.hospital.Dialogs.DialogAreYouSure;
@@ -73,13 +75,22 @@ public class ListOfUsersActivity extends AppCompatActivity {
         }
     }
 
-    public static void addUserToDoctor(int position) {
-        userService.setDoctorToUser(userID, users.get(position));
+    public static void addUserToDoctor(int position, Context context) {
+        if(userService.setDoctorToUser(userID, users.get(position))){
+
+        } else {
+            Toast.makeText(context, "Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
+
+        }
         listView.invalidate();
     }
 
-    public static void deleteUserFromDoctor(int position) {
-        userService.deleteDoctorToUser(users.get(position));//TODO must delete users by id
+    public static void deleteUserFromDoctor(int position, Context context) {
+        if(userService.deleteDoctorToUser(users.get(position))){
+
+        } else {
+            Toast.makeText(context,"Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
+        }
         listView.invalidate();
     }
 

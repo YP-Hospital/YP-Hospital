@@ -139,9 +139,11 @@ public class CertificatesActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
-                String key = editText.getText().toString();
-                if(certificateService.deleteCertificate(certificate.getId(), key)){//
+                EditText editTextKey = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+                EditText editTextPassword = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+                String key = editTextKey.getText().toString();
+                String password = editTextPassword.getText().toString();
+                if(certificateService.deleteCertificate(certificate.getId(), key, password)){//
                     users.remove(pos);
                     usersNames.remove(pos);
                     dialog.dismiss();

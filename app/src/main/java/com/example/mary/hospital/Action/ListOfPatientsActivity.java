@@ -1,5 +1,6 @@
 package com.example.mary.hospital.Action;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mary.hospital.Adapters.ItemPatientsAdapter;
 import com.example.mary.hospital.ExtraResource;
@@ -72,13 +74,20 @@ public class ListOfPatientsActivity extends AppCompatActivity{
             });
     }
 
-    public static void addUserToDoctor(int position) {
-        userService.setDoctorToUser(doctorID, patients.get(position));
+    public static void addUserToDoctor(int position, Context context) {
+        if(userService.setDoctorToUser(doctorID, patients.get(position))){
+        } else {
+            Toast.makeText(context, "Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
+        }
         listView.invalidate();
     }
 
-    public static void deleteUserFromDoctor(int position) {
-        userService.deleteDoctorToUser(patients.get(position));
+    public static void deleteUserFromDoctor(int position, Context context) {
+        if(userService.deleteDoctorToUser(patients.get(position))){
+
+        } else {
+            Toast.makeText(context,"Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
+        }
         listView.invalidate();
     }
 

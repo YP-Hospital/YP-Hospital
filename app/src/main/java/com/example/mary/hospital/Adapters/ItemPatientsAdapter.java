@@ -24,9 +24,11 @@ public class ItemPatientsAdapter extends ArrayAdapter<String> {
     private int layout;
     private int doctorID;
     private String fromWhichActivity;
+    private Context context;
 
     public ItemPatientsAdapter(Context context, int resource, List<User> users, List<String> names, int doctorID, String fromWhichActivity) {
         super(context, resource, names);
+        this.context = context;
         this.users = users;
         this.layout = resource;
         this.doctorID = doctorID;
@@ -48,17 +50,20 @@ public class ItemPatientsAdapter extends ArrayAdapter<String> {
         if(users.get(position).getDoctorID() == doctorID){
             mainViewholder.buttonAdd.setVisibility(View.GONE);
             mainViewholder.buttonDelete.setVisibility(View.VISIBLE);
-        } else {
+        } else if(users.get(position).getDoctorID() == 0){
             mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
+            mainViewholder.buttonDelete.setVisibility(View.GONE);
+        } else {
+            mainViewholder.buttonAdd.setVisibility(View.GONE);
             mainViewholder.buttonDelete.setVisibility(View.GONE);
         }
             mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(fromWhichActivity.equals("DoctorInfoActivity"))
-                        DoctorInfoActivity.addUserToDoctor(position);
+                        DoctorInfoActivity.addUserToDoctor(position, context);
                     else{
-                        ListOfPatientsActivity.addUserToDoctor(position);
+                        ListOfPatientsActivity.addUserToDoctor(position, context);
                     }
                     v.setVisibility(View.GONE);
                     v.invalidate();
@@ -69,9 +74,9 @@ public class ItemPatientsAdapter extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View v) {
                     if(fromWhichActivity.equals("DoctorInfoActivity"))
-                        DoctorInfoActivity.deleteUserFromDoctor(position);
+                        DoctorInfoActivity.deleteUserFromDoctor(position, context);
                     else{
-                        ListOfPatientsActivity.deleteUserFromDoctor(position);
+                        ListOfPatientsActivity.deleteUserFromDoctor(position, context);
                     }
                     v.setVisibility(View.GONE);
                     v.invalidate();

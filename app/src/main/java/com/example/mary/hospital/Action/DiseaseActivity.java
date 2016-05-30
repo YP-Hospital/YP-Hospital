@@ -133,20 +133,22 @@ public class DiseaseActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
-                String key = editText.getText().toString();
+                EditText editTextKey = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
+                EditText editTextPassword = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditTextPassword);
+                String key = editTextKey.getText().toString();
+                String password = editTextPassword.getText().toString();
                 Boolean isAdded = false;
                 if (currentHistory.getId() != null) {
                     currentHistory.setId(currentHistoryID);
-                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userName, key);//user
+                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userName, key, password);//user
                 } else {
-                    isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
+                    isAdded = diseaseService.insertHistoryInDB(currentHistory, key, password);
                 }
                 if (isAdded) {
                     intentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
                     startActivity(intentTemp);
                 } else {
-                    ExtraResource.showErrorDialog(R.string.wrong_key, v.getContext());
+                    ExtraResource.showErrorDialog(R.string.wrong_key_or_password, v.getContext());
                 }
                 dialog.dismiss();
             }
