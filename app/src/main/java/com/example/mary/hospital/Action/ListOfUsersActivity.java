@@ -77,19 +77,16 @@ public class ListOfUsersActivity extends AppCompatActivity {
 
     public static void addUserToDoctor(int position, Context context) {
         if(userService.setDoctorToUser(userID, users.get(position))){
-
         } else {
-            Toast.makeText(context, "Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
-
+            Toast.makeText(context, R.string.please_refresh_page, Toast.LENGTH_SHORT).show();
         }
         listView.invalidate();
     }
 
     public static void deleteUserFromDoctor(int position, Context context) {
         if(userService.deleteDoctorToUser(users.get(position))){
-
         } else {
-            Toast.makeText(context,"Please, refresh page, this user have a doctor", Toast.LENGTH_SHORT);
+            Toast.makeText(context, R.string.please_refresh_page, Toast.LENGTH_SHORT).show();
         }
         listView.invalidate();
     }
@@ -157,8 +154,6 @@ public class ListOfUsersActivity extends AppCompatActivity {
                 names.remove(pos);
                 dialog.dismiss();
                 createAndRepaintListView(spinnerInt);
-                //adapter.remove(itemDelete);
-                //adapter.notifyDataSetChanged();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

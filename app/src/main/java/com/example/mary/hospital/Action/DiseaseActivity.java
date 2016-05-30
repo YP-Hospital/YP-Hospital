@@ -191,6 +191,6 @@ public class DiseaseActivity extends AppCompatActivity {
         } catch (ParseException e) {
             return null;
         }
-        return date;//.
+        return date;
     }
 }

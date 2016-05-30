@@ -61,6 +61,10 @@ public class CertificatesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog dialog = DialogUniversal.getDialog(CertificatesActivity.this, R.string.signature, certificateService.getAllCertificatesSignature());
                 dialog.show();
+                EditText editTextPassword = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditTextPassword);
+                TextView textViewPassword = (TextView) dialog.findViewById((R.id.dialogEnterKeyTextViewPassword));
+                editTextPassword.setVisibility(View.GONE);
+                textViewPassword.setVisibility(View.GONE);
                 Button ok = (Button) dialog.findViewById(R.id.dialogEnterKeyOkButton);
                 Button cancel = (Button) dialog.findViewById(R.id.dialogEnterKeyCancelButton);
                 ok.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +156,6 @@ public class CertificatesActivity extends AppCompatActivity {
                     dialog.dismiss();
                     Toast.makeText(v.getContext(), R.string.wrong_key_or_password, Toast.LENGTH_LONG).show();
                 }
-                //adapter.remove(name);
-                //adapter.notifyDataSetChanged();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
