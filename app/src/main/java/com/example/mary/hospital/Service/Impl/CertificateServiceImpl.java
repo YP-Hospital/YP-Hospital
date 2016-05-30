@@ -27,12 +27,12 @@ public class CertificateServiceImpl implements CertificateService {
     private Context context;
     private UserService userService;
 
-    public Boolean deleteCertificate(Integer id, String key) {
-        if (key.isEmpty()) {
+    public Boolean deleteCertificate(Integer id, String key, String password) {
+        if (key.isEmpty() || password.isEmpty()) {
             return false;
         }
         String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
-                + id + separatorForSending + key;
+                + id + separatorForSending + key + separatorForSending + password;
         return useQuery(query);
     }
 
