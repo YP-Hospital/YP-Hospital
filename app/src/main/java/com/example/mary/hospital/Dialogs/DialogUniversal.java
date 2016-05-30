@@ -22,6 +22,6 @@ public class DialogUniversal {
         editText.setEnabled(false);
         builder.setTitle(dialogTitle);
         builder.setCancelable(true);
-        return builder.create();
+        return builder.create();//
     }
 }
