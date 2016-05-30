@@ -38,7 +38,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
     }
 
     public Boolean insertHistoryInDB(DiseaseHistory history, String privateKey, String password) {
-        String query = history.getStringToInsert() + separatorForSending + privateKey + separatorForSending + password;
+        String query = history.getStringToInsert() + separatorForSending + privateKey;
         return useQuery(query);
     }
 
@@ -60,8 +60,7 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
                 + separatorForSending + dateFormat.format(history.getOpenDate()) + separatorForSending + dateFormat.format(history.getCloseDate())
                 + separatorForSending + history.getText() + separatorForSending + history.getPatientID()
                 + separatorForSending + userName + separatorForSending + history.getId()
-                + separatorForSending + privateKey
-                + separatorForSending + password;
+                + separatorForSending + privateKey;
         return useQuery(query);
     }
 

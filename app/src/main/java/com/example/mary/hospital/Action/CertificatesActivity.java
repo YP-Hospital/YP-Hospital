@@ -150,7 +150,7 @@ public class CertificatesActivity extends AppCompatActivity {
                     createListView();
                 } else {
                     dialog.dismiss();
-                    Toast.makeText(v.getContext(), R.string.wrong_key, Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), R.string.wrong_key_or_password, Toast.LENGTH_LONG).show();
                 }
                 //adapter.remove(name);
                 //adapter.notifyDataSetChanged();

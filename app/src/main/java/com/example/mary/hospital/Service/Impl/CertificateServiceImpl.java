@@ -32,7 +32,7 @@ public class CertificateServiceImpl implements CertificateService {
             return false;
         }
         String query = "delete" + separatorForSending + Certificate.DATABASE_TABLE + separatorForSending
-                + id + separatorForSending + key + separatorForSending + password;
+                + id + separatorForSending + key;
         return useQuery(query);
     }
 
