@@ -24,9 +24,11 @@ public class ItemAdapter extends ArrayAdapter<String> {
     private List<User> users;
     private int AllOrMy; // 0 if selected All, 1 if My
     private int doctorID;
+    private Context context;
 
     public ItemAdapter(Context context, int resource, List<User> users, int AllOrMy, List<String> names, int doctorID) {
         super(context, resource, names);
+        this.context = context;
         this.users = users;
         layout = resource;
         this.AllOrMy = AllOrMy;
@@ -60,7 +62,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
             mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfUsersActivity.addUserToDoctor(position);
+                    ListOfUsersActivity.addUserToDoctor(position, context);
                     v.setVisibility(View.GONE);
                     v.invalidate();
                     mainViewholder.buttonDelete.setVisibility(View.VISIBLE);
@@ -69,7 +71,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
             mainViewholder.buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfUsersActivity.deleteUserFromDoctor(position);
+                    ListOfUsersActivity.deleteUserFromDoctor(position, context);
                     v.setVisibility(View.GONE);
                     v.invalidate();
                     mainViewholder.buttonAdd.setVisibility(View.VISIBLE);
@@ -80,7 +82,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
             mainViewholder.buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfUsersActivity.addUserToDoctor(position);
+                    ListOfUsersActivity.addUserToDoctor(position, context);
                     v.setVisibility(View.GONE);
                     v.invalidate();
                 }
@@ -88,7 +90,7 @@ public class ItemAdapter extends ArrayAdapter<String> {
             mainViewholder.buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfUsersActivity.deleteUserFromDoctor(position);
+                    ListOfUsersActivity.deleteUserFromDoctor(position, context);
                     v.setVisibility(View.GONE);
                     v.invalidate();
                 }

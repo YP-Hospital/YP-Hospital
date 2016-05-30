@@ -30,7 +30,7 @@ public class Registration extends AppCompatActivity {
         if(ExtraResource.getCurrentUserRole().equals(Role.Patient)){
             Spinner spinner = (Spinner) findViewById(R.id.registrationRoleSpinner);
             spinner.setEnabled(false);
-            //spinner.setEnabled(true);
+            spinner.setEnabled(true);
         }
 
     }
