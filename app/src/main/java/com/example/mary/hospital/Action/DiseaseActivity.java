@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mary.hospital.Captcha.CaptchatestActivity;
 import com.example.mary.hospital.Dialogs.DialogEnterPrivateKey;
 import com.example.mary.hospital.Dialogs.DialogShowSignature;
 import com.example.mary.hospital.ExtraResource;
@@ -46,11 +47,13 @@ public class DiseaseActivity extends AppCompatActivity {
     private static Role userRole;
     private static Intent intentTemp;
     private static int doctorID;
+    private int numberOfRetries;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_disease_history);
         getUserInfoAndInitVariables();
+        numberOfRetries = 0;
         if (currentHistoryID != 0) { fillFields();}
         setActivityEditableOrNot();
     }
@@ -149,6 +152,10 @@ public class DiseaseActivity extends AppCompatActivity {
                     startActivity(intentTemp);
                 } else {
                     ExtraResource.showErrorDialog(R.string.wrong_key_or_password, v.getContext());
+                    numberOfRetries++;
+                    if(numberOfRetries == 6){
+                        startActivity(new Intent(v.getContext(), CaptchatestActivity.class));
+                    }
                 }
                 dialog.dismiss();
             }
