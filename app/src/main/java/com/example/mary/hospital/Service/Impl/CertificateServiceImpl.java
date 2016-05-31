@@ -27,7 +27,7 @@ public class CertificateServiceImpl implements CertificateService {
     private Context context;
     private UserService userService;
 
-    public Boolean deleteCertificate(Integer id, String privateKey, String password) {
+    public Boolean deleteCertificate(Integer id, String privateKey) {
         if (privateKey.isEmpty()) {
             return false;
         }

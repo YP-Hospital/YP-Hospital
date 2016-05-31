@@ -37,21 +37,21 @@ public class DiseaseHistoryServiceImpl implements DiseaseHistoryService {
         dateFormat = new SimpleDateFormat(DiseaseHistory.DATE_FORMAT_FROM_DB, Locale.getDefault());
     }
 
-    public Boolean insertHistoryInDB(DiseaseHistory history, String privateKey, String password) {
+    public Boolean insertHistoryInDB(DiseaseHistory history, String privateKey) {
         String query = history.getStringToInsert() + separatorForSending + privateKey;
         return useQuery(query);
     }
 
-    public Boolean updateHistoryInDB(DiseaseHistory history, User user, String privateKey, String password) {
-        return updateHistoryInDB(history, user.getName(), privateKey, password);
+    public Boolean updateHistoryInDB(DiseaseHistory history, User user, String privateKey) {
+        return updateHistoryInDB(history, user.getName(), privateKey);
     }
 
-    public Boolean updateHistoryInDB(DiseaseHistory history, Integer id, String privateKey, String password) {
+    public Boolean updateHistoryInDB(DiseaseHistory history, Integer id, String privateKey) {
         User user = userService.getUserById(id);
-        return updateHistoryInDB(history, user, privateKey, password);
+        return updateHistoryInDB(history, user, privateKey);
     }
 
-    public Boolean updateHistoryInDB(DiseaseHistory history, String userName, String privateKey, String password) {
+    public Boolean updateHistoryInDB(DiseaseHistory history, String userName, String privateKey) {
         String query = "update" + separatorForSending + DiseaseHistory.DATABASE_TABLE + separatorForSending + DiseaseHistory.TITLE_COLUMN
                 + separatorForSending + DiseaseHistory.OPEN_DATE_COLUMN + separatorForSending + DiseaseHistory.CLOSE_DATE_COLUMN
                 + separatorForSending + DiseaseHistory.TEXT_COLUMN + separatorForSending + DiseaseHistory.PATIENT_ID_COLUMN

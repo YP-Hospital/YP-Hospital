@@ -137,15 +137,13 @@ public class DiseaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText editTextKey = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditText);
-                EditText editTextPassword = (EditText) dialog.findViewById(R.id.dialogEnterKeyEditTextPassword);
                 String key = editTextKey.getText().toString();
-                String password = editTextPassword.getText().toString();
                 Boolean isAdded = false;
                 if (currentHistory.getId() != null) {
                     currentHistory.setId(currentHistoryID);
-                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userName, key, password);//user
+                    isAdded = diseaseService.updateHistoryInDB(currentHistory, userName, key);//user
                 } else {
-                    isAdded = diseaseService.insertHistoryInDB(currentHistory, key, password);
+                    isAdded = diseaseService.insertHistoryInDB(currentHistory, key);
                 }
                 if (isAdded) {
                     intentTemp.putExtra(ExtraResource.DOCTOR_ID, doctorID);
@@ -153,8 +151,9 @@ public class DiseaseActivity extends AppCompatActivity {
                 } else {
                     ExtraResource.showErrorDialog(R.string.wrong_key_or_password, v.getContext());
                     numberOfRetries++;
-                    if(numberOfRetries == 6){
+                    if(numberOfRetries > 5){
                         startActivity(new Intent(v.getContext(), CaptchatestActivity.class));
+                        numberOfRetries = 0;
                     }
                 }
                 dialog.dismiss();

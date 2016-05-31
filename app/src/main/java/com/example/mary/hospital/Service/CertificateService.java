@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CertificateService {
-    Boolean deleteCertificate(Integer id, String privateKey, String password);
+    Boolean deleteCertificate(Integer id, String privateKey);
     public String getAllCertificatesSignature();
     Certificate getCertificateByUser(User user);
     List<Certificate> getAllCertificates();

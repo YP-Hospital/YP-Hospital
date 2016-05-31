@@ -78,8 +78,9 @@ public class Login extends AppCompatActivity {
             }
         } else {
             numberOfRetries++;
-            if(numberOfRetries == 6) {
+            if(numberOfRetries > 5) {
                 startActivity(new Intent(this, CaptchatestActivity.class));
+                numberOfRetries = 0;
             }
         }
     }
